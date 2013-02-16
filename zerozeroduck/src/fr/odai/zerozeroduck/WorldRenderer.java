@@ -113,9 +113,11 @@ public class WorldRenderer {
 				patateFrame = walkRightPatate.getKeyFrame(
 						patate.getStateTime(), true);
 			}
-			spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX,
-					patate.getPosition().y * ppuY, patate.getBounds().width
-							* ppuX, patate.getBounds().height * ppuY);
+			if(patate.getIsVisible()){
+				spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX,
+						patate.getPosition().y * ppuY, patate.getBounds().width
+								* ppuX, patate.getBounds().height * ppuY);
+			}
 		}
 	}
 
@@ -153,11 +155,11 @@ public class WorldRenderer {
 			debugRenderer.rect(x1, y1, rect.width, rect.height);
 		}
 		for (Patate patate : world.getPatates()) {
-			Rectangle rect = patate.getBounds();
-			float x1 = patate.getPosition().x + rect.x;
-			float y1 = patate.getPosition().y + rect.y;
-			debugRenderer.setColor(new Color(1, 1, 0, 1));
-			debugRenderer.rect(x1, y1, rect.width, rect.height);
+				Rectangle rect = patate.getBounds();
+				float x1 = patate.getPosition().x + rect.x;
+				float y1 = patate.getPosition().y + rect.y;
+				debugRenderer.setColor(new Color(1, 1, 0, 1));
+				debugRenderer.rect(x1, y1, rect.width, rect.height);
 		}
 		// render Duck
 		Duck duck = world.getDuck();

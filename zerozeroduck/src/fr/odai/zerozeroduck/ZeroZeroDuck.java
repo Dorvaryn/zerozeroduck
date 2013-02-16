@@ -15,5 +15,4 @@ public class ZeroZeroDuck extends Game {
 		titlescreen = new TitleScreen(this);
 		setScreen(titlescreen);
 	}
-
 }

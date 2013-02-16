@@ -50,8 +50,8 @@ public class World {
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
 
-		Trap trap = new Trap(5f,new Vector2(2,1), 100);
-		trap.setAssociatedKey(MainController.Keys.TRAP_F);
+		Trap trap = new Trap(0.5f,new Vector2(2,1), 100);
+		trap.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(trap);
 
 		for (int i = 0; i < 10; i++) { 			 			
