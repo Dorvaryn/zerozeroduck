@@ -74,7 +74,7 @@ public class WorldRenderer {
 	}
 	
 	private void loadTextures(){
-		//TextureSetup.main(null);
+		TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/textures.pack"));
 		patateTexture = atlas.findRegion("patate");
 		blockTexture = atlas.findRegion("block");
@@ -90,7 +90,7 @@ public class WorldRenderer {
 	
 	private void drawPatates() {
 		for(Patate patate : world.getPatates()){
-			spriteBatch.draw(patateTexture, patate.getPosition().x * ppuX, patate.getPosition().y * ppuY, Patate.SIZE * ppuX, Patate.SIZE * ppuY);
+			spriteBatch.draw(patateTexture, patate.getPosition().x * ppuX, patate.getPosition().y * ppuY, patate.getBounds().width * ppuX, patate.getBounds().height * ppuY);
 		}
 	}
 	
