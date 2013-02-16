@@ -76,16 +76,13 @@ public class Duck {
 			if(damage<0){
 				life+=damage;
 				patate.setState(Patate.State.DYING);
-				System.out.println(life);
 			}
 		}
 		if(life<=0 && state==State.IDLE){
 			setState(State.DYING);
-			System.out.println("mourant");
 		}
 		if(state==State.DYING && stateTime > DYING_TIME){
 			setState(State.DEAD);
-			System.out.println("mort");
 		}
 	}
 }
