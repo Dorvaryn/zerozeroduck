@@ -17,7 +17,7 @@ public class Patate {
 	static final float JUMP_VELOCITY = 1f;
 	public static final float SIZE = 0.5f; // half a unit
 	
-	static final float ANIM_PERIOD = 60f / World.BPM / 2;
+	static final float ANIM_PERIOD = 60f / (float)World.BPM / 2f;
 			
 	float       stateTime = 0;
 	float 		animTime = 0;
@@ -27,6 +27,7 @@ public class Patate {
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.WALKING;
 	boolean		facingLeft = true;
+	boolean 	isVisible = true;
 	World world;
 	
 	int hp=100;
@@ -36,6 +37,10 @@ public class Patate {
 		this.bounds.height = SIZE*1.5f;
 		this.bounds.width = SIZE;
 		this.world = world;
+	}
+	
+	public boolean getIsVisible(){
+		return isVisible;
 	}
 
 	public Rectangle getBounds() {
@@ -70,14 +75,22 @@ public class Patate {
 		return new Rectangle(position.x, position.y, this.bounds.width, this.bounds.height);
 	}
 	
-	public void update(float delta) {
+	public void update(float delta) {	
 		stateTime += delta;
 		invincibilityTime -= delta;
 		
 		animTime += delta;
+		if(((animTime < 0.25f*(float)ANIM_PERIOD) || 
+				(animTime > 0.5f*(float)ANIM_PERIOD 
+				&& animTime <= 0.75f*(float)ANIM_PERIOD) )
+				&& invincibilityTime>0 ){
+			isVisible=false;
+		}
+		else isVisible=true;
+		
 		if(animTime > ANIM_PERIOD) animTime -= ANIM_PERIOD;
 		
-		if(state == State.WALKING) {
+		if(state == State.WALKING){
 			position.add(velocity.tmp().mul(delta));
 		}
 		
@@ -88,6 +101,9 @@ public class Patate {
 				if(hpModifier<0){
 					invincibilityTime=1.0f;
 					hp+=hpModifier;
+				}
+				if(hp<=0){
+					setState(State.DYING);
 				}
 			}
 		}
