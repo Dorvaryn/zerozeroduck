@@ -39,6 +39,7 @@ public class WorldRenderer {
 	private SpriteBatch spriteBatch;
 
 	/* Nos textures */
+	private TextureRegion backgroundTexture;
 	private TextureRegion duckTexture;
 	private TextureRegion trapTexture;
 
@@ -108,9 +109,10 @@ public class WorldRenderer {
 		}
 		
 		spriteBatch.begin();
+		drawBackground();
+		drawTrap();
 		drawDuck();
 		drawPatates();
-		drawTrap();
 		drawScore();
 
 		// Update and draw effects:
@@ -136,6 +138,10 @@ public class WorldRenderer {
 		musicLoop.stop();
 	}
 
+	private void drawBackground() {
+		spriteBatch.draw(backgroundTexture, 0.f, 0.f, 10.f * ppuX, 7.f * ppuY);
+	}
+
 	private void loadTextures() {
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
@@ -148,6 +154,7 @@ public class WorldRenderer {
 				walkRightFrames);
 		duckTexture = atlas.findRegion("block");
 		trapTexture = atlas.findRegion("trap");
+		backgroundTexture = atlas.findRegion("Stage0");
 	}
 
 	private void drawPatates() {
