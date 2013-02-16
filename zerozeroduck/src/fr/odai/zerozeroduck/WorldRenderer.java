@@ -38,7 +38,6 @@ public class WorldRenderer {
 
 	/* Nos textures */
 	private TextureRegion duckTexture;
-	private TextureRegion blockTexture;
 	private TextureRegion trapTexture;
 
 	private TextureRegion patateTexture;
@@ -119,7 +118,6 @@ public class WorldRenderer {
 		}
 		walkRightPatate = new Animation(PATATE_RUNNING_FRAME_DURATION,
 				walkRightFrames);
-		blockTexture = atlas.findRegion("block");
 		duckTexture = atlas.findRegion("block");
 		trapTexture = atlas.findRegion("trap");
 	}
