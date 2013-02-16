@@ -3,6 +3,7 @@ package fr.odai.zerozeroduck.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.model.Patate;
@@ -31,19 +32,19 @@ public class MainController {
 	// ** Key presses and touches **************** //
 
 	public void patatePressed() {
-		keys.get(keys.put(Keys.PATATE, true));
+		keys.put(Keys.PATATE, true);
 	}
 
 	public void killallPressed() {
-		keys.get(keys.put(Keys.KILLALL, true));
+		keys.put(Keys.KILLALL, true);
 	}
 
 	public void patateReleased() {
-		keys.get(keys.put(Keys.PATATE, false));
+		keys.put(Keys.PATATE, false);
 	}
 
 	public void killallReleased() {
-		keys.get(keys.put(Keys.KILLALL, false));
+		keys.put(Keys.KILLALL, false);
 	}
 
 	/** The main update method **/
@@ -53,11 +54,18 @@ public class MainController {
 		for(Patate patate : this.patates) {
 			patate.walkForward(delta);
 		}
+		
+		world.update(delta);
 	}
 
 	private void processInput() {
 		if (keys.get(Keys.PATATE)) {
-			// TODO: Generate patate
+			
+			Patate patate = new Patate(new Vector2(1,1));
+			patates.add(patate);
+			
+			// Disable until new keystroke
+			keys.put(Keys.PATATE, false);
 		}
 	}
 }
