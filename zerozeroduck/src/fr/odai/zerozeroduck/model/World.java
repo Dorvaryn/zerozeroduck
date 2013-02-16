@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.Array;
 public class World {
 	/** The blocks making up the world **/
 	Array<Block> blocks = new Array<Block>();
+	/** The trap **/
+	Array<Trap> traps = new Array<Trap>();
 	/** The startpoints for the units **/
 	Array<Vector2> startpoints = new Array<Vector2>();
 	/** The units in this world **/
@@ -15,7 +17,6 @@ public class World {
 	/** Our player controlled hero **/
 	Duck duck;
 	
-	Trap trap;
 
 	// Getters -----------
 	public Array<Block> getBlocks() {
@@ -24,8 +25,8 @@ public class World {
 	public Duck getDuck() {
 		return duck;
 	}
-	public Trap getTrap() {
-		return trap;
+	public Array<Trap> getTraps() {
+		return traps;
 	}
 	public Array<Patate> getPatates() {
 		return patates;
@@ -39,7 +40,8 @@ public class World {
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
 
-		trap = new Trap(5f,new Vector2(2,1),100);
+		Trap trap = new Trap(5f,new Vector2(2,1),100);
+		traps.add(trap);
 
 		for (int i = 0; i < 10; i++) { 			 			
 			blocks.add(new Block(new Vector2(i, 0))); 			 			

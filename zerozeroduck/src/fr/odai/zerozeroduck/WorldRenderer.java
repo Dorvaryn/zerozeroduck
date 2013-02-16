@@ -93,8 +93,9 @@ public class WorldRenderer {
 	}
 	
 	private void drawTrap() {
-		Trap trap = world.getTrap();
-		spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX, trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE * ppuY);
+		for (Trap trap : world.getTraps()) {
+			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX, trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE * ppuY);
+		}
 	}
 	
 	private void drawDebug() {
