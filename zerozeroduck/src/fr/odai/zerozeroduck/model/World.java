@@ -14,6 +14,8 @@ public class World {
 
 	/** Our player controlled hero **/
 	Duck duck;
+	
+	Trap trap;
 
 	// Getters -----------
 	public Array<Block> getBlocks() {
@@ -21,6 +23,9 @@ public class World {
 	}
 	public Duck getDuck() {
 		return duck;
+	}
+	public Trap getTrap() {
+		return trap;
 	}
 	public Array<Patate> getPatates() {
 		return patates;
@@ -35,6 +40,9 @@ public class World {
 		duck = new Duck(new Vector2(9, 1));
 		Patate patate = new Patate(new Vector2(2,1));
 		patates.add(patate);
+
+		trap = new Trap(5f,new Vector2(2,1),100);
+
 		for (int i = 0; i < 10; i++) { 			 			
 			blocks.add(new Block(new Vector2(i, 0))); 			 			
 			blocks.add(new Block(new Vector2(i, 7)));

@@ -7,6 +7,8 @@ public class Trap {
 		RELOADING, ENABLED, READY, DISABLED
 	}
 	
+	public static final float SIZE = 0.5f; // half a unit
+	
 	Vector2 position = new Vector2();
 	State state;
 	int damage;
@@ -42,8 +44,5 @@ public class Trap {
 		this.range = range;
 		this.position = position;
 		this.damage = damage;
-	}
-	
-	
-	
+	}	
 }
