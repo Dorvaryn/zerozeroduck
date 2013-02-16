@@ -8,22 +8,22 @@ import com.badlogic.gdx.utils.Array;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.World;
 
-public class ManualController {
+public class MainController {
 
 	enum Keys {
 		PATATE, KILLALL
 	}
 
-	private World 	world;
+	private World world;
 	private Array<Patate> patates;
 
-	static Map<Keys, Boolean> keys = new HashMap<ManualController.Keys, Boolean>();
+	static Map<Keys, Boolean> keys = new HashMap<MainController.Keys, Boolean>();
 	static {
 		keys.put(Keys.PATATE, false);
 		keys.put(Keys.KILLALL, false);
 	};
 
-	public ManualController(World world) {
+	public MainController(World world) {
 		this.world = world;
 		this.patates = world.getPatates();
 	}
@@ -49,15 +49,15 @@ public class ManualController {
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
+		
 		for(Patate patate : this.patates) {
-			// Avancer les patates
-			//patate.avance(delta);
+			patate.walkForward(delta);
 		}
 	}
 
 	private void processInput() {
 		if (keys.get(Keys.KILLALL)) {
-
+			
 		}
 	}
 }

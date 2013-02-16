@@ -24,5 +24,9 @@ public class Patate {
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
 	}
+
+	public void walkForward(float delta) {
+		this.position.x += delta * SPEED;
+	}
 	
 }
