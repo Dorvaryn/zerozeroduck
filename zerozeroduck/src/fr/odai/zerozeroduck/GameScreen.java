@@ -21,6 +21,10 @@ public class GameScreen implements Screen, InputProcessor {
 		super();
 		this.game = game;
 	}
+	
+	public void gameOver(){
+		game.setScreen(game.gameOverScreen);
+	}
 
 	@Override
 	public void render(float delta) {
@@ -34,7 +38,7 @@ public class GameScreen implements Screen, InputProcessor {
 	public void show() {
 		world = new World();
 		renderer = new WorldRenderer(world, true);
-		controller = new MainController(world);
+		controller = new MainController(world, this);
 		Gdx.input.setInputProcessor(this);
 	}
 	
