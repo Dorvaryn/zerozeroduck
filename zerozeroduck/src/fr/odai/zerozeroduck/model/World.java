@@ -5,6 +5,10 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class World {
+	
+	public static final float BPM = 0.7f;
+	
+	
 	/** The blocks making up the world **/
 	Array<Block> blocks = new Array<Block>();
 	/** The trap **/

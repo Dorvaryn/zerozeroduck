@@ -1,4 +1,4 @@
-package util;
+package fr.odai.zerozeroduck.utils;
 
 import com.badlogic.gdx.math.Vector2;
 
