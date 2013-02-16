@@ -56,12 +56,12 @@ public class MainController {
 		keys.put(Keys.KILLALL, false);
 	}
 	
-	public void trapSPressed() {
-		keys.put(Keys.TRAP_S, true);
+	public void trapPressed(Keys key) {
+		keys.put(key, true);
 	}
 	
-	public void trapSReleased() {
-		keys.put(Keys.TRAP_S, false);
+	public void trapReleased(Keys key) {
+		keys.put(key, false);
 	}
 
 	/** The main update method **/

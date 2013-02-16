@@ -74,7 +74,7 @@ public class GameScreen implements Screen, InputProcessor {
 		if (keycode == Keys.ENTER)
 			controller.killallPressed();
 		if (keycode == Keys.S)
-			controller.trapSPressed();
+			controller.trapPressed(MainController.Keys.TRAP_S);
 		return false;
 	}
 
@@ -85,7 +85,7 @@ public class GameScreen implements Screen, InputProcessor {
 		if (keycode == Keys.ENTER)
 			controller.killallReleased();
 		if (keycode == Keys.S)
-			controller.trapSReleased();
+			controller.trapReleased(MainController.Keys.TRAP_S);
 		return false;
 	}
 	
@@ -93,7 +93,7 @@ public class GameScreen implements Screen, InputProcessor {
 	public boolean touchDown(int x, int y, int pointer, int button) {
 		for(Trap trap : world.getTraps()){
 			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
-				keyDown(trap.getAssociatedKey().ordinal());
+				controller.trapPressed(trap.getAssociatedKey());
 				return true;
 			}
 		}
@@ -105,7 +105,7 @@ public class GameScreen implements Screen, InputProcessor {
 	public boolean touchUp(int x, int y, int pointer, int button) {
 		for(Trap trap : world.getTraps()){
 			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
-				keyUp(trap.getAssociatedKey().ordinal());
+				controller.trapReleased(trap.getAssociatedKey());
 				return true;
 			}
 		}

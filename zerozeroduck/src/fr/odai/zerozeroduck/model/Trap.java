@@ -41,6 +41,8 @@ public class Trap {
 
 	public void setPosition(Vector2 position) {
 		this.position = position;
+		this.bounds.x = position.x;
+		this.bounds.y = position.y;
 	}
 
 	public State getState() {
@@ -61,7 +63,7 @@ public class Trap {
 	}
 	
 	public boolean click(float x, float y){
-		Rectangle rect = new Rectangle(bounds.x, bounds.y, bounds.width*2, bounds.height*2);
+		Rectangle rect = new Rectangle(bounds.x-(bounds.width/2), bounds.y-(bounds.height/2), bounds.width*2, bounds.height*2);
 		return rect.contains(x,y);
 	}
 
@@ -99,5 +101,9 @@ public class Trap {
 			return -damage;
 		}
 		else return 0;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
 	}
 }
