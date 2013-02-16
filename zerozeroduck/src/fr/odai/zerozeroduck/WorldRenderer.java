@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import fr.odai.zerozeroduck.model.Block;
 import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Patate.State;
@@ -87,9 +86,6 @@ public class WorldRenderer {
 
 	public void render() {
 		spriteBatch.begin();
-		
-		//draw objects
-		drawBlocks();
 		drawDuck();
 		drawPatates();
 		drawTrap();
@@ -113,7 +109,6 @@ public class WorldRenderer {
 	}
 
 	private void loadTextures() {
-		//TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		patateTexture = atlas.findRegion("Patate1");
@@ -126,14 +121,6 @@ public class WorldRenderer {
 		blockTexture = atlas.findRegion("block");
 		duckTexture = atlas.findRegion("block");
 		trapTexture = atlas.findRegion("trap");
-	}
-
-	private void drawBlocks() {
-		for (Block block : world.getBlocks()) {
-			spriteBatch.draw(blockTexture, block.getPosition().x * ppuX,
-					block.getPosition().y * ppuY, Block.SIZE * ppuX, Block.SIZE
-							* ppuY);
-		}
 	}
 
 	private void drawPatates() {
@@ -187,14 +174,16 @@ public class WorldRenderer {
 	private void drawDebug() {
 		// render blocks
 		debugRenderer.setProjectionMatrix(cam.combined);
-		debugRenderer.begin(ShapeType.Rectangle);
-		for (Block block : world.getBlocks()) {
-			Rectangle rect = block.getBounds();
-			float x1 = block.getPosition().x + rect.x;
-			float y1 = block.getPosition().y + rect.y;
-			debugRenderer.setColor(new Color(1, 0, 0, 1));
-			debugRenderer.rect(x1, y1, rect.width, rect.height);
+		debugRenderer.begin(ShapeType.FilledRectangle);
+		debugRenderer.setColor(new Color(1, 0, 0, 1));
+		float size = 0.02f;
+		for(float i = 0; i < 10; i += 0.05f) {
+			float x1 = i;
+			float y1 = world.getFloorHeight(i);
+			debugRenderer.filledRect(x1 - size / 2, y1 - size / 2, size, size);
 		}
+		debugRenderer.end();
+		debugRenderer.begin(ShapeType.Rectangle);
 		for (Patate patate : world.getPatates()) {
 				Rectangle rect = patate.getBounds();
 				float x1 = patate.getPosition().x + rect.x;
