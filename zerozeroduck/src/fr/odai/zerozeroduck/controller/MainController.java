@@ -54,6 +54,14 @@ public class MainController {
 	public void killallReleased() {
 		keys.put(Keys.KILLALL, false);
 	}
+	
+	public void trapSPressed() {
+		keys.put(Keys.TRAP_S, true);
+	}
+	
+	public void trapSReleased() {
+		keys.put(Keys.TRAP_S, false);
+	}
 
 	/** The main update method **/
 	public void update(float delta) {
@@ -62,6 +70,10 @@ public class MainController {
 		for(Patate patate : this.patates) {
 			patate.setState(Patate.State.WALKING);
 			patate.update(delta);
+		}
+		
+		for(Trap trap : this.traps) {
+			trap.update(delta);
 		}
 		
 		world.update(delta);
@@ -75,7 +87,7 @@ public class MainController {
 		}
 		
 		if (keys.get(Keys.PATATE)) {
-			Patate patate = new Patate(new Vector2(1,1));
+			Patate patate = new Patate(new Vector2(1,1), this.world);
 			patates.add(patate);
 			
 			// Disable until new keystroke

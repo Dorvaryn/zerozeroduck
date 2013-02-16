@@ -23,7 +23,9 @@ public class World {
 	private Array<Integer> floor_pos = new Array<Integer>();
 
 	/** Our player controlled hero **/
-	Duck duck;	
+	Duck duck;
+	
+	int score = 0;
 
 	// Getters -----------
 	public Duck getDuck() {
@@ -34,6 +36,9 @@ public class World {
 	}
 	public Array<Patate> getPatates() {
 		return patates;
+	}
+	public int getScore() {
+		return score;
 	}
 	// --------------------
 
@@ -50,8 +55,8 @@ public class World {
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
 
-		Trap trap = new Trap(5f,new Vector2(2,1), 100);
-		trap.setAssociatedKey(MainController.Keys.TRAP_F);
+		Trap trap = new Trap(0.5f,new Vector2(2,1), 100);
+		trap.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(trap);
 		
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
