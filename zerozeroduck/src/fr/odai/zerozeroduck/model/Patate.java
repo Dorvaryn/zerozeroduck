@@ -3,7 +3,6 @@ package fr.odai.zerozeroduck.model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Single;
 
 public class Patate {
 
@@ -92,6 +91,7 @@ public class Patate {
 		
 		if(state == State.WALKING){
 			position.add(velocity.tmp().mul(delta));
+			position.y = world.getFloorHeight(position.x);
 		}
 		
 		Rectangle positionnedBounds = this.getPositionnedBounds();		

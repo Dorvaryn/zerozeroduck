@@ -4,6 +4,7 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
 import fr.odai.zerozeroduck.controller.MainController;
@@ -20,7 +21,7 @@ public class World {
 	/** Units in this world **/
 	Array<Patate> patates = new Array<Patate>();
 	
-	private Array<Integer> floor_pos = new Array<Integer>();
+	private Array<Float> floor_pos = new Array<Float>();
 
 	/** Our player controlled hero **/
 	Duck duck;
@@ -42,10 +43,10 @@ public class World {
 	}
 	// --------------------
 
-	public Array<Integer> getFloorPos() {
+	public Array<Float> getFloorPos() {
 		return floor_pos;
 	}
-	public void setFloorPos(Array<Integer> floor_pos) {
+	public void setFloorPos(Array<Float> floor_pos) {
 		this.floor_pos = floor_pos;
 	}
 	public World() {
@@ -61,20 +62,26 @@ public class World {
 		
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
 		int width = floor_pixmap.getWidth();
-		setFloorPos(new Array<Integer>(width));
+		setFloorPos(new Array<Float>(width));
 		for(int i = 0; i < width; i++) {
-			int j = floor_pixmap.getHeight();
-			for(; j > 0; j--) {
-				if(floor_pixmap.getPixel(i, j) > 0) {
+			int j = 0;
+			Color color = new Color();
+			for(; j < floor_pixmap.getHeight(); j++) {
+				Color.rgba8888ToColor(color, floor_pixmap.getPixel(i, j));
+				if(color.r > 0.8f && color.g > 0.8f && color.b > 0.8f) {
 					break;
 				}
 			}
-			getFloorPos().add(j);
+			getFloorPos().add(7.f - j / (float) floor_pixmap.getHeight() * 7.f);
 		}
 	}
 	
 	public float getFloorHeight(float x) {
 		int index = Math.round(x / 10 * getFloorPos().size);
+		if(index > getFloorPos().size)
+			return getFloorPos().get(getFloorPos().size - 1);
+		else if(index < 0)
+			return getFloorPos().get(0);
 		return getFloorPos().get(index);
 	}
 	

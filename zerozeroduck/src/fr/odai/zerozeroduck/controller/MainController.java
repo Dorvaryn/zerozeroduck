@@ -87,7 +87,7 @@ public class MainController {
 		}
 		
 		if (keys.get(Keys.PATATE)) {
-			Patate patate = new Patate(new Vector2(1,1), this.world);
+			Patate patate = new Patate(new Vector2(0.5f,1), this.world);
 			patates.add(patate);
 			
 			// Disable until new keystroke
