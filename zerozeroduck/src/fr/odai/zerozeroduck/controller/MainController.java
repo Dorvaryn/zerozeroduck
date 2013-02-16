@@ -71,6 +71,10 @@ public class MainController {
 	public void update(float delta) {
 		processInput();
 		
+		if(world.getPoolPatates()==0 && world.getPatates().size==0){
+			//TODO WIN
+		}
+		
 		if(world.getDuck().getState()==Duck.State.DEAD){
 			screen.gameOver();
 		}

@@ -1,5 +1,7 @@
 package fr.odai.zerozeroduck.model;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -7,11 +9,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.controller.MainController;
+import fr.odai.zerozeroduck.model.Trap.State;
 
 
 public class World {
 	/** Bump per minutes */
 	public static final int BPM = 85;
+	
+	public enum State {
+		WAVE_IN_PROGRESS, // Not available yet, waiting for RELOAD_TIME seconds
+		WAITING
+	}
 		
 	/** Traps **/
 	Array<Trap> traps = new Array<Trap>();
@@ -20,10 +28,28 @@ public class World {
 	/** Units in this world **/
 	Array<Patate> patates = new Array<Patate>();
 	
+	Array<Patate> wavePatates = new Array<Patate>();
+	
 	private Array<Float> floor_pos = new Array<Float>();
 
 	/** Our player controlled hero **/
 	Duck duck;
+	
+	
+	State state = State.WAITING;
+	
+	static final int moyPatatesByWave = 3;
+	static final int patateByWaveDelta = 1; 
+	static final float waveWaitDelta = 2;
+	static final float waveWaitDuration = 3;
+	static final float inWaveWaitDuration = 1;
+	static final float inWaveWaitDelta = 0.5f;
+	
+	int poolPatates = 20;
+	float waveWaitEnd = 3;
+	float inWaveWaitEnd = 0.5f;
+	float stateTime = 0;
+	float inWaveTime = 5;
 	
 	int score = 0;
 
@@ -40,6 +66,10 @@ public class World {
 	public int getScore() {
 		return score;
 	}
+	public int getPoolPatates() {
+		return poolPatates;
+	}
+	
 	// --------------------
 
 	public Array<Float> getFloorPos() {
@@ -50,6 +80,11 @@ public class World {
 	}
 	public World() {
 		createDemoWorld();
+	}
+	
+	public void setState(State state) {
+		this.state = state;
+		stateTime = 0;
 	}
 
 	private void createDemoWorld() {
@@ -74,6 +109,8 @@ public class World {
 		Trap trap = new Trap(0.5f,new Vector2(2,getFloorHeight(2)), 10);
 		trap.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(trap);
+		
+		startpoints.add(new Vector2(-2, getFloorHeight(0)));
 	}
 	
 	public float getFloorHeight(float x) {
@@ -86,10 +123,41 @@ public class World {
 	}
 	
 	public void update(float delta) {
+		stateTime += delta;
+		inWaveTime += delta;
+		//System.out.println("time : "+stateTime);
 		// Auto-deleting when getting out of screen
 		for(Patate patate: patates) {
-			if(patate.position.x > 10 || patate.position.x < 0) {
+			if(patate.position.x > 10 || patate.position.x < -2) {
 				patates.removeValue(patate, true);
+			}
+		}
+		if(state == State.WAITING && stateTime > waveWaitEnd){
+			if(poolPatates > 0){
+				setState(State.WAVE_IN_PROGRESS);
+				System.out.println("Init wave");
+				int nbPatates = moyPatatesByWave;
+				nbPatates += Math.random()*2*patateByWaveDelta - patateByWaveDelta;
+				nbPatates = Math.min(nbPatates, poolPatates);
+				System.out.println("Wave patates: "+nbPatates);
+				poolPatates -= nbPatates;
+				for (int i = 0; i < nbPatates; i++) {
+					wavePatates.add(new Patate(startpoints.get(0).cpy(),this));
+				}
+			}
+		}
+		if(state == State.WAVE_IN_PROGRESS && inWaveTime > inWaveWaitEnd){
+			if(wavePatates.size != 0){
+				patates.add(wavePatates.pop());
+				System.out.println("Created patate");
+				inWaveWaitEnd = inWaveWaitDuration;
+				inWaveWaitEnd += Math.random()*2*inWaveWaitDelta - inWaveWaitDelta;
+				inWaveTime = 0;
+			}else {
+				setState(State.WAITING);
+				System.out.println("End Wave");
+				waveWaitEnd = waveWaitDuration;
+				waveWaitEnd += Math.random()*2*waveWaitDelta - waveWaitDelta;
 			}
 		}
 	}
