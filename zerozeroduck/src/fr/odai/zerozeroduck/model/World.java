@@ -38,7 +38,9 @@ public class World {
 
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
-		
+		Patate patate = new Patate(new Vector2(2,1));
+		patates.add(patate);
+
 		trap = new Trap(5f,new Vector2(2,1),100);
 
 		for (int i = 0; i < 10; i++) { 			 			

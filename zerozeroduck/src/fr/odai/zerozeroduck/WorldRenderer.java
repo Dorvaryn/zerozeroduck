@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import fr.odai.zerozeroduck.model.Block;
 import fr.odai.zerozeroduck.model.Duck;
+import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
 
@@ -61,6 +62,7 @@ public class WorldRenderer {
 		spriteBatch.begin();
 		drawBlocks();
 		drawDuck();
+		drawPatates();
 		drawTrap();
 		spriteBatch.end();
 		if (debug)
@@ -76,6 +78,12 @@ public class WorldRenderer {
 	private void drawBlocks() {
 		for (Block block : world.getBlocks()) {
 			spriteBatch.draw(blockTexture, block.getPosition().x * ppuX, block.getPosition().y * ppuY, Block.SIZE * ppuX, Block.SIZE * ppuY);
+		}
+	}
+	
+	private void drawPatates() {
+		for(Patate patate : world.getPatates()){
+			spriteBatch.draw(blockTexture, patate.getPosition().x * ppuX, patate.getPosition().y * ppuY, Patate.SIZE * ppuX, Patate.SIZE * ppuY);
 		}
 	}
 	
@@ -98,6 +106,13 @@ public class WorldRenderer {
 			float x1 = block.getPosition().x + rect.x;
 			float y1 = block.getPosition().y + rect.y;
 			debugRenderer.setColor(new Color(1, 0, 0, 1));
+			debugRenderer.rect(x1, y1, rect.width, rect.height);
+		}
+		for(Patate patate : world.getPatates()){
+			Rectangle rect = patate.getBounds();
+			float x1 = patate.getPosition().x + rect.x;
+			float y1 = patate.getPosition().y + rect.y;
+			debugRenderer.setColor(new Color(1, 1, 0, 1));
 			debugRenderer.rect(x1, y1, rect.width, rect.height);
 		}
 		// render Duck
