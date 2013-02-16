@@ -7,16 +7,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.model.Patate;
+import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
 
 public class MainController {
 
-	enum Keys {
-		PATATE, KILLALL
+	public enum Keys {
+		PATATE, KILLALL, TRAP_S, TRAP_F, TRAP_H, TRAP_K
 	}
 
 	private World world;
 	private Array<Patate> patates;
+	private Array<Trap> traps;
 
 	static Map<Keys, Boolean> keys = new HashMap<MainController.Keys, Boolean>();
 	static {
@@ -27,6 +29,7 @@ public class MainController {
 	public MainController(World world) {
 		this.world = world;
 		this.patates = world.getPatates();
+		this.traps = world.getTraps();
 	}
 
 	// ** Key presses and touches **************** //
@@ -60,8 +63,13 @@ public class MainController {
 	}
 
 	private void processInput() {
+		for(Trap trap: this.world.getTraps()) {
+			if(keys.get(trap.getAssociatedKey())) {
+				trap.activate();
+			}
+		}
+		
 		if (keys.get(Keys.PATATE)) {
-			
 			Patate patate = new Patate(new Vector2(1,1));
 			patates.add(patate);
 			
