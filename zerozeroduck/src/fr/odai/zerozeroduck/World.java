@@ -3,16 +3,17 @@ package fr.odai.zerozeroduck;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import fr.odai.zerozeroduck.actors.Block;
 import fr.odai.zerozeroduck.actors.Duck;
 
 public class World {
 	/** The blocks making up the world **/
-	Array blocks = new Array();
+	Array<Block> blocks = new Array<Block>();
 	/** Our player controlled hero **/
 	Duck duck;
 
 	// Getters -----------
-	public Array getBlocks() {
+	public Array<Block> getBlocks() {
 		return blocks;
 	}
 	public Duck getDuck() {
