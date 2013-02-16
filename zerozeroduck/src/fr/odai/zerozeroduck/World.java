@@ -15,7 +15,7 @@ public class World {
 	public Array getBlocks() {
 		return blocks;
 	}
-	public Duck getBob() {
+	public Duck getDuck() {
 		return duck;
 	}
 	// --------------------
