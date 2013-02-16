@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +16,7 @@ import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
+import fr.odai.zerozeroduck.utils.TextureSetup;
 
 public class WorldRenderer {
 	private World world;
@@ -28,9 +31,10 @@ public class WorldRenderer {
 	private SpriteBatch spriteBatch;
 	
 	/*Nos textures*/
-	Texture duckTexture;
-	Texture blockTexture;
-	Texture trapTexture;
+	TextureRegion duckTexture;
+	TextureRegion blockTexture;
+	TextureRegion trapTexture;
+	TextureRegion patateTexture;
 
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
@@ -70,9 +74,12 @@ public class WorldRenderer {
 	}
 	
 	private void loadTextures(){
-		duckTexture = new  Texture(Gdx.files.internal("data/block.jpg"));
-		blockTexture = new Texture(Gdx.files.internal("data/block.jpg"));
-		trapTexture = new Texture(Gdx.files.internal("data/trap.jpg"));
+		//TextureSetup.main(null);
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/textures.pack"));
+		patateTexture = atlas.findRegion("patate");
+		blockTexture = atlas.findRegion("block");
+		duckTexture = atlas.findRegion("block");
+		trapTexture = atlas.findRegion("trap");
 	}
 	
 	private void drawBlocks() {
@@ -83,7 +90,7 @@ public class WorldRenderer {
 	
 	private void drawPatates() {
 		for(Patate patate : world.getPatates()){
-			spriteBatch.draw(blockTexture, patate.getPosition().x * ppuX, patate.getPosition().y * ppuY, Patate.SIZE * ppuX, Patate.SIZE * ppuY);
+			spriteBatch.draw(patateTexture, patate.getPosition().x * ppuX, patate.getPosition().y * ppuY, Patate.SIZE * ppuX, Patate.SIZE * ppuY);
 		}
 	}
 	
