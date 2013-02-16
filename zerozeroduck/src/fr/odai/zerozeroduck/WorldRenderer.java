@@ -137,7 +137,7 @@ public class WorldRenderer {
 						patate.getPosition().y * ppuY, patate.getBounds().width
 								* ppuX, patate.getBounds().height * ppuY);
 			}
-			else if(patate.getState()==State.DYING){
+			if(patate.getState()==State.DYING){
 				// Create effect:
 				PooledEffect effect = smokeEffectPool.obtain();
 				effect.setDuration(500);

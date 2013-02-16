@@ -69,10 +69,13 @@ public class Duck {
 		Array<Patate> patates = world.getPatates();
 		for(Patate patate:patates){
 			int damage = patate.damageWhenFinish(this.getPositionnedBounds());
-			if(damage>0){
+			if(damage<0){
 				life+=damage;
 				patate.setState(Patate.State.DYING);
 			}
+		}
+		if(life<=0){
+			state=State.DYING;
 		}
 	}
 }

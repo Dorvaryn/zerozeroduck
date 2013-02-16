@@ -79,7 +79,7 @@ public class Patate {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(rect.x+rect.width>position.x){
+		if(position.x+bounds.width>rect.x){
 			return -damage;
 		}
 		else return 0;
@@ -98,6 +98,11 @@ public class Patate {
 		}
 		else if(state != State.DYING) isVisible=true;
 		
+		if(state==State.DYING) {
+			hp=0;
+			isVisible=false;
+		}
+		
 		if(animTime > ANIM_PERIOD) animTime -= ANIM_PERIOD;
 		
 		if(state == State.WALKING){
@@ -114,7 +119,6 @@ public class Patate {
 				}
 				if(hp<=0){
 					setState(State.DYING);
-					isVisible=false;
 				}
 			}
 		}
