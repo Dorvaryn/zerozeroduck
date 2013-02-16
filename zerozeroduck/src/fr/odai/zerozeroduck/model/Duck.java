@@ -14,7 +14,7 @@ public class Duck {
 	public static final float DYING_TIME = 2;
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
-	public static final float SIZE = 0.5f; // half a unit
+	public static final float SIZE = 1f;
 
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
@@ -27,7 +27,7 @@ public class Duck {
 	public Duck(Vector2 position, World world) {
 		this.position = position;
 		this.bounds.height = SIZE;
-		this.bounds.width = SIZE;
+		this.bounds.width = SIZE * (346f/510f);
 		this.world = world;
 	}
 

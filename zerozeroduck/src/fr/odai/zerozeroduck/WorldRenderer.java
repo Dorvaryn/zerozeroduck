@@ -2,7 +2,6 @@ package fr.odai.zerozeroduck;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -152,7 +151,7 @@ public class WorldRenderer {
 		}
 		walkRightPatate = new Animation(PATATE_RUNNING_FRAME_DURATION,
 				walkRightFrames);
-		duckTexture = atlas.findRegion("block");
+		duckTexture = atlas.findRegion("Kanard");
 		trapTexture = atlas.findRegion("trap");
 		backgroundTexture = atlas.findRegion("Stage0");
 	}
@@ -187,9 +186,10 @@ public class WorldRenderer {
 	}
 
 	private void drawDuck() {
-		Duck bob = world.getDuck();
-		spriteBatch.draw(duckTexture, bob.getPosition().x * ppuX,
-				bob.getPosition().y * ppuY, Duck.SIZE * ppuX, Duck.SIZE * ppuY);
+		Duck ducky = world.getDuck();
+		spriteBatch.draw(duckTexture, ducky.getPosition().x * ppuX,
+				ducky.getPosition().y * ppuY, ducky.getBounds().width * ppuX, 
+				ducky.getBounds().height * ppuY);
 	}
 
 	private void drawTrap() {
