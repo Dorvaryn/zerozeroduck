@@ -8,9 +8,10 @@ import com.badlogic.gdx.utils.Array;
 public class Duck {
 
 	public enum State {
-		IDLE, WALKING, JUMPING, DYING
+		IDLE, WALKING, JUMPING, DYING, DEAD
 	}
 
+	public static final float DYING_TIME = 2;
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
 	public static final float SIZE = 0.5f; // half a unit
@@ -19,6 +20,7 @@ public class Duck {
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
 	int 		life = 300;
+	float       stateTime = 0;
 	boolean		facingLeft = true;
 	World 		world;
 
@@ -51,6 +53,7 @@ public class Duck {
 
 	public void setState(State state) {
 		this.state = state;
+		stateTime = 0;
 	}
 
 	public boolean isFacingLeft() {
@@ -66,16 +69,23 @@ public class Duck {
 	}
 	
 	public void update(float delta){
+		stateTime+=delta;
 		Array<Patate> patates = world.getPatates();
 		for(Patate patate:patates){
 			int damage = patate.damageWhenFinish(this.getPositionnedBounds());
 			if(damage<0){
 				life+=damage;
 				patate.setState(Patate.State.DYING);
+				System.out.println(life);
 			}
 		}
-		if(life<=0){
-			state=State.DYING;
+		if(life<=0 && state==State.IDLE){
+			setState(State.DYING);
+			System.out.println("mourant");
+		}
+		if(state==State.DYING && stateTime > DYING_TIME){
+			setState(State.DEAD);
+			System.out.println("mort");
 		}
 	}
 }

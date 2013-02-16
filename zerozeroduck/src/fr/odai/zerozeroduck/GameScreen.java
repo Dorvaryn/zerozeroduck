@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 
 import fr.odai.zerozeroduck.controller.MainController;
+import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
 
 public class GameScreen implements Screen, InputProcessor {
@@ -19,6 +20,10 @@ public class GameScreen implements Screen, InputProcessor {
 	public GameScreen(ZeroZeroDuck game) {
 		super();
 		this.game = game;
+	}
+	
+	public void gameOver(){
+		game.setScreen(game.gameOverScreen);
 	}
 
 	@Override
@@ -33,7 +38,7 @@ public class GameScreen implements Screen, InputProcessor {
 	public void show() {
 		world = new World();
 		renderer = new WorldRenderer(world, false);
-		controller = new MainController(world);
+		controller = new MainController(world, this);
 		Gdx.input.setInputProcessor(this);
 	}
 	
@@ -46,13 +51,11 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
-
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -63,6 +66,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void dispose() {
+		renderer.stopMusic();
 		Gdx.input.setInputProcessor(null);
 	}
 
@@ -73,7 +77,7 @@ public class GameScreen implements Screen, InputProcessor {
 		if (keycode == Keys.ENTER)
 			controller.killallPressed();
 		if (keycode == Keys.S)
-			controller.trapSPressed();
+			controller.trapPressed(MainController.Keys.TRAP_S);
 		return false;
 	}
 
@@ -84,18 +88,30 @@ public class GameScreen implements Screen, InputProcessor {
 		if (keycode == Keys.ENTER)
 			controller.killallReleased();
 		if (keycode == Keys.S)
-			controller.trapSReleased();
+			controller.trapReleased(MainController.Keys.TRAP_S);
 		return false;
 	}
 	
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
+		for(Trap trap : world.getTraps()){
+			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
+				controller.trapPressed(trap.getAssociatedKey());
+				return true;
+			}
+		}
 		controller.patatePressed();
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
+		for(Trap trap : world.getTraps()){
+			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
+				controller.trapReleased(trap.getAssociatedKey());
+				return true;
+			}
+		}
 		controller.patateReleased();
 		return true;
 	}

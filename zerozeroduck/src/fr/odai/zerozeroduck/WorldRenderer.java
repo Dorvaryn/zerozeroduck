@@ -1,6 +1,8 @@
 package fr.odai.zerozeroduck;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -40,14 +42,18 @@ public class WorldRenderer {
 	private TextureRegion backgroundTexture;
 	private TextureRegion duckTexture;
 	private TextureRegion trapTexture;
-	
+
 	private TextureRegion patateTexture;
 	private TextureRegion patateFrame;
-	
+
 	/* Nos particules */
 	ParticleEffectPool smokeEffectPool;
 	ParticleEffect smokeEffect;
 	Array<PooledEffect> effects;
+	
+	/* Musique */
+	Music musicLoop;
+	Music musicStart;
 
 	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 	private Animation walkRightPatate;
@@ -75,38 +81,58 @@ public class WorldRenderer {
 		this.cam.update();
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
-		
+
 		smokeEffect = new ParticleEffect();
-		smokeEffect.load(Gdx.files.internal("particle/smoke.p"), Gdx.files.internal("particle"));
+		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
+				Gdx.files.internal("particle"));
 		smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
 		effects = new Array<PooledEffect>();
+
+		//sounds
+		//Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/mysound.mp3"));
+		//the ambiance music
+		musicStart = Gdx.audio.newMusic(Gdx.files.internal("musics/duckIntro01.ogg"));
+		musicStart.setLooping(false);
+		musicLoop = Gdx.audio.newMusic(Gdx.files.internal("musics/duckBoucle01.ogg"));
+		musicLoop.setLooping(true);
+		
+		musicStart.play();
 		
 		loadTextures();
 	}
 
 	public void render() {
+		if(!musicStart.isPlaying() && !musicLoop.isPlaying()){
+			musicLoop.play();
+		}
+		
 		spriteBatch.begin();
 		drawBackground();
 		drawTrap();
 		drawDuck();
 		drawPatates();
 		drawScore();
-		
+
 		// Update and draw effects:
-		for(int i=0; i<effects.size;i++){
+		for (int i = 0; i < effects.size; i++) {
 			PooledEffect effect = effects.get(i);
-			if(effect.isComplete()){
+			if (effect.isComplete()) {
 				effects.removeIndex(i);
 				i--;
-			}
-			else effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+			} else
+				effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		}
-		
+
 		spriteBatch.end();
-		
-		//draw bounding boxes in debug mode
+
+		// draw bounding boxes in debug mode
 		if (debug)
 			drawDebug();
+	}
+	
+	public void stopMusic(){
+		musicStart.stop();
+		musicLoop.stop();
 	}
 
 	private void drawBackground() {
@@ -130,23 +156,26 @@ public class WorldRenderer {
 
 	private void drawPatates() {
 		Array<Patate> patates = world.getPatates();
-		for (int i=0; i<patates.size ; i++){
-			Patate patate=patates.get(i);
+		for (int i = 0; i < patates.size; i++) {
+			Patate patate = patates.get(i);
 			patateFrame = patateTexture;
 			if (patate.getState().equals(State.WALKING)) {
 				patateFrame = walkRightPatate.getKeyFrame(
 						patate.getStateTime(), true);
 			}
-			if(patate.getIsVisible()){
+			if (patate.getIsVisible()) {
 				spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX,
 						patate.getPosition().y * ppuY, patate.getBounds().width
 								* ppuX, patate.getBounds().height * ppuY);
 			}
-			if(patate.getState()==State.DYING){
+			if (patate.getState() == State.DYING) {
 				// Create effect:
 				PooledEffect effect = smokeEffectPool.obtain();
 				effect.setDuration(500);
-				effect.setPosition(patate.getPosition().x*ppuX + patate.getBounds().x/2.f*ppuX, patate.getPosition().y*ppuY+0.05f*ppuY);
+				effect.setPosition(
+						patate.getPosition().x * ppuX + patate.getBounds().x
+								/ 2.f * ppuX, patate.getPosition().y * ppuY
+								+ 0.05f * ppuY);
 				effects.add(effect);
 				patates.removeIndex(i);
 				i--;
@@ -165,12 +194,23 @@ public class WorldRenderer {
 			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX,
 					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
 							* ppuY);
+			
+			/*if(trap.getState()==Trap.State.RELOADING){
+				debugRenderer.setProjectionMatrix(cam.combined);
+				debugRenderer.begin(ShapeType.FilledRectangle);
+				debugRenderer.setColor(new Color(0.75f, 0.75f, 0.75f, 1));
+				
+				debugRenderer.filledRect(trap.getPosition().x, trap.getPosition().y-0.3f*ppuY, , size);
+				debugRenderer.end();
+				
+			}*/
+		
 		}
 	}
 
 	private void drawScore() {
 		LabelStyle text = new LabelStyle(new BitmapFont(), Color.WHITE);
-		Label label = new Label("Score: "+world.getScore(), text);
+		Label label = new Label("Score: " + world.getScore(), text);
 		label.setPosition(9f * ppuX, 6.5f * ppuY);
 		label.setAlignment(Align.center);
 		label.draw(spriteBatch, 1);
@@ -182,7 +222,7 @@ public class WorldRenderer {
 		debugRenderer.begin(ShapeType.FilledRectangle);
 		debugRenderer.setColor(new Color(1, 0, 0, 1));
 		float size = 0.02f;
-		for(float i = 0; i < 10; i += 0.05f) {
+		for (float i = 0; i < 10; i += 0.05f) {
 			float x1 = i;
 			float y1 = world.getFloorHeight(i);
 			debugRenderer.filledRect(x1 - size / 2, y1 - size / 2, size, size);
@@ -190,11 +230,21 @@ public class WorldRenderer {
 		debugRenderer.end();
 		debugRenderer.begin(ShapeType.Rectangle);
 		for (Patate patate : world.getPatates()) {
-				Rectangle rect = patate.getBounds();
-				float x1 = patate.getPosition().x + rect.x;
-				float y1 = patate.getPosition().y + rect.y;
-				debugRenderer.setColor(new Color(1, 1, 0, 1));
-				debugRenderer.rect(x1, y1, rect.width, rect.height);
+			Rectangle rect = patate.getBounds();
+			float x1 = patate.getPosition().x + rect.x;
+			float y1 = patate.getPosition().y + rect.y;
+			debugRenderer.setColor(new Color(1, 1, 0, 1));
+			debugRenderer.rect(x1, y1, rect.width, rect.height);
+		}
+		for (Trap trap : world.getTraps()) {
+			Rectangle bounds = trap.getBounds();
+			Rectangle rect = new Rectangle(bounds.x - (bounds.width / 2),
+					bounds.y - (bounds.height / 2), bounds.width * 2,
+					bounds.height * 2);
+			float x1 = rect.x;
+			float y1 = rect.y;
+			debugRenderer.setColor(new Color(1, 1, 0, 1));
+			debugRenderer.rect(x1, y1, rect.width, rect.height);
 		}
 		// render Duck
 		Duck duck = world.getDuck();
@@ -204,5 +254,13 @@ public class WorldRenderer {
 		debugRenderer.setColor(new Color(0, 1, 0, 1));
 		debugRenderer.rect(x1, y1, rect.width, rect.height);
 		debugRenderer.end();
+	}
+
+	public float convertScaleX(int x) {
+		return x / ppuX;
+	}
+
+	public float convertScaleY(int y) {
+		return y / ppuY;
 	}
 }
