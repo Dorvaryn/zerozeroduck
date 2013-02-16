@@ -10,7 +10,6 @@ public class World {
 	
 	public static final float BPM = 0.7f;
 	
-	
 	/** The blocks making up the world **/
 	Array<Block> blocks = new Array<Block>();
 	/** The trap **/
@@ -22,6 +21,8 @@ public class World {
 
 	/** Our player controlled hero **/
 	Duck duck;
+	
+	int score = 0;
 	
 
 	// Getters -----------
@@ -36,6 +37,9 @@ public class World {
 	}
 	public Array<Patate> getPatates() {
 		return patates;
+	}
+	public int getScore() {
+		return score;
 	}
 	// --------------------
 

@@ -1,16 +1,23 @@
 package fr.odai.zerozeroduck;
 
+import javax.xml.crypto.OctetStreamData;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import fr.odai.zerozeroduck.model.Block;
 import fr.odai.zerozeroduck.model.Duck;
@@ -35,12 +42,13 @@ public class WorldRenderer {
 	private TextureRegion duckTexture;
 	private TextureRegion blockTexture;
 	private TextureRegion trapTexture;
-	
+
 	private TextureRegion patateTexture;
 	private TextureRegion patateFrame;
 
+	private BitmapFont font;
 
-	private static final float PATATE_RUNNING_FRAME_DURATION = World.BPM/8;
+	private static final float PATATE_RUNNING_FRAME_DURATION = World.BPM / 8;
 	private Animation walkRightPatate;
 
 	/** for debug rendering **/
@@ -75,6 +83,7 @@ public class WorldRenderer {
 		drawDuck();
 		drawPatates();
 		drawTrap();
+		drawScore();
 		spriteBatch.end();
 		if (debug)
 			drawDebug();
@@ -87,10 +96,11 @@ public class WorldRenderer {
 		patateTexture = atlas.findRegion("Patate1");
 		TextureRegion[] walkRightFrames = new TextureRegion[4];
 		for (int i = 0; i <= 3; i++) {
-			walkRightFrames[i] = atlas.findRegion("Patate" + (i+1));
+			walkRightFrames[i] = atlas.findRegion("Patate" + (i + 1));
 		}
-		walkRightPatate= new Animation(PATATE_RUNNING_FRAME_DURATION, walkRightFrames);
-
+		walkRightPatate = new Animation(PATATE_RUNNING_FRAME_DURATION,
+				walkRightFrames);
+		font = new BitmapFont();
 		blockTexture = atlas.findRegion("block");
 		duckTexture = atlas.findRegion("block");
 		trapTexture = atlas.findRegion("trap");
@@ -107,10 +117,13 @@ public class WorldRenderer {
 	private void drawPatates() {
 		for (Patate patate : world.getPatates()) {
 			patateFrame = patateTexture;
-			if(patate.getState().equals(State.WALKING)){
-				patateFrame = walkRightPatate.getKeyFrame(patate.getStateTime(), true);
+			if (patate.getState().equals(State.WALKING)) {
+				patateFrame = walkRightPatate.getKeyFrame(
+						patate.getStateTime(), true);
 			}
-			spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX, patate.getPosition().y * ppuY, patate.getBounds().width * ppuX, patate.getBounds().height * ppuY);
+			spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX,
+					patate.getPosition().y * ppuY, patate.getBounds().width
+							* ppuX, patate.getBounds().height * ppuY);
 		}
 	}
 
@@ -126,6 +139,14 @@ public class WorldRenderer {
 					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
 							* ppuY);
 		}
+	}
+
+	private void drawScore() {
+		LabelStyle text = new LabelStyle(new BitmapFont(), Color.WHITE);
+		Label label = new Label("Score: "+world.getScore(), text);
+		label.setPosition(9f * ppuX, 6.5f * ppuY);
+		label.setAlignment(Align.center);
+		label.draw(spriteBatch, 1);
 	}
 
 	private void drawDebug() {
