@@ -1,11 +1,10 @@
 package fr.odai.zerozeroduck.model;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.controller.MainController;
 
@@ -54,11 +53,7 @@ public class World {
 	}
 
 	private void createDemoWorld() {
-		duck = new Duck(new Vector2(9, 1), this);
-
-		Trap trap = new Trap(0.5f,new Vector2(2,1), 10);
-		trap.setAssociatedKey(MainController.Keys.TRAP_S);
-		traps.add(trap);
+	
 		
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
 		int width = floor_pixmap.getWidth();
@@ -74,6 +69,11 @@ public class World {
 			}
 			getFloorPos().add(7.f - j / (float) floor_pixmap.getHeight() * 7.f);
 		}
+		duck = new Duck(new Vector2(9, getFloorHeight(9)), this);
+
+		Trap trap = new Trap(0.5f,new Vector2(2,getFloorHeight(2)), 10);
+		trap.setAssociatedKey(MainController.Keys.TRAP_S);
+		traps.add(trap);
 	}
 	
 	public float getFloorHeight(float x) {

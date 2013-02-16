@@ -12,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-import fr.odai.zerozeroduck.utils.TextureSetup;
-
 public class TitleMenuRenderer {
 	private OrthographicCamera cam;
 	private Rectangle button = new Rectangle(4.5f, 3, 1, 1);
