@@ -29,6 +29,7 @@ public class Patate {
 	boolean 	isVisible = true;	
 	int 		hp = 100;
 	int 		damage = 100;
+	int 		score = 100;
 	
 	World world;
 
@@ -37,6 +38,10 @@ public class Patate {
 		this.bounds.height = SIZE*1.5f;
 		this.bounds.width = SIZE;
 		this.world = world;
+	}
+	
+	public int getScore(){
+		return score;
 	}
 	
 	public boolean getIsVisible(){
@@ -77,7 +82,7 @@ public class Patate {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(position.x+bounds.width/2>rect.x){
+		if(position.x>rect.x){
 			return -damage;
 		}
 		else return 0;
@@ -115,9 +120,10 @@ public class Patate {
 				if(hpModifier<0){
 					invincibilityTime=1.0f;
 					hp+=hpModifier;
-				}
-				if(hp<=0){
-					setState(State.DYING);
+					if(hp<=0){
+						setState(State.DYING);
+						world.setScore(world.getScore()+score);
+					}
 				}
 			}
 		}
