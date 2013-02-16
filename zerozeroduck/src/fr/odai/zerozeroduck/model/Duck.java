@@ -58,4 +58,6 @@ public class Duck {
 		this.facingLeft = facingLeft;
 	}
 	
+	
+	
 }

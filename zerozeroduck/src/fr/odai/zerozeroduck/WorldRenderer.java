@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,6 +17,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.model.Block;
 import fr.odai.zerozeroduck.model.Duck;
@@ -37,9 +41,14 @@ public class WorldRenderer {
 	private TextureRegion duckTexture;
 	private TextureRegion blockTexture;
 	private TextureRegion trapTexture;
-
+	
 	private TextureRegion patateTexture;
 	private TextureRegion patateFrame;
+	
+	/* Nos particules */
+	ParticleEffectPool smokeEffectPool;
+	ParticleEffect smokeEffect;
+	Array<PooledEffect> effects;
 
 	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 	private Animation walkRightPatate;
@@ -67,17 +76,38 @@ public class WorldRenderer {
 		this.cam.update();
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
+		
+		smokeEffect = new ParticleEffect();
+		smokeEffect.load(Gdx.files.internal("particle/smoke.p"), Gdx.files.internal("particle"));
+		smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
+		effects = new Array<PooledEffect>();
+		
 		loadTextures();
 	}
 
 	public void render() {
 		spriteBatch.begin();
+		
+		//draw objects
 		drawBlocks();
 		drawDuck();
 		drawPatates();
 		drawTrap();
 		drawScore();
+		
+		// Update and draw effects:
+		for(int i=0; i<effects.size;i++){
+			PooledEffect effect = effects.get(i);
+			if(effect.isComplete()){
+				effects.removeIndex(i);
+				i--;
+			}
+			else effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+		}
+		
 		spriteBatch.end();
+		
+		//draw bounding boxes in debug mode
 		if (debug)
 			drawDebug();
 	}
@@ -106,7 +136,9 @@ public class WorldRenderer {
 	}
 
 	private void drawPatates() {
-		for (Patate patate : world.getPatates()) {
+		Array<Patate> patates = world.getPatates();
+		for (int i=0; i<patates.size ; i++){
+			Patate patate=patates.get(i);
 			patateFrame = patateTexture;
 			if (patate.getState().equals(State.WALKING)) {
 				patateFrame = walkRightPatate.getKeyFrame(
@@ -116,6 +148,15 @@ public class WorldRenderer {
 				spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX,
 						patate.getPosition().y * ppuY, patate.getBounds().width
 								* ppuX, patate.getBounds().height * ppuY);
+			}
+			else if(patate.getState()==State.DYING){
+				// Create effect:
+				PooledEffect effect = smokeEffectPool.obtain();
+				effect.setDuration(500);
+				effect.setPosition(patate.getPosition().x*ppuX + patate.getBounds().x/2.f*ppuX, patate.getPosition().y*ppuY+0.05f*ppuY);
+				effects.add(effect);
+				patates.removeIndex(i);
+				i--;
 			}
 		}
 	}
