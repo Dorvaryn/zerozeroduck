@@ -33,7 +33,8 @@ public class World {
 
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
-
+		Patate patate = new Patate(new Vector2(2,1));
+		patates.add(patate);
 		for (int i = 0; i < 10; i++) { 			 			
 			blocks.add(new Block(new Vector2(i, 0))); 			 			
 			blocks.add(new Block(new Vector2(i, 7)));

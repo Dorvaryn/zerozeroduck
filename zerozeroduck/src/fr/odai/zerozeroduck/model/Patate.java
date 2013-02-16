@@ -12,7 +12,7 @@ public class Patate {
 
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
-	static final float SIZE = 0.5f; // half a unit
+	public static final float SIZE = 0.5f; // half a unit
 
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
@@ -23,6 +23,14 @@ public class Patate {
 		this.position = position;
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public Vector2 getPosition() {
+		return position;
 	}
 	
 }
