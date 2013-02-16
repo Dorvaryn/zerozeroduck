@@ -1,4 +1,4 @@
-package fr.odai.zerozeroduck.actors;
+package fr.odai.zerozeroduck.model;
 
 
 import com.badlogic.gdx.math.Rectangle;

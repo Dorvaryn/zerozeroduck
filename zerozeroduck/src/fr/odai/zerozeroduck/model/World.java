@@ -1,10 +1,8 @@
-package fr.odai.zerozeroduck;
+package fr.odai.zerozeroduck.model;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import fr.odai.zerozeroduck.actors.Block;
-import fr.odai.zerozeroduck.actors.Duck;
 
 public class World {
 	/** The blocks making up the world **/
