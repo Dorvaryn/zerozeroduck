@@ -86,7 +86,7 @@ public class Patate {
 				&& invincibilityTime>0 ){
 			isVisible=false;
 		}
-		else isVisible=true;
+		else if(state != State.DYING) isVisible=true;
 		
 		if(animTime > ANIM_PERIOD) animTime -= ANIM_PERIOD;
 		
@@ -104,6 +104,7 @@ public class Patate {
 				}
 				if(hp<=0){
 					setState(State.DYING);
+					isVisible=false;
 				}
 			}
 		}
