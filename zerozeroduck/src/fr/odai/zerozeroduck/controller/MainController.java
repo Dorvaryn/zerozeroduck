@@ -56,8 +56,8 @@ public class MainController {
 	}
 
 	private void processInput() {
-		if (keys.get(Keys.KILLALL)) {
-			
+		if (keys.get(Keys.PATATE)) {
+			// TODO: Generate patate
 		}
 	}
 }

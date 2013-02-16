@@ -28,5 +28,4 @@ public class Patate {
 	public void walkForward(float delta) {
 		this.position.x += delta * SPEED;
 	}
-	
 }
