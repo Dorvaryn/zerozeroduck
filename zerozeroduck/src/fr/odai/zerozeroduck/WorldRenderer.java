@@ -1,12 +1,8 @@
 package fr.odai.zerozeroduck;
 
-import javax.xml.crypto.OctetStreamData;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,7 +21,6 @@ import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Patate.State;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
-import fr.odai.zerozeroduck.utils.TextureSetup;
 
 public class WorldRenderer {
 	private World world;
@@ -45,8 +40,6 @@ public class WorldRenderer {
 
 	private TextureRegion patateTexture;
 	private TextureRegion patateFrame;
-
-	private BitmapFont font;
 
 	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 	private Animation walkRightPatate;
@@ -90,7 +83,7 @@ public class WorldRenderer {
 	}
 
 	private void loadTextures() {
-		TextureSetup.main(null);
+		//TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		patateTexture = atlas.findRegion("Patate1");
@@ -100,7 +93,6 @@ public class WorldRenderer {
 		}
 		walkRightPatate = new Animation(PATATE_RUNNING_FRAME_DURATION,
 				walkRightFrames);
-		font = new BitmapFont();
 		blockTexture = atlas.findRegion("block");
 		duckTexture = atlas.findRegion("block");
 		trapTexture = atlas.findRegion("trap");

@@ -1,22 +1,17 @@
 package fr.odai.zerozeroduck;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.math.Rectangle;
 
-import fr.odai.zerozeroduck.controller.MainController;
-import fr.odai.zerozeroduck.model.World;
+public class GameOverScreen implements Screen, InputProcessor {
 
-public class GameScreen implements Screen, InputProcessor {
-	
 	private ZeroZeroDuck game;
-	private World world;
-	private WorldRenderer renderer;
-	private MainController controller;
+	private EndMenuRenderer renderer;
 
-	public GameScreen(ZeroZeroDuck game) {
+	public GameOverScreen(ZeroZeroDuck game) {
 		super();
 		this.game = game;
 	}
@@ -25,28 +20,29 @@ public class GameScreen implements Screen, InputProcessor {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		controller.update(delta);
 		renderer.render();
 	}
 
 	@Override
 	public void show() {
-		world = new World();
-		renderer = new WorldRenderer(world, false);
-		controller = new MainController(world);
+		renderer = new EndMenuRenderer();
 		Gdx.input.setInputProcessor(this);
 	}
-	
+
 	@Override
 	public void resize(int width, int height) {
 		renderer.setSize(width, height);
 	}
-	
 
 	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
 
+	}
+
+	@Override
+	public void dispose() {
+		Gdx.input.setInputProcessor(null);
 	}
 
 	@Override
@@ -62,42 +58,34 @@ public class GameScreen implements Screen, InputProcessor {
 	}
 
 	@Override
-	public void dispose() {
-		Gdx.input.setInputProcessor(null);
-	}
-
-	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Keys.SPACE)
-			controller.patatePressed();
-		if (keycode == Keys.ENTER)
-			controller.killallPressed();
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if (keycode == Keys.SPACE)
-			controller.patateReleased();
-		if (keycode == Keys.ENTER)
-			controller.killallReleased();
+		// TODO Auto-generated method stub
 		return false;
-	}
-	
-	@Override
-	public boolean touchDown(int x, int y, int pointer, int button) {
-		controller.patatePressed();
-		return true;
-	}
-
-	@Override
-	public boolean touchUp(int x, int y, int pointer, int button) {
-		controller.patateReleased();
-		return true;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if(renderer.click(screenX, screenY)){
+			game.setScreen(game.gameScreen);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		return false;
 	}
