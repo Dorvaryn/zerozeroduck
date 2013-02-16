@@ -19,6 +19,7 @@ public class Trap {
 	
 	Vector2 position = new Vector2();
 	State state = State.READY;
+	Rectangle bounds = new Rectangle();
 	int damage;
 	Keys associatedKey;
 	
@@ -58,12 +59,21 @@ public class Trap {
 	public void setAssociatedKey(Keys associatedKey) {
 		this.associatedKey = associatedKey;
 	}
+	
+	public boolean click(float x, float y){
+		Rectangle rect = new Rectangle(bounds.x, bounds.y, bounds.width*2, bounds.height*2);
+		return rect.contains(x,y);
+	}
 
 	public Trap(float range, Vector2 position, int damage) {
 		super();
 		this.range = range;
 		this.position = position;
 		this.damage = damage;
+		this.bounds.height = SIZE;
+		this.bounds.width = SIZE;
+		this.bounds.x = position.x;
+		this.bounds.y = position.y;
 		this.associatedKey = Keys.UNDEFINED;
 	}
 

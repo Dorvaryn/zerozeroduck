@@ -210,4 +210,12 @@ public class WorldRenderer {
 		debugRenderer.rect(x1, y1, rect.width, rect.height);
 		debugRenderer.end();
 	}
+	
+	public float convertScaleX(int x){
+		return x/ppuX;
+	}
+	
+	public float convertScaleY(int y){
+		return y/ppuY;
+	}
 }

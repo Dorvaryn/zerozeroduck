@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 
 import fr.odai.zerozeroduck.controller.MainController;
+import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
 
 public class GameScreen implements Screen, InputProcessor {
@@ -90,12 +91,24 @@ public class GameScreen implements Screen, InputProcessor {
 	
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
+		for(Trap trap : world.getTraps()){
+			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
+				keyDown(trap.getAssociatedKey().ordinal());
+				return true;
+			}
+		}
 		controller.patatePressed();
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
+		for(Trap trap : world.getTraps()){
+			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
+				keyUp(trap.getAssociatedKey().ordinal());
+				return true;
+			}
+		}
 		controller.patateReleased();
 		return true;
 	}
