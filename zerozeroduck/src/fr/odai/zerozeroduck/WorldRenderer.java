@@ -65,6 +65,8 @@ public class WorldRenderer {
 
 	private int width;
 	private int height;
+	
+	private boolean musicStopped=false;
 
 	public void setSize(int w, int h) {
 		this.width = w;
@@ -101,7 +103,7 @@ public class WorldRenderer {
 	}
 
 	public void render() {
-		if(!musicStart.isPlaying() && !musicLoop.isPlaying()){
+		if(!musicStart.isPlaying() && !musicLoop.isPlaying() && !musicStopped){
 			musicLoop.play();
 		}
 		
@@ -130,6 +132,7 @@ public class WorldRenderer {
 	}
 	
 	public void stopMusic(){
+		musicStopped=true;
 		musicStart.stop();
 		musicLoop.stop();
 	}
@@ -194,16 +197,22 @@ public class WorldRenderer {
 			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX,
 					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
 							* ppuY);
+			spriteBatch.end();
 			
-			/*if(trap.getState()==Trap.State.RELOADING){
+			if(trap.getState()==Trap.State.RELOADING){
 				debugRenderer.setProjectionMatrix(cam.combined);
 				debugRenderer.begin(ShapeType.FilledRectangle);
-				debugRenderer.setColor(new Color(0.75f, 0.75f, 0.75f, 1));
-				
-				debugRenderer.filledRect(trap.getPosition().x, trap.getPosition().y-0.3f*ppuY, , size);
+				debugRenderer.setColor(Color.LIGHT_GRAY);
+				float rectWidth = (float)trap.getBounds().width*(float)trap.getStateTime()/(float)trap.RELOAD_TIME;
+				debugRenderer.filledRect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), rectWidth ,0.065f);
 				debugRenderer.end();
-				
-			}*/
+				debugRenderer.begin(ShapeType.Rectangle);
+				debugRenderer.setColor(Color.LIGHT_GRAY);
+				debugRenderer.rect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), trap.getBounds().getWidth() ,0.065f);
+				debugRenderer.end();
+			}
+			
+			spriteBatch.begin();
 		
 		}
 	}

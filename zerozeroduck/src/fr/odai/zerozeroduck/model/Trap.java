@@ -15,7 +15,7 @@ public class Trap {
 	
 	public static final float SIZE = 0.5f; // half a unit
 	public static final float RELOAD_TIME = 2;
-	public static final float HURTING_TIME = 2;
+	public static final float HURTING_TIME = 0.5f;
 	
 	Vector2 position = new Vector2();
 	State state = State.READY;
