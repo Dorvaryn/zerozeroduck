@@ -17,6 +17,7 @@ public class Duck {
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
+	int life = 300;
 	boolean		facingLeft = true;
 
 	public Duck(Vector2 position) {

@@ -16,10 +16,14 @@ public class Patate {
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
 	public static final float SIZE = 0.5f; // half a unit
+	
+	static final float ANIM_PERIOD = 60f / World.BPM / 2;
 			
 	float       stateTime = 0;
+	float 		animTime = 0;
 	Vector2 	position = new Vector2();
 	Vector2     velocity = new Vector2(1, 0);
+	Vector2     bouciness = new Vector2(0, 0.2f);
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.WALKING;
 	boolean		facingLeft = true;
@@ -39,7 +43,7 @@ public class Patate {
 	}
 
 	public Vector2 getPosition() {
-		return position;
+		return position.cpy().add(bouciness.tmp().mul(Math.abs((float) Math.sin((animTime / ANIM_PERIOD * Math.PI)))));
 	}
 	
 	public State getState() {
@@ -69,6 +73,9 @@ public class Patate {
 	public void update(float delta) {
 		stateTime += delta;
 		invincibilityTime -= delta;
+		
+		animTime += delta;
+		if(animTime > ANIM_PERIOD) animTime -= ANIM_PERIOD;
 		
 		if(state == State.WALKING) {
 			position.add(velocity.tmp().mul(delta));
