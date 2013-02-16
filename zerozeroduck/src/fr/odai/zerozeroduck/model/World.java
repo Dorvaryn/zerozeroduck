@@ -1,34 +1,33 @@
 package fr.odai.zerozeroduck.model;
 
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.Pixmap;
 
 import fr.odai.zerozeroduck.controller.MainController;
 
 
 public class World {
-	
+	/** Bump per minutes */
 	public static final int BPM = 85;
-	
-	/** The blocks making up the world **/
-	Array<Block> blocks = new Array<Block>();
-	/** The trap **/
+		
+	/** Traps **/
 	Array<Trap> traps = new Array<Trap>();
-	/** The startpoints for the units **/
+	/** Startpoints for the units **/
 	Array<Vector2> startpoints = new Array<Vector2>();
-	/** The units in this world **/
+	/** Units in this world **/
 	Array<Patate> patates = new Array<Patate>();
+	
+	private Array<Integer> floor_pos = new Array<Integer>();
 
 	/** Our player controlled hero **/
 	Duck duck;
 	
 	int score = 0;
-	
 
 	// Getters -----------
-	public Array<Block> getBlocks() {
-		return blocks;
-	}
 	public Duck getDuck() {
 		return duck;
 	}
@@ -43,21 +42,40 @@ public class World {
 	}
 	// --------------------
 
+	public Array<Integer> getFloorPos() {
+		return floor_pos;
+	}
+	public void setFloorPos(Array<Integer> floor_pos) {
+		this.floor_pos = floor_pos;
+	}
 	public World() {
 		createDemoWorld();
 	}
 
 	private void createDemoWorld() {
-		duck = new Duck(new Vector2(9, 1));
+		duck = new Duck(new Vector2(9, 1), this);
 
-		Trap trap = new Trap(0.5f,new Vector2(2,1), 100);
+		Trap trap = new Trap(0.5f,new Vector2(2,1), 10);
 		trap.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(trap);
-
-		for (int i = 0; i < 10; i++) { 			 			
-			blocks.add(new Block(new Vector2(i, 0))); 			 			
-			blocks.add(new Block(new Vector2(i, 7)));
+		
+		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
+		int width = floor_pixmap.getWidth();
+		setFloorPos(new Array<Integer>(width));
+		for(int i = 0; i < width; i++) {
+			int j = floor_pixmap.getHeight();
+			for(; j > 0; j--) {
+				if(floor_pixmap.getPixel(i, j) > 0) {
+					break;
+				}
+			}
+			getFloorPos().add(j);
 		}
+	}
+	
+	public float getFloorHeight(float x) {
+		int index = Math.round(x / 10 * getFloorPos().size);
+		return getFloorPos().get(index);
 	}
 	
 	public void update(float delta) {

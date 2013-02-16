@@ -96,7 +96,7 @@ public class Trap {
 		Vector2 posA = new Vector2((float)position.x+(float)(SIZE/2.f), (float)position.y+(float)(SIZE/2.f));
 		Vector2 posB = new Vector2((float)rect.x+(float)(rect.width/2.f), (float)rect.y+(float)(rect.height/2.f));
 		if(Util.Distance(posA, posB)<=range){
-			return -10;
+			return -damage;
 		}
 		else return 0;
 	}
