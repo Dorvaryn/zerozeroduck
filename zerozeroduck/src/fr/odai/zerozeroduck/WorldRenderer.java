@@ -83,7 +83,6 @@ public class WorldRenderer {
 	}
 
 	private void loadTextures() {
-		//TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		patateTexture = atlas.findRegion("Patate1");

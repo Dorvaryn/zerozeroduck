@@ -55,7 +55,6 @@ public class EndMenuRenderer {
 	}
 
 	private void loadTextures() {
-		TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		boutonReloadTexture = atlas.findRegion("reload");
