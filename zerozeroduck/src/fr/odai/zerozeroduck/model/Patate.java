@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Patate {
 
 	public enum State {
-		IDLE, WALKING, JUMPING, DYING
+		IDLE, WALKING, DYING
 	}
 	
 	static final float SPEED = 2f;	// unit per second
@@ -16,7 +16,7 @@ public class Patate {
 
 	float       stateTime = 0;
 	Vector2 	position = new Vector2();
-	Vector2     velocity = new Vector2();
+	Vector2     velocity = new Vector2(1, 0);
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.WALKING;
 	boolean		facingLeft = true;
@@ -34,13 +34,28 @@ public class Patate {
 	public Vector2 getPosition() {
 		return position;
 	}
+	
+	public State getState() {
+		return state;
+	}
 
-	public void walkForward(float delta) {
-		this.position.x += delta * SPEED;
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public boolean isFacingLeft() {
+		return facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
 	}
 	
 	public void update(float delta) {
 		stateTime += delta;
-		position.add(velocity.tmp().mul(delta)); 
+		
+		if(state == State.WALKING) {
+			position.add(velocity.tmp().mul(delta));
+		}
 	}
 }
