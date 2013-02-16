@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
+import fr.odai.zerozeroduck.actors.Block;
 import fr.odai.zerozeroduck.actors.Duck;
 
 public class WorldRenderer {

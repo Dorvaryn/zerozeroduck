@@ -24,5 +24,37 @@ public class Duck {
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
 	}
+
+	public Vector2 getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector2 position) {
+		this.position = position;
+	}
+
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public boolean isFacingLeft() {
+		return facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
+	}
 	
 }
