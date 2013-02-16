@@ -1,6 +1,8 @@
 package fr.odai.zerozeroduck;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -48,6 +50,10 @@ public class WorldRenderer {
 	ParticleEffectPool smokeEffectPool;
 	ParticleEffect smokeEffect;
 	Array<PooledEffect> effects;
+	
+	/* Musique */
+	Music musicLoop;
+	Music musicStart;
 
 	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 	private Animation walkRightPatate;
@@ -81,10 +87,24 @@ public class WorldRenderer {
 		smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
 		effects = new Array<PooledEffect>();
 		
+		//sounds
+		//Sound sound = Gdx.audio.newSound(Gdx.files.internal("data/mysound.mp3"));
+		//the ambiance music
+		musicStart = Gdx.audio.newMusic(Gdx.files.internal("musics/duckIntro01.ogg"));
+		musicStart.setLooping(false);
+		musicLoop = Gdx.audio.newMusic(Gdx.files.internal("musics/duckBoucle01.ogg"));
+		musicLoop.setLooping(true);
+		
+		musicStart.play();
+		
 		loadTextures();
 	}
 
 	public void render() {
+		if(!musicStart.isPlaying() && !musicLoop.isPlaying()){
+			musicLoop.play();
+		}
+		
 		spriteBatch.begin();
 		drawDuck();
 		drawPatates();
