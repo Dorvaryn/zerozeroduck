@@ -3,6 +3,8 @@ package fr.odai.zerozeroduck.model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import fr.odai.zerozeroduck.controller.MainController;
+
 
 public class World {
 	
@@ -44,7 +46,8 @@ public class World {
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
 
-		Trap trap = new Trap(5f,new Vector2(2,1),100);
+		Trap trap = new Trap(5f,new Vector2(2,1), 100);
+		trap.setAssociatedKey(MainController.Keys.TRAP_F);
 		traps.add(trap);
 
 		for (int i = 0; i < 10; i++) { 			 			
