@@ -26,6 +26,10 @@ public class Trap {
 	float range;
 
 	private float stateTime;
+	
+	public float getStateTime(){
+		return stateTime;
+	}
 
 	public float getRange() {
 		return range;

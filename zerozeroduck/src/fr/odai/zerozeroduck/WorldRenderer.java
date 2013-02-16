@@ -182,6 +182,17 @@ public class WorldRenderer {
 			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX,
 					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
 							* ppuY);
+			
+			/*if(trap.getState()==Trap.State.RELOADING){
+				debugRenderer.setProjectionMatrix(cam.combined);
+				debugRenderer.begin(ShapeType.FilledRectangle);
+				debugRenderer.setColor(new Color(0.75f, 0.75f, 0.75f, 1));
+				
+				debugRenderer.filledRect(trap.getPosition().x, trap.getPosition().y-0.3f*ppuY, , size);
+				debugRenderer.end();
+				
+			}*/
+		
 		}
 	}
 
