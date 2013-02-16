@@ -22,21 +22,11 @@ public class Trap {
 	Rectangle bounds = new Rectangle();
 	int damage;
 	Keys associatedKey;
-	
-	float range;
 
 	private float stateTime;
 	
 	public float getStateTime(){
 		return stateTime;
-	}
-
-	public float getRange() {
-		return range;
-	}
-
-	public void setRange(float range) {
-		this.range = range;
 	}
 
 	public Vector2 getPosition() {
@@ -73,7 +63,6 @@ public class Trap {
 
 	public Trap(Vector2 position, int damage) {
 		super();
-		this.range = range;
 		this.position = position;
 		this.damage = damage;
 		this.bounds.height = SIZE;
@@ -99,12 +88,7 @@ public class Trap {
 	}
 	
 	public int damageWhenTrapped(Rectangle rect){
-		Vector2 posA = new Vector2((float)position.x+(float)(SIZE/2.f), (float)position.y+(float)(SIZE/2.f));
-		Vector2 posB = new Vector2((float)rect.x+(float)(rect.width/2.f), (float)rect.y+(float)(rect.height/2.f));
-		if(Util.Distance(posA, posB)<=range){
-			return -damage;
-		}
-		else return 0;
+		return 0;
 	}
 
 	public Rectangle getBounds() {
