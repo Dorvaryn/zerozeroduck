@@ -77,7 +77,7 @@ public class Patate {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(position.x+bounds.width>rect.x){
+		if(position.x+bounds.width/2>rect.x){
 			return -damage;
 		}
 		else return 0;
