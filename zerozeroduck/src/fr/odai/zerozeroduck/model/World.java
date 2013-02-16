@@ -58,12 +58,6 @@ public class World {
 	}
 
 	private void createDemoWorld() {
-		duck = new Duck(new Vector2(8.5f, 1), this);
-
-		Trap trap = new Trap(0.5f,new Vector2(2,1), 50);
-		trap.setAssociatedKey(MainController.Keys.TRAP_S);
-		traps.add(trap);
-		
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
 		int width = floor_pixmap.getWidth();
 		setFloorPos(new Array<Float>(width));
@@ -78,6 +72,12 @@ public class World {
 			}
 			getFloorPos().add(7.f - j / (float) floor_pixmap.getHeight() * 7.f);
 		}
+		
+		duck = new Duck(new Vector2(8.5f, getFloorHeight(8.5f) - 0.4f), this);
+
+		Trap trap = new Trap(0.5f,new Vector2(2,1), 50);
+		trap.setAssociatedKey(MainController.Keys.TRAP_S);
+		traps.add(trap);
 	}
 	
 	public float getFloorHeight(float x) {
