@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import fr.odai.zerozeroduck.GameScreen;
 import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
@@ -17,6 +18,7 @@ public class MainController {
 		PATATE, KILLALL, TRAP_S, TRAP_F, TRAP_H, TRAP_K, UNDEFINED
 	}
 
+	private GameScreen screen;
 	private World world;
 	private Array<Patate> patates;
 	private Array<Trap> traps;
@@ -32,8 +34,9 @@ public class MainController {
 		keys.put(Keys.UNDEFINED, false);
 	};
 
-	public MainController(World world) {
+	public MainController(World world, GameScreen screen) {
 		this.world = world;
+		this.screen = screen;
 		this.patates = world.getPatates();
 		this.traps = world.getTraps();
 	}
@@ -67,6 +70,10 @@ public class MainController {
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
+		
+		if(world.getDuck().getState()==Duck.State.DEAD){
+			screen.gameOver();
+		}
 		
 		for(Patate patate : this.patates) {
 			patate.setState(Patate.State.WALKING);

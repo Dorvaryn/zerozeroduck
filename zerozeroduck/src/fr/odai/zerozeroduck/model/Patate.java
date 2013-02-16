@@ -4,8 +4,6 @@ package fr.odai.zerozeroduck.model;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import fr.odai.zerozeroduck.utils.Util;
-
 public class Patate {
 
 	public enum State {
@@ -63,6 +61,7 @@ public class Patate {
 
 	public void setState(State state) {
 		this.state = state;
+		stateTime = 0;
 	}
 
 	public boolean isFacingLeft() {
