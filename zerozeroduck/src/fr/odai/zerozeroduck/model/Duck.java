@@ -69,19 +69,23 @@ public class Duck {
 	}
 	
 	public void update(float delta){
+		stateTime+=delta;
 		Array<Patate> patates = world.getPatates();
 		for(Patate patate:patates){
 			int damage = patate.damageWhenFinish(this.getPositionnedBounds());
 			if(damage<0){
 				life+=damage;
 				patate.setState(Patate.State.DYING);
+				System.out.println(life);
 			}
 		}
-		if(life<=0){
+		if(life<=0 && state==State.IDLE){
 			setState(State.DYING);
+			System.out.println("mourant");
 		}
 		if(state==State.DYING && stateTime > DYING_TIME){
 			setState(State.DEAD);
+			System.out.println("mort");
 		}
 	}
 }

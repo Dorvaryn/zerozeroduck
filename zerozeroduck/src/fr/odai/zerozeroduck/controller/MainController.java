@@ -76,7 +76,6 @@ public class MainController {
 		}
 		
 		for(Patate patate : this.patates) {
-			patate.setState(Patate.State.WALKING);
 			patate.update(delta);
 		}
 		

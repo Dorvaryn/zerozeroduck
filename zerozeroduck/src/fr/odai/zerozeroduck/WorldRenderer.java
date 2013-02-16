@@ -127,6 +127,11 @@ public class WorldRenderer {
 		if (debug)
 			drawDebug();
 	}
+	
+	public void stopMusic(){
+		musicStart.stop();
+		musicLoop.stop();
+	}
 
 	private void loadTextures() {
 		TextureAtlas atlas = new TextureAtlas(
