@@ -70,6 +70,9 @@ public class World {
 		return poolPatates;
 	}
 	
+	public void setScore(int score){
+		this.score=score;
+	}
 	// --------------------
 
 	public Array<Float> getFloorPos() {
@@ -88,7 +91,6 @@ public class World {
 	}
 
 	private void createDemoWorld() {
-	
 		
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
 		int width = floor_pixmap.getWidth();
@@ -104,7 +106,7 @@ public class World {
 			}
 			getFloorPos().add(7.f - j / (float) floor_pixmap.getHeight() * 7.f);
 		}
-		duck = new Duck(new Vector2(9, getFloorHeight(9)), this);
+		duck = new Duck(new Vector2(8.5f, 1), this);
 
 		Trap trap = new Trap(0.5f,new Vector2(2,getFloorHeight(2)), 10);
 		trap.setAssociatedKey(MainController.Keys.TRAP_S);

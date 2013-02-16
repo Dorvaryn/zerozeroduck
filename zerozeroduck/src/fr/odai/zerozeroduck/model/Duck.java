@@ -14,12 +14,12 @@ public class Duck {
 	public static final float DYING_TIME = 2;
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
-	public static final float SIZE = 0.5f; // half a unit
+	public static final float SIZE = 2.4f;
 
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
-	int 		life = 300;
+	int 		life = 800;
 	float       stateTime = 0;
 	boolean		facingLeft = true;
 	World 		world;
@@ -27,7 +27,7 @@ public class Duck {
 	public Duck(Vector2 position, World world) {
 		this.position = position;
 		this.bounds.height = SIZE;
-		this.bounds.width = SIZE;
+		this.bounds.width = SIZE * (346f/510f);
 		this.world = world;
 	}
 
@@ -76,16 +76,13 @@ public class Duck {
 			if(damage<0){
 				life+=damage;
 				patate.setState(Patate.State.DYING);
-				System.out.println(life);
 			}
 		}
 		if(life<=0 && state==State.IDLE){
 			setState(State.DYING);
-			System.out.println("mourant");
 		}
 		if(state==State.DYING && stateTime > DYING_TIME){
 			setState(State.DEAD);
-			System.out.println("mort");
 		}
 	}
 }

@@ -65,6 +65,8 @@ public class WorldRenderer {
 
 	private int width;
 	private int height;
+	
+	private boolean musicStopped=false;
 
 	public void setSize(int w, int h) {
 		this.width = w;
@@ -101,7 +103,7 @@ public class WorldRenderer {
 	}
 
 	public void render() {
-		if(!musicStart.isPlaying() && !musicLoop.isPlaying()){
+		if(!musicStart.isPlaying() && !musicLoop.isPlaying() && !musicStopped){
 			musicLoop.play();
 		}
 		
@@ -130,6 +132,7 @@ public class WorldRenderer {
 	}
 	
 	public void stopMusic(){
+		musicStopped=true;
 		musicStart.stop();
 		musicLoop.stop();
 	}
@@ -148,7 +151,7 @@ public class WorldRenderer {
 		}
 		walkRightPatate = new Animation(PATATE_RUNNING_FRAME_DURATION,
 				walkRightFrames);
-		duckTexture = atlas.findRegion("block");
+		duckTexture = atlas.findRegion("Kanard");
 		trapTexture = atlas.findRegion("trap");
 		backgroundTexture = atlas.findRegion("Stage0");
 	}
@@ -183,9 +186,10 @@ public class WorldRenderer {
 	}
 
 	private void drawDuck() {
-		Duck bob = world.getDuck();
-		spriteBatch.draw(duckTexture, bob.getPosition().x * ppuX,
-				bob.getPosition().y * ppuY, Duck.SIZE * ppuX, Duck.SIZE * ppuY);
+		Duck ducky = world.getDuck();
+		spriteBatch.draw(duckTexture, ducky.getPosition().x * ppuX,
+				ducky.getPosition().y * ppuY, ducky.getBounds().width * ppuX, 
+				ducky.getBounds().height * ppuY);
 	}
 
 	private void drawTrap() {
@@ -193,16 +197,22 @@ public class WorldRenderer {
 			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX,
 					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
 							* ppuY);
+			spriteBatch.end();
 			
-			/*if(trap.getState()==Trap.State.RELOADING){
+			if(trap.getState()==Trap.State.RELOADING){
 				debugRenderer.setProjectionMatrix(cam.combined);
 				debugRenderer.begin(ShapeType.FilledRectangle);
-				debugRenderer.setColor(new Color(0.75f, 0.75f, 0.75f, 1));
-				
-				debugRenderer.filledRect(trap.getPosition().x, trap.getPosition().y-0.3f*ppuY, , size);
+				debugRenderer.setColor(Color.LIGHT_GRAY);
+				float rectWidth = (float)trap.getBounds().width*(float)trap.getStateTime()/(float)trap.RELOAD_TIME;
+				debugRenderer.filledRect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), rectWidth ,0.065f);
 				debugRenderer.end();
-				
-			}*/
+				debugRenderer.begin(ShapeType.Rectangle);
+				debugRenderer.setColor(Color.LIGHT_GRAY);
+				debugRenderer.rect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), trap.getBounds().getWidth() ,0.065f);
+				debugRenderer.end();
+			}
+			
+			spriteBatch.begin();
 		
 		}
 	}
