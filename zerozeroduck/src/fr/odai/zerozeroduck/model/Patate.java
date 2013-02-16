@@ -16,7 +16,7 @@ public class Patate {
 
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
-	State		state = State.IDLE;
+	State		state = State.WALKING;
 	boolean		facingLeft = true;
 
 	public Patate(Vector2 position) {

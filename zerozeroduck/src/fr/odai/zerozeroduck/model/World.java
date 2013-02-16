@@ -7,6 +7,10 @@ import com.badlogic.gdx.utils.Array;
 public class World {
 	/** The blocks making up the world **/
 	Array<Block> blocks = new Array<Block>();
+	/** The startpoints for the units **/
+	Array<Vector2> startpoints = new Array<Vector2>();
+	/** The units in this world **/
+	Array<Patate> patates = new Array<Patate>();
 	/** Our player controlled hero **/
 	Duck duck;
 
@@ -24,21 +28,11 @@ public class World {
 	}
 
 	private void createDemoWorld() {
-		duck = new Duck(new Vector2(7, 2));
+		duck = new Duck(new Vector2(9, 1));
 
 		for (int i = 0; i < 10; i++) { 			 			
 			blocks.add(new Block(new Vector2(i, 0))); 			 			
-			blocks.add(new Block(new Vector2(i, 7))); 			 			
-			if (i > 2)
-				blocks.add(new Block(new Vector2(i, 1)));
+			blocks.add(new Block(new Vector2(i, 7)));
 		}
-		blocks.add(new Block(new Vector2(9, 2)));
-		blocks.add(new Block(new Vector2(9, 3)));
-		blocks.add(new Block(new Vector2(9, 4)));
-		blocks.add(new Block(new Vector2(9, 5)));
-
-		blocks.add(new Block(new Vector2(6, 3)));
-		blocks.add(new Block(new Vector2(6, 4)));
-		blocks.add(new Block(new Vector2(6, 5)));
 	}
 }
