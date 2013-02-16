@@ -14,7 +14,7 @@ public class Duck {
 	public static final float DYING_TIME = 2;
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
-	public static final float SIZE = 1f;
+	public static final float SIZE = 2.4f;
 
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
