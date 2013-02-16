@@ -66,6 +66,8 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.patatePressed();
 		if (keycode == Keys.ENTER)
 			controller.killallPressed();
+		if (keycode == Keys.S)
+			controller.trapSPressed();
 		return false;
 	}
 
@@ -75,6 +77,8 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.patateReleased();
 		if (keycode == Keys.ENTER)
 			controller.killallReleased();
+		if (keycode == Keys.S)
+			controller.trapSReleased();
 		return false;
 	}
 

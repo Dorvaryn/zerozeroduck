@@ -11,6 +11,8 @@ public class Patate {
 		IDLE, WALKING, DYING
 	}
 	
+	float invincibilityTime=0;
+	
 	static final float SPEED = 2f;	// unit per second
 	static final float JUMP_VELOCITY = 1f;
 	public static final float SIZE = 0.5f; // half a unit
@@ -21,11 +23,15 @@ public class Patate {
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.WALKING;
 	boolean		facingLeft = true;
+	World world;
+	
+	int hp=100;
 
-	public Patate(Vector2 position) {
+	public Patate(Vector2 position, World world) {
 		this.position = position;
 		this.bounds.height = SIZE*1.5f;
 		this.bounds.width = SIZE;
+		this.world = world;
 	}
 
 	public Rectangle getBounds() {
@@ -56,11 +62,27 @@ public class Patate {
 		this.facingLeft = facingLeft;
 	}
 	
+	public Rectangle getPositionnedBounds(){
+		return new Rectangle(position.x, position.y, this.bounds.width, this.bounds.height);
+	}
+	
 	public void update(float delta) {
 		stateTime += delta;
+		invincibilityTime -= delta;
 		
 		if(state == State.WALKING) {
 			position.add(velocity.tmp().mul(delta));
+		}
+		
+		Rectangle positionnedBounds = this.getPositionnedBounds();		
+		for(Trap trap : world.getTraps()){
+			if(trap.getState()==Trap.State.HURTING && invincibilityTime <= 0){
+				int hpModifier = trap.damageWhenTrapped(positionnedBounds);
+				if(hpModifier<0){
+					invincibilityTime=1.0f;
+					hp+=hpModifier;
+				}
+			}
 		}
 	}
 }
