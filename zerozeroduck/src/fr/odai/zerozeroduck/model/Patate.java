@@ -32,8 +32,24 @@ public class Patate {
 	public Vector2 getPosition() {
 		return position;
 	}
+	
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public boolean isFacingLeft() {
+		return facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
+	}
 
 	public void walkForward(float delta) {
-		this.position.x += delta * SPEED;
+		position.x += delta * SPEED;
 	}
 }

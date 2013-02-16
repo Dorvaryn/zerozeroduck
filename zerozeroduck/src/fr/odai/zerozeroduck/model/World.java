@@ -38,14 +38,21 @@ public class World {
 
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(9, 1));
-		Patate patate = new Patate(new Vector2(2,1));
-		patates.add(patate);
 
 		trap = new Trap(5f,new Vector2(2,1),100);
 
 		for (int i = 0; i < 10; i++) { 			 			
 			blocks.add(new Block(new Vector2(i, 0))); 			 			
 			blocks.add(new Block(new Vector2(i, 7)));
+		}
+	}
+	
+	public void update(float delta) {
+		// Auto-deleting when getting out of screen
+		for(Patate patate: patates) {
+			if(patate.position.x > 10 || patate.position.x < 0) {
+				patates.removeValue(patate, true);
+			}
 		}
 	}
 }
