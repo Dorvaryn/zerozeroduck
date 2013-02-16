@@ -48,7 +48,7 @@ public class WorldRenderer {
 
 	private BitmapFont font;
 
-	private static final float PATATE_RUNNING_FRAME_DURATION = World.BPM / 8;
+	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 	private Animation walkRightPatate;
 
 	/** for debug rendering **/
