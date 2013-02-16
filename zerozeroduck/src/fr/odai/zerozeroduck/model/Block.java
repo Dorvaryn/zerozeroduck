@@ -30,5 +30,4 @@ public class Block {
 		this.bounds.width = SIZE;
 		this.bounds.height = SIZE;
 	}
-		
 }

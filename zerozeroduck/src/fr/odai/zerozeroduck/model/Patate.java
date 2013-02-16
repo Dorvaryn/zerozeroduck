@@ -32,5 +32,8 @@ public class Patate {
 	public Vector2 getPosition() {
 		return position;
 	}
-	
+
+	public void walkForward(float delta) {
+		this.position.x += delta * SPEED;
+	}
 }
