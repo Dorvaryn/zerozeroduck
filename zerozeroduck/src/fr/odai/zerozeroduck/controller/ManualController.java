@@ -2,92 +2,62 @@ package fr.odai.zerozeroduck.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.badlogic.gdx.utils.Array;
+
+import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.World;
 
 public class ManualController {
 
 	enum Keys {
-		LEFT, RIGHT, JUMP, FIRE
+		PATATE, KILLALL
 	}
 
 	private World 	world;
-	private Bob 	bob;
+	private Array<Patate> patates;
 
-	static Map<Keys, Boolean> keys = new HashMap<WorldController.Keys, Boolean>();
+	static Map<Keys, Boolean> keys = new HashMap<ManualController.Keys, Boolean>();
 	static {
-		keys.put(Keys.LEFT, false);
-		keys.put(Keys.RIGHT, false);
-		keys.put(Keys.JUMP, false);
-		keys.put(Keys.FIRE, false);
+		keys.put(Keys.PATATE, false);
+		keys.put(Keys.KILLALL, false);
 	};
 
 	public ManualController(World world) {
 		this.world = world;
-		this.bob = world.getBob();
+		this.patates = world.getPatates();
 	}
 
 	// ** Key presses and touches **************** //
 
-	public void leftPressed() {
-		keys.get(keys.put(Keys.LEFT, true));
+	public void patatePressed() {
+		keys.get(keys.put(Keys.PATATE, true));
 	}
 
-	public void rightPressed() {
-		keys.get(keys.put(Keys.RIGHT, true));
+	public void killallPressed() {
+		keys.get(keys.put(Keys.KILLALL, true));
 	}
 
-	public void jumpPressed() {
-		keys.get(keys.put(Keys.JUMP, true));
+	public void patateReleased() {
+		keys.get(keys.put(Keys.PATATE, false));
 	}
 
-	public void firePressed() {
-		keys.get(keys.put(Keys.FIRE, false));
-	}
-
-	public void leftReleased() {
-		keys.get(keys.put(Keys.LEFT, false));
-	}
-
-	public void rightReleased() {
-		keys.get(keys.put(Keys.RIGHT, false));
-	}
-
-	public void jumpReleased() {
-		keys.get(keys.put(Keys.JUMP, false));
-	}
-
-	public void fireReleased() {
-		keys.get(keys.put(Keys.FIRE, false));
+	public void killallReleased() {
+		keys.get(keys.put(Keys.KILLALL, false));
 	}
 
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
-		bob.update(delta);
+		for(Patate patate : this.patates) {
+			// Avancer les patates
+			//patate.avance(delta);
+		}
 	}
 
-	/** Change Bob's state and parameters based on input controls **/
 	private void processInput() {
-		if (keys.get(Keys.LEFT)) {
-			// left is pressed
-			bob.setFacingLeft(true);
-			bob.setState(State.WALKING);
-			bob.getVelocity().x = -Bob.SPEED;
-		}
-		if (keys.get(Keys.RIGHT)) {
-			// left is pressed
-			bob.setFacingLeft(false);
-			bob.setState(State.WALKING);
-			bob.getVelocity().x = Bob.SPEED;
-		}
-		// need to check if both or none direction are pressed, then Bob is idle
-		if ((keys.get(Keys.LEFT) && keys.get(Keys.RIGHT)) ||
-				(!keys.get(Keys.LEFT) && !(keys.get(Keys.RIGHT)))) {
-			bob.setState(State.IDLE);
-			// acceleration is 0 on the x
-			bob.getAcceleration().x = 0;
-			// horizontal speed is 0
-			bob.getVelocity().x = 0;
+		if (keys.get(Keys.KILLALL)) {
+
 		}
 	}
 }

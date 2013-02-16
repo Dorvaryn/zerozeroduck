@@ -11,6 +11,7 @@ public class World {
 	Array<Vector2> startpoints = new Array<Vector2>();
 	/** The units in this world **/
 	Array<Patate> patates = new Array<Patate>();
+
 	/** Our player controlled hero **/
 	Duck duck;
 
@@ -20,6 +21,9 @@ public class World {
 	}
 	public Duck getDuck() {
 		return duck;
+	}
+	public Array<Patate> getPatates() {
+		return patates;
 	}
 	// --------------------
 
