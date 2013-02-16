@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Single;
 
+import fr.odai.zerozeroduck.utils.Util;
+
 public class Patate {
 
 	public enum State {
@@ -27,10 +29,11 @@ public class Patate {
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.WALKING;
 	boolean		facingLeft = true;
-	boolean 	isVisible = true;
-	World world;
+	boolean 	isVisible = true;	
+	int 		hp = 100;
+	int 		damage = 10;
 	
-	int hp=100;
+	World world;
 
 	public Patate(Vector2 position, World world) {
 		this.position = position;
@@ -73,6 +76,13 @@ public class Patate {
 	
 	public Rectangle getPositionnedBounds(){
 		return new Rectangle(position.x, position.y, this.bounds.width, this.bounds.height);
+	}
+	
+	public int damageWhenFinish(Rectangle rect){
+		if(rect.x+rect.width>position.x){
+			return -damage;
+		}
+		else return 0;
 	}
 	
 	public void update(float delta) {	

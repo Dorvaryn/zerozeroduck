@@ -3,6 +3,7 @@ package fr.odai.zerozeroduck.model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class Duck {
 
@@ -17,13 +18,15 @@ public class Duck {
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
-	int life = 300;
+	int 		life = 300;
 	boolean		facingLeft = true;
+	World 		world;
 
-	public Duck(Vector2 position) {
+	public Duck(Vector2 position, World world) {
 		this.position = position;
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
+		this.world = world;
 	}
 
 	public Vector2 getPosition() {
@@ -58,6 +61,18 @@ public class Duck {
 		this.facingLeft = facingLeft;
 	}
 	
+	public Rectangle getPositionnedBounds(){
+		return new Rectangle(position.x, position.y, this.bounds.width, this.bounds.height);
+	}
 	
-	
+	public void update(float delta){
+		Array<Patate> patates = world.getPatates();
+		for(Patate patate:patates){
+			int damage = patate.damageWhenFinish(this.getPositionnedBounds());
+			if(damage>0){
+				life+=damage;
+				patate.setState(Patate.State.DYING);
+			}
+		}
+	}
 }
