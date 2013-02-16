@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
-import fr.odai.zerozeroduck.actors.Block;
-import fr.odai.zerozeroduck.actors.Duck;
+import fr.odai.zerozeroduck.model.Block;
+import fr.odai.zerozeroduck.model.Duck;
+import fr.odai.zerozeroduck.model.World;
 
 public class WorldRenderer {
 	private World world;

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 
+import fr.odai.zerozeroduck.model.World;
+
 public class GameScreen implements Screen {
 	
 	private World world;
