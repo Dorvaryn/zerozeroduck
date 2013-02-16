@@ -54,9 +54,9 @@ public class World {
 	}
 
 	private void createDemoWorld() {
-		duck = new Duck(new Vector2(9, 1));
+		duck = new Duck(new Vector2(9, 1), this);
 
-		Trap trap = new Trap(0.5f,new Vector2(2,1), 100);
+		Trap trap = new Trap(0.5f,new Vector2(2,1), 10);
 		trap.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(trap);
 		

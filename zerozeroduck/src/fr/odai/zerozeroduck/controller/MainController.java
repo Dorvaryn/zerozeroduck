@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
@@ -75,6 +76,8 @@ public class MainController {
 		for(Trap trap : this.traps) {
 			trap.update(delta);
 		}
+		
+		world.getDuck().update(delta);
 		
 		world.update(delta);
 	}
