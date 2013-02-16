@@ -52,7 +52,8 @@ public class MainController {
 		processInput();
 		
 		for(Patate patate : this.patates) {
-			patate.walkForward(delta);
+			patate.setState(Patate.State.WALKING);
+			patate.update(delta);
 		}
 		
 		world.update(delta);
@@ -66,6 +67,10 @@ public class MainController {
 			
 			// Disable until new keystroke
 			keys.put(Keys.PATATE, false);
+		}
+		
+		if (keys.get(Keys.KILLALL)) {
+			patates.clear();
 		}
 	}
 }
