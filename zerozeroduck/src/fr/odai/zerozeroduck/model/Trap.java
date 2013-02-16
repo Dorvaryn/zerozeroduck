@@ -71,7 +71,7 @@ public class Trap {
 		return rect.contains(x,y);
 	}
 
-	public Trap(float range, Vector2 position, int damage) {
+	public Trap(Vector2 position, int damage) {
 		super();
 		this.range = range;
 		this.position = position;
