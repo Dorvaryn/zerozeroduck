@@ -28,7 +28,7 @@ public class Patate {
 	boolean		facingLeft = true;
 	boolean 	isVisible = true;	
 	int 		hp = 100;
-	int 		damage = 10;
+	int 		damage = 100;
 	
 	World world;
 
