@@ -17,16 +17,16 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void show() {
 		world = new World();
-		renderer = new WorldRenderer(world);
+		renderer = new WorldRenderer(world, false);
 	}
+	
+	@Override
+	public void resize(int width, int height) {
+		renderer.setSize(width, height);
+	}
+	
 
 	@Override
 	public void hide() {
