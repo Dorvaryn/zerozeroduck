@@ -13,7 +13,7 @@ import fr.odai.zerozeroduck.model.World;
 public class MainController {
 
 	public enum Keys {
-		PATATE, KILLALL, TRAP_S, TRAP_F, TRAP_H, TRAP_K
+		PATATE, KILLALL, TRAP_S, TRAP_F, TRAP_H, TRAP_K, UNDEFINED
 	}
 
 	private World world;
@@ -24,6 +24,11 @@ public class MainController {
 	static {
 		keys.put(Keys.PATATE, false);
 		keys.put(Keys.KILLALL, false);
+		keys.put(Keys.TRAP_S, false);
+		keys.put(Keys.TRAP_F, false);
+		keys.put(Keys.TRAP_H, false);
+		keys.put(Keys.TRAP_K, false);
+		keys.put(Keys.UNDEFINED, false);
 	};
 
 	public MainController(World world) {

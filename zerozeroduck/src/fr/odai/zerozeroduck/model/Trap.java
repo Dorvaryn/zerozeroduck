@@ -62,6 +62,7 @@ public class Trap {
 		this.range = range;
 		this.position = position;
 		this.damage = damage;
+		this.associatedKey = Keys.UNDEFINED;
 	}
 
 	public void activate() {
