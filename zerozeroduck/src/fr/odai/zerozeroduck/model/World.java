@@ -78,7 +78,7 @@ public class World {
 	
 	public float getFloorHeight(float x) {
 		int index = Math.round(x / 10 * getFloorPos().size);
-		if(index > getFloorPos().size)
+		if(index >= getFloorPos().size)
 			return getFloorPos().get(getFloorPos().size - 1);
 		else if(index < 0)
 			return getFloorPos().get(0);
