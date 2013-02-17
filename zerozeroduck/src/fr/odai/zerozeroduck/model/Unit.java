@@ -33,7 +33,6 @@ public abstract class Unit {
 	boolean		facingLeft = true;
 	boolean 	isVisible = true;
 	boolean		toBeRemoved = false;
-	ParticleEffectPool smokeEffectPool;
 	int 		hp;
 	int 		damage;
 	int 		score;
@@ -45,6 +44,8 @@ public abstract class Unit {
 
 	public Unit(Vector2 position, World world, TextureAtlas atlas) {
 		this.position = position;
+		this.bounds.x = position.x;
+		this.bounds.y = position.y;
 		this.world = world;
 		this.loadTextures(atlas);
 	}
@@ -88,7 +89,7 @@ public abstract class Unit {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(position.x>rect.x){
+		if(getPosition().x>rect.x){
 			return -damage;
 		}
 		else return 0;

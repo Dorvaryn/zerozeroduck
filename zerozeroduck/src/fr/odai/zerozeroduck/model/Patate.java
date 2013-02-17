@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import fr.odai.zerozeroduck.model.Carrot.State;
+
 public class Patate extends Unit {
 
 	public enum State {
@@ -36,12 +38,7 @@ public class Patate extends Unit {
 	}
 	
 	@Override
-	protected void loadTextures(TextureAtlas atlas) {
-		ParticleEffect smokeEffect = new ParticleEffect();
-		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
-				Gdx.files.internal("particle"));
-		this.smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
-		
+	protected void loadTextures(TextureAtlas atlas) {		
 		Patate.RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 		
 		textureBase = atlas.findRegion("Patate1");
@@ -72,6 +69,7 @@ public class Patate extends Unit {
 		if (state == State.WALKING) {
 			position.add(velocity.tmp().mul(delta));
 			position.y = world.getFloorHeight(position.x);
+			bounds.y=position.y;
 		}
 
 		Rectangle positionnedBounds = this.getPositionnedBounds();
@@ -83,7 +81,6 @@ public class Patate extends Unit {
 					hp += hpModifier;
 					if (hp <= 0) {
 						setState(State.DYING);
-						world.setScore(world.getScore() + score);
 					}
 				}
 			}
@@ -97,18 +94,9 @@ public class Patate extends Unit {
 			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
 		}
 		if (isVisible) {
-			spriteBatch.draw(textureFrame, position.x * ppuX, position.y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
+			spriteBatch.draw(textureFrame, getPosition().x * ppuX, getPosition().y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
 		}
-		if (state == State.DYING) {
-			// Create effect:
-			PooledEffect effect = smokeEffectPool.obtain();
-			effect.setDuration(500);
-			effect.setPosition(
-					position.x * ppuX + bounds.x / 2.f
-							* ppuX, bounds.y * ppuY + 0.05f
-							* ppuY);
-			effects.add(effect);
-		}
+
 	}
 
 	public State getState() {
@@ -116,6 +104,9 @@ public class Patate extends Unit {
 	}
 
 	public void setState(State state) {
+		if(this.state!=State.DYING && state==State.DYING){
+			world.setScore(world.getScore() + score);
+		}
 		this.state = state;
 		stateTime = 0;
 	}

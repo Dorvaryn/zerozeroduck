@@ -175,9 +175,13 @@ public class WorldRenderer {
 	private void drawScore() {
 		LabelStyle text = new LabelStyle(new BitmapFont(), Color.WHITE);
 		Label label = new Label("Score: " + world.getScore(), text);
-		label.setPosition(9f * ppuX, 6.5f * ppuY);
+		label.setPosition(8.5f * ppuX, 6.5f * ppuY);
 		label.setAlignment(Align.center);
 		label.draw(spriteBatch, 1);
+		Label label2 = new Label("Life: " + world.getDuck().getLife(), text);
+		label2.setPosition(8.5f * ppuX, 6f * ppuY);
+		label2.setAlignment(Align.center);
+		label2.draw(spriteBatch, 1);
 	}
 
 	private void drawDebug() {

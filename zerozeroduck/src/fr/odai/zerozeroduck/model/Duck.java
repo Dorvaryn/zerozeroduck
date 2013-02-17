@@ -35,6 +35,10 @@ public class Duck {
 		return position;
 	}
 
+	public int getLife() {
+		return life;
+	}
+
 	public void setPosition(Vector2 position) {
 		this.position = position;
 	}

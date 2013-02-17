@@ -16,7 +16,7 @@ import fr.odai.zerozeroduck.utils.TextureSetup;
 
 public class TitleMenuRenderer {
 	private OrthographicCamera cam;
-	private Rectangle button = new Rectangle(4.5f, 3, 1, 1);
+	private Rectangle button = new Rectangle(1, 1.5f, 3, 1.5f);
 	
 	private static final float CAMERA_WIDTH = 10f;
 	private static final float CAMERA_HEIGHT = 7f;
@@ -25,6 +25,7 @@ public class TitleMenuRenderer {
 
 	/* Nos textures */
 	private TextureRegion boutonStartTexture;
+	private TextureRegion backgroundTexture;
 
 	private float ppuX; // pixels per unit on the X axis
 	private float ppuY; // pixels per unit on the Y axis
@@ -49,8 +50,8 @@ public class TitleMenuRenderer {
 
 	public void render() {
 		spriteBatch.begin();
+		drawBackground();
 		drawBouton();
-		drawText();
 		spriteBatch.end();
 	}
 
@@ -58,23 +59,20 @@ public class TitleMenuRenderer {
 		TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
-		boutonStartTexture = atlas.findRegion("start");
+		boutonStartTexture = atlas.findRegion("BouttonStart");
+		backgroundTexture = atlas.findRegion("Menu");
 	}
 
 	private void drawBouton() {
 		spriteBatch.draw(boutonStartTexture, button.x * ppuX, button.y * ppuY, button.width * ppuX, button.height * ppuY);
 	}
 	
-	public boolean click(int x, int y){
-		return button.contains(x/ppuX, y/ppuY);
+	private void drawBackground() {
+		spriteBatch.draw(backgroundTexture, 0.f, 0.f, 10.f * ppuX, 7.f * ppuY);
 	}
-
-	private void drawText() {
-		LabelStyle text = new LabelStyle(new BitmapFont(), Color.WHITE);
-		Label label = new Label("Welcome in Zero Zero Duck!", text);
-		label.setPosition(4f * ppuX, 4f * ppuY);
-		label.setAlignment(Align.center);
-		label.draw(spriteBatch, 1);
+	
+	public boolean click(int x, int y){
+		return button.contains(x/ppuX, 7-(y/ppuY));
 	}
 	
 	
