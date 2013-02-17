@@ -109,7 +109,7 @@ public class World {
 		}
 		duck = new Duck(new Vector2(8.5f, getFloorHeight(8.5f) - 0.4f), this);
 
-		SaltBarrel sb = new SaltBarrel(new Vector2(2.f, getFloorHeight(2)));
+		Bruleur sb = new Bruleur(new Vector2(2.f, getFloorHeight(2)));
 		sb.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(sb);
 		
