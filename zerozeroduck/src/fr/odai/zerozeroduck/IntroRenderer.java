@@ -43,6 +43,8 @@ public class IntroRenderer {
 	
 	int etape=1;
 	
+	TextureAtlas atlas;
+	
 	boolean isEtapeFinished=true;
 	
 	public boolean getIsEtapeFinished(){
@@ -96,13 +98,18 @@ public class IntroRenderer {
 
 	private void loadTextures() {
 		//TextureSetup.main(null);
-		TextureAtlas atlas = new TextureAtlas(
+		atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		intro1Texture = atlas.findRegion("Intro1");
 		intro2Texture = atlas.findRegion("Intro2");
 		intro3Texture = atlas.findRegion("Intro3");
 		intro4Texture = atlas.findRegion("Intro4");
 		textures.add(intro1Texture);
+	}
+	
+	public void freeMemory(){
+		textures.clear();
+		atlas.dispose();
 	}
 	
 	public boolean click(int x, int y){
