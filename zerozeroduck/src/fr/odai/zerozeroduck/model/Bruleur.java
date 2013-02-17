@@ -57,6 +57,8 @@ public class Bruleur extends Trap{
 			effects.add(effect);
 			
 		    float pScale = 1920.f/(float)Util.screenWidth;
+		    
+		    System.out.println(pScale);
 
 		    for(PooledEffect ef:effects){
 			    float scaling = ef.getEmitters().get(0).getScale().getHighMax();
