@@ -33,6 +33,8 @@ public class Bruleur extends Trap{
 		damage = 50;
 		this.bounds.height = 1.25f*219.f/500.f;
 		this.bounds.width = 1.25f*500.f/500.f;
+		this.position.y-=this.bounds.height/2.f;
+		this.bounds.y=position.y;
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
 		texture = atlas.findRegion("bruleur-off");
 		
@@ -97,7 +99,7 @@ public class Bruleur extends Trap{
 		super.draw(sb, ppuX, ppuY, shr, cam);
 		if(state==State.HURTING){
 			for(PooledEffect effect:effects){
-				effect.setPosition((bounds.x+bounds.width/2)*ppuX, (bounds.y)*ppuY);
+				effect.setPosition((bounds.x+bounds.width/2)*ppuX, (bounds.y+bounds.height/2)*ppuY);
 				if(!effect.isComplete()){
 					effect.draw(sb, Gdx.graphics.getDeltaTime());
 				}

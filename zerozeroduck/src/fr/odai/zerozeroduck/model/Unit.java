@@ -33,7 +33,6 @@ public abstract class Unit {
 	boolean		facingLeft = true;
 	boolean 	isVisible = true;
 	boolean		toBeRemoved = false;
-	ParticleEffectPool smokeEffectPool;
 	int 		hp;
 	int 		damage;
 	int 		score;

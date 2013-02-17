@@ -45,10 +45,6 @@ public class Carrot extends Unit {
 
 	@Override
 	protected void loadTextures(TextureAtlas atlas) {
-		ParticleEffect smokeEffect = new ParticleEffect();
-		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
-				Gdx.files.internal("particle"));
-		this.smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
 
 		Carrot.RUNNING_FRAME_DURATION = 60f / World.BPM / 6;
 
@@ -122,7 +118,6 @@ public class Carrot extends Unit {
 						hp += hpModifier;
 						if (hp <= 0) {
 							setState(State.DYING);
-							world.setScore(world.getScore() + score);
 						}
 					}
 				}
@@ -135,6 +130,9 @@ public class Carrot extends Unit {
 	}
 
 	public void setState(State state) {
+		if(this.state!=State.DYING && state==State.DYING){
+			world.setScore(world.getScore() + score);
+		}
 		this.state = state;
 		stateTime = 0;
 	}
@@ -155,12 +153,7 @@ public class Carrot extends Unit {
 							* ppuY);
 		}
 		if (state == State.DYING) {
-			// Create effect:
-			PooledEffect effect = smokeEffectPool.obtain();
-			effect.setDuration(500);
-			effect.setPosition(getPosition().x * ppuX + bounds.x / 2.f * ppuX,
-					bounds.y * ppuY + 0.05f * ppuY);
-			effects.add(effect);
+			// Dying
 		}
 	}
 
