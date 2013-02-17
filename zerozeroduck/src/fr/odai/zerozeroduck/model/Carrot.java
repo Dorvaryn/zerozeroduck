@@ -158,7 +158,7 @@ public class Carrot extends Unit {
 	}
 
 	@Override
-	public void kill() {
+	public void kill(){
 		super.kill();
 		setState(State.DYING);
 	}
