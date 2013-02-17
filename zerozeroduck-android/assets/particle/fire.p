@@ -133,4 +133,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-petiteEtincelle.png
+PetiteEtincelle.png
