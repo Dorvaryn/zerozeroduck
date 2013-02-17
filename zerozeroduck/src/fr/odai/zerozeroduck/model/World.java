@@ -200,7 +200,7 @@ public class World {
 				nbPatates = Math.min(nbPatates, poolPatates);
 				poolPatates -= nbPatates;
 				for (int i = 0; i < nbPatates; i++) {
-					wavePatates.add(new Patate(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * startpoints.size), this, atlas));
+					wavePatates.add(new Patate(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * (float) floor_pos.size()), this, atlas));
 				}
 			}
 			
@@ -211,7 +211,7 @@ public class World {
 				nbCarrots = Math.min(nbCarrots, poolCarrots);
 				poolCarrots -= nbCarrots;
 				for (int i = 0; i < nbCarrots; i++) {
-					waveCarrots.add(new Carrot(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * startpoints.size), this, atlas));
+					waveCarrots.add(new Carrot(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * (float) floor_pos.size()), this, atlas));
 				}
 			}
 		}
