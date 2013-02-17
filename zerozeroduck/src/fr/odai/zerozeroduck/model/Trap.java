@@ -1,5 +1,12 @@
 package fr.odai.zerozeroduck.model;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,30 +21,31 @@ public class Trap {
 		DISABLED // Disabled
 	}
 	
-	public static final float SIZE = 0.5f; // half a unit
-	public static final float RELOAD_TIME = 2;
-	public static final float HURTING_TIME = 0.5f;
+	protected TextureAtlas atlas;
+	protected TextureRegion texture;
 	
-	Vector2 position = new Vector2();
-	State state = State.READY;
-	Rectangle bounds = new Rectangle();
+	public static float SIZE = 0.5f; // half a unit
+	public static float RELOAD_TIME = 2;
+	public static float HURTING_TIME = 0.5f;
+	
+	Vector2 position;
+	State state;
+	Rectangle bounds;
 	int damage;
 	Keys associatedKey;
-	
-	float range;
 
-	private float stateTime;
+	protected float stateTime;
 	
 	public float getStateTime(){
 		return stateTime;
 	}
-
-	public float getRange() {
-		return range;
+	
+	public TextureRegion getTexture() {
+		return texture;
 	}
 
-	public void setRange(float range) {
-		this.range = range;
+	public void setTexture(TextureRegion texture) {
+		this.texture = texture;
 	}
 
 	public Vector2 getPosition() {
@@ -68,19 +76,17 @@ public class Trap {
 	}
 	
 	public boolean click(float x, float y){
-		Rectangle rect = new Rectangle(bounds.x-(bounds.width/2), bounds.y-(bounds.height/2), bounds.width*2, bounds.height*2);
+		Rectangle rect = new Rectangle(getBounds().x-(getBounds().width/2), getBounds().y-(getBounds().height/2), getBounds().width*2, getBounds().height*2);
 		return rect.contains(x,y);
 	}
 
-	public Trap(float range, Vector2 position, int damage) {
+	public Trap(Vector2 position) {
 		super();
-		this.range = range;
+		state = State.READY;
+		bounds = new Rectangle();
 		this.position = position;
-		this.damage = damage;
-		this.bounds.height = SIZE;
-		this.bounds.width = SIZE;
-		this.bounds.x = position.x;
-		this.bounds.y = position.y;
+		bounds.x=position.x;
+		bounds.y=position.y;
 		this.associatedKey = Keys.UNDEFINED;
 	}
 
@@ -100,15 +106,32 @@ public class Trap {
 	}
 	
 	public int damageWhenTrapped(Rectangle rect){
-		Vector2 posA = new Vector2((float)position.x+(float)(SIZE/2.f), (float)position.y+(float)(SIZE/2.f));
-		Vector2 posB = new Vector2((float)rect.x+(float)(rect.width/2.f), (float)rect.y+(float)(rect.height/2.f));
-		if(Util.Distance(posA, posB)<=range){
-			return -damage;
-		}
-		else return 0;
+		return 0;
 	}
 
 	public Rectangle getBounds() {
 		return bounds;
+	}
+	
+	
+	
+	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
+		sb.draw(getTexture(), getPosition().x * ppuX,
+				getPosition().y * ppuY, bounds.width * ppuX, bounds.height * ppuY);
+		sb.end();
+		
+		if(state==Trap.State.RELOADING){
+			shr.setProjectionMatrix(cam.combined);
+			shr.begin(ShapeType.FilledRectangle);
+			shr.setColor(Color.LIGHT_GRAY);
+			float rectWidth = (float)getBounds().width*(float)stateTime/(float)RELOAD_TIME;
+			shr.filledRect(getPosition().x, (getPosition().y - 0.3f), rectWidth ,0.065f);
+			shr.end();
+			shr.begin(ShapeType.Rectangle);
+			shr.setColor(Color.LIGHT_GRAY);
+			shr.rect(getPosition().x ,(getPosition().y - 0.3f), getBounds().getWidth() ,0.065f);
+			shr.end();
+		}
+		sb.begin();
 	}
 }

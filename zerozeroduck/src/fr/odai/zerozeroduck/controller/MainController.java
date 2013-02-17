@@ -13,6 +13,7 @@ import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
+import fr.odai.zerozeroduck.sound.FouleSound;
 
 public class MainController {
 

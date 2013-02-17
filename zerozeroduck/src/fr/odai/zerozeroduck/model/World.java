@@ -97,6 +97,7 @@ public class World {
 
 	private void createDemoWorld() {
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
+
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
 		int width = floor_pixmap.getWidth();
 		setFloorPos(new Array<Float>(width));
@@ -113,9 +114,9 @@ public class World {
 		}
 		duck = new Duck(new Vector2(8.5f, getFloorHeight(8.5f) - 0.4f), this);
 
-		Trap trap = new Trap(0.5f, new Vector2(2.f, getFloorHeight(2)), 10);
-		trap.setAssociatedKey(MainController.Keys.TRAP_S);
-		traps.add(trap);
+		SaltBarrel sb = new SaltBarrel(new Vector2(2.f, getFloorHeight(2)));
+		sb.setAssociatedKey(MainController.Keys.TRAP_S);
+		traps.add(sb);
 		
 		startpoints.add(new Vector2(-2, getFloorHeight(0)));
 	}

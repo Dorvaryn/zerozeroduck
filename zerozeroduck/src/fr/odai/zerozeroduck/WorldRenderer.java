@@ -26,6 +26,7 @@ import fr.odai.zerozeroduck.model.Patate.State;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
+import fr.odai.zerozeroduck.sound.FouleSound;
 
 public class WorldRenderer {
 	private World world;
@@ -49,6 +50,9 @@ public class WorldRenderer {
 	/* Musique */
 	Music musicLoop;
 	Music musicStart;
+	
+	/** Sounds */
+	private FouleSound ogmsound;
 
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
@@ -87,10 +91,11 @@ public class WorldRenderer {
 		
 		musicStart.play();
 		
+		this.ogmsound = new FouleSound(); 
 		loadTextures();
 	}
 
-	public void render() {
+	public void render(float delta) {
 		if(!musicStart.isPlaying() && !musicLoop.isPlaying() && !musicStopped){
 			musicLoop.play();
 		}
@@ -113,6 +118,9 @@ public class WorldRenderer {
 		}
 
 		spriteBatch.end();
+		
+		ogmsound.update(delta, world);
+		if(ogmsound.shouldBeStarted(world, delta)) ogmsound.start();
 
 		// draw bounding boxes in debug mode
 		if (debug)
@@ -123,6 +131,7 @@ public class WorldRenderer {
 		musicStopped=true;
 		musicStart.stop();
 		musicLoop.stop();
+		ogmsound.stop();
 	}
 
 	private void drawBackground() {
@@ -155,26 +164,7 @@ public class WorldRenderer {
 
 	private void drawTrap() {
 		for (Trap trap : world.getTraps()) {
-			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX,
-					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
-							* ppuY);
-			spriteBatch.end();
-			
-			if(trap.getState()==Trap.State.RELOADING){
-				debugRenderer.setProjectionMatrix(cam.combined);
-				debugRenderer.begin(ShapeType.FilledRectangle);
-				debugRenderer.setColor(Color.LIGHT_GRAY);
-				float rectWidth = (float)trap.getBounds().width*(float)trap.getStateTime()/(float)trap.RELOAD_TIME;
-				debugRenderer.filledRect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), rectWidth ,0.065f);
-				debugRenderer.end();
-				debugRenderer.begin(ShapeType.Rectangle);
-				debugRenderer.setColor(Color.LIGHT_GRAY);
-				debugRenderer.rect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), trap.getBounds().getWidth() ,0.065f);
-				debugRenderer.end();
-			}
-			
-			spriteBatch.begin();
-		
+			trap.draw(spriteBatch, ppuX, ppuY, debugRenderer, cam);
 		}
 	}
 
