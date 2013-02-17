@@ -50,6 +50,7 @@ public class Bruleur extends Trap{
 	
 	@Override
 	public void activate() {
+		fade=1.0f;
 		if(state == State.READY){
 			setState(State.HURTING);
 			

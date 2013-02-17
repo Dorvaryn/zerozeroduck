@@ -35,6 +35,7 @@ public class Trap {
 	int damage;
 	Keys associatedKey;
 	int level;
+	float fade;
 
 	protected float stateTime;
 	
@@ -96,6 +97,7 @@ public class Trap {
 
 	public Trap(Vector2 position) {
 		super();
+		fade=0.2f;
 		state = State.READY;
 		bounds = new Rectangle();
 		this.position = position;
@@ -105,12 +107,22 @@ public class Trap {
 	}
 
 	public void activate() {
-		if(state == State.READY)
+		fade=1.f;
+		System.out.println(fade);
+		if(state == State.READY){
 			setState(State.HURTING);
+		}
 	}
 	
 	public void update(float delta) {
 		stateTime += delta;
+		
+		if(fade>0.2f){
+			fade-=delta;
+		}
+		if(fade<=0.2f){
+			fade=0.2f;
+		}
 		
 		if(state == State.HURTING && stateTime > HURTING_TIME)
 			setState(State.RELOADING);
@@ -132,8 +144,9 @@ public class Trap {
 	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
 		sb.draw(getTexture(), getPosition().x * ppuX,
 				getPosition().y * ppuY, bounds.width * ppuX, bounds.height * ppuY);
-		
-		sb.draw(getTexture(), getPosition().x * ppuX, (float)(getPosition().y-0.7) * ppuY, 0.5f * ppuX, 0.5f * ppuY);
+		sb.setColor(1, 1, 1, fade);
+		sb.draw(keyTexture, (getPosition().x+0.3f) * ppuX, (float)(getPosition().y-0.9) * ppuY, 0.5f * ppuX, 0.5f * ppuY );
+		sb.setColor(1, 1, 1, 1);
 		sb.end();
 		
 		if(state==Trap.State.RELOADING){
