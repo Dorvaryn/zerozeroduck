@@ -3,6 +3,7 @@ package fr.odai.zerozeroduck.model;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -20,6 +21,7 @@ public class Trap {
 		DISABLED // Disabled
 	}
 	
+	protected TextureAtlas atlas;
 	protected TextureRegion texture;
 	
 	public static float SIZE = 0.5f; // half a unit
@@ -74,7 +76,7 @@ public class Trap {
 	}
 	
 	public boolean click(float x, float y){
-		Rectangle rect = new Rectangle(bounds.x-(bounds.width/2), bounds.y-(bounds.height/2), bounds.width*2, bounds.height*2);
+		Rectangle rect = new Rectangle(getBounds().x-(getBounds().width/2), getBounds().y-(getBounds().height/2), getBounds().width*2, getBounds().height*2);
 		return rect.contains(x,y);
 	}
 
@@ -83,6 +85,8 @@ public class Trap {
 		state = State.READY;
 		bounds = new Rectangle();
 		this.position = position;
+		bounds.x=position.x;
+		bounds.y=position.y;
 		this.associatedKey = Keys.UNDEFINED;
 	}
 
