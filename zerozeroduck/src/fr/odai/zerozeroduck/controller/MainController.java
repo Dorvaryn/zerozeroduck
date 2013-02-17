@@ -72,7 +72,7 @@ public class MainController {
 		processInput();
 		
 		if(world.getPoolPatates()==0 && world.getPatates().size==0){
-			//TODO WIN
+			screen.gameWin();
 		}
 		
 		if(world.getDuck().getState()==Duck.State.DEAD){

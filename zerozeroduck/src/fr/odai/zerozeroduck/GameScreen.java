@@ -26,6 +26,11 @@ public class GameScreen implements Screen, InputProcessor {
 		renderer.stopMusic();
 		game.setScreen(game.gameOverScreen);
 	}
+	
+	public void gameWin(){
+		renderer.stopMusic();
+		game.setScreen(game.gameWinScreen);
+	}
 
 	@Override
 	public void render(float delta) {
