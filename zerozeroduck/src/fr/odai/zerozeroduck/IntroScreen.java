@@ -51,7 +51,10 @@ public class IntroScreen implements Screen, InputProcessor{
 			if(etape<=4){
 				renderer.setEtape(etape++);
 			}
-			else game.setScreen(game.titlescreen);
+			else {
+				dispose();
+				game.setScreen(game.titlescreen);
+			}
 		}
 		return false;
 	}
@@ -100,8 +103,7 @@ public class IntroScreen implements Screen, InputProcessor{
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+		Gdx.input.setInputProcessor(null);
 	}
 
 	@Override
@@ -118,8 +120,8 @@ public class IntroScreen implements Screen, InputProcessor{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		Gdx.input.setInputProcessor(null);
+		renderer.dispose();
 	}
 
 }

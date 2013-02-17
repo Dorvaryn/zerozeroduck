@@ -17,6 +17,10 @@ public class SaltBarrel extends Trap{
 	
 	public static final float BOOM=1.f;
 	
+	static protected TextureRegion textureNormal = null;
+	static protected TextureRegion textureBoom = null;
+	static protected TextureRegion texturePshh = null;
+	
 	float range=1.5f;
 	
 	protected Sound psschSound = Gdx.audio.newSound(Gdx.files.internal("sfx/meche01.ogg"));
@@ -26,7 +30,7 @@ public class SaltBarrel extends Trap{
 	
 	float timeSinceActivated=0;
 	
-	public SaltBarrel(Vector2 position, int level){
+	public SaltBarrel(Vector2 position, int level, TextureAtlas atlas){
 		super(position);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 0.5f;
@@ -34,8 +38,11 @@ public class SaltBarrel extends Trap{
 		damage = 50;
 		this.bounds.height = 1.f * (404f / 510f);
 		this.bounds.width = 1.f;
-		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("salt-normal");
+		if(textureBoom == null){
+			textureNormal = atlas.findRegion("salt-normal");
+			texturePshh = atlas.findRegion("salt-pssch");
+			textureBoom = atlas.findRegion("salt-boom");
+		}
 	}
 	
 	public float getRange() {
@@ -60,19 +67,26 @@ public class SaltBarrel extends Trap{
 		super.update(delta);
 		if(pshht){
 			timeSinceActivated+=delta;
-			texture = atlas.findRegion("salt-pssch");
+			texture = texturePshh;
 		}
 		else if(state==State.READY || state==State.DISABLED || state==State.RELOADING){
-			texture = atlas.findRegion("salt-normal");
+			texture = textureNormal;
 		}
 		if(timeSinceActivated>BOOM){
 			pshht=false;
 			psschSound.stop();
 			boomSound.play();
-			texture = atlas.findRegion("salt-boom");
+			texture = textureBoom;
 			setState(State.HURTING);
 			timeSinceActivated=0.f;
 		}
+	}
+	
+	public void dispose(){
+		super.dispose();
+		textureBoom = null;
+		textureNormal = null;
+		texturePshh = null;
 	}
 	
 	@Override
@@ -89,6 +103,5 @@ public class SaltBarrel extends Trap{
 	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
 		super.draw(sb, ppuX, ppuY, shr, cam);
 	}
-	
 	
 }

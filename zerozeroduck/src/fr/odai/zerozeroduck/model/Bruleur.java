@@ -17,96 +17,115 @@ import com.badlogic.gdx.utils.Array;
 import fr.odai.zerozeroduck.model.Trap.State;
 import fr.odai.zerozeroduck.utils.Util;
 
-public class Bruleur extends Trap{
-	
+public class Bruleur extends Trap {
+
 	/* Nos particules */
-	ParticleEffectPool fireEffectPool;
-	ParticleEffect fireEffect;
-	Array<PooledEffect> effects;
-	
-	protected Sound flameSound = Gdx.audio.newSound(Gdx.files.internal("sfx/barillementproprelong01.ogg"));
-	
-	public Bruleur(Vector2 position, int level){
+	static ParticleEffectPool fireEffectPool;
+	static ParticleEffect fireEffect;
+	static Array<PooledEffect> effects;
+
+	static protected TextureRegion textureOn = null;
+	static protected TextureRegion textureOff = null;
+
+	protected Sound flameSound = Gdx.audio.newSound(Gdx.files
+			.internal("sfx/barillementproprelong01.ogg"));
+
+	public Bruleur(Vector2 position, int level, TextureAtlas atlas) {
 		super(position);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 1.5f;
 		this.level = level;
 		damage = 50;
-		this.bounds.height = 1.25f*219.f/500.f;
-		this.bounds.width = 1.25f*500.f/500.f;
-		this.position.y-=this.bounds.height/2.f;
-		this.bounds.y=position.y;
-		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("bruleur-off");
-		
-		fireEffect = new ParticleEffect();
-		fireEffect.load(Gdx.files.internal("particle/fire.p"),
-				Gdx.files.internal("particle"));
-		fireEffectPool = new ParticleEffectPool(fireEffect, 1, 2);
-		
-		effects = new Array<PooledEffect>();
-		
+		this.bounds.height = 1.25f * 219.f / 500.f;
+		this.bounds.width = 1.25f * 500.f / 500.f;
+		this.position.y -= this.bounds.height / 2.f;
+		this.bounds.y = position.y;
+		if (textureOn == null) {
+			textureOn = atlas.findRegion("bruleur-on");
+			textureOff = atlas.findRegion("bruleur-off");
+		}
+		if (fireEffectPool == null) {
+			fireEffect = new ParticleEffect();
+			fireEffect.load(Gdx.files.internal("particle/fire.p"),
+					Gdx.files.internal("particle"));
+			fireEffectPool = new ParticleEffectPool(fireEffect, 1, 2);
+
+			effects = new Array<PooledEffect>();
+		}
+
 	}
-	
+
 	@Override
 	public void activate() {
-		if(state == State.READY){
+		if (state == State.READY) {
 			setState(State.HURTING);
-			
-			texture=atlas.findRegion("bruleur-on");
-			
+
+			texture = textureOn;
+
 			// Create effect:
 			PooledEffect effect = fireEffectPool.obtain();
 			effect.setDuration(1500);
 			effects.add(effect);
-			
-		    float pScale = 4.0f-1920.f/(float)Util.screenWidth;
-		    
-		    for(PooledEffect ef:effects){
-			    float scaling = ef.getEmitters().get(0).getScale().getHighMax();
-			    ef.getEmitters().get(0).getScale().setHigh(scaling * pScale);
-	
-			    scaling = ef.getEmitters().get(0).getScale().getLowMax();
-			    ef.getEmitters().get(0).getScale().setLow(scaling * pScale);
-	
-			    scaling = ef.getEmitters().get(0).getVelocity().getHighMax();
-			    ef.getEmitters().get(0).getVelocity().setHigh(scaling * pScale);
-	
-			    scaling = ef.getEmitters().get(0).getVelocity().getLowMax();
-			    ef.getEmitters().get(0).getVelocity().setLow(scaling * pScale);
-		    }
+
+			float pScale = 4.0f - 1920.f / (float) Util.screenWidth;
+
+			for (PooledEffect ef : effects) {
+				float scaling = ef.getEmitters().get(0).getScale().getHighMax();
+				ef.getEmitters().get(0).getScale().setHigh(scaling * pScale);
+
+				scaling = ef.getEmitters().get(0).getScale().getLowMax();
+				ef.getEmitters().get(0).getScale().setLow(scaling * pScale);
+
+				scaling = ef.getEmitters().get(0).getVelocity().getHighMax();
+				ef.getEmitters().get(0).getVelocity().setHigh(scaling * pScale);
+
+				scaling = ef.getEmitters().get(0).getVelocity().getLowMax();
+				ef.getEmitters().get(0).getVelocity().setLow(scaling * pScale);
+			}
 		}
 	}
-	
+
 	@Override
 	public void update(float delta) {
-		if(state!=State.HURTING){
-			texture=atlas.findRegion("bruleur-off");
+		if (state != State.HURTING) {
+			texture = textureOff;
 		}
 		super.update(delta);
 	}
-	
+
 	@Override
-	public int damageWhenTrapped(Rectangle rect){
-		if(((rect.x + rect.width) > bounds.x) && ((rect.x) < bounds.x+bounds.width)){
+	public int damageWhenTrapped(Rectangle rect) {
+		if (((rect.x + rect.width) > bounds.x)
+				&& ((rect.x) < bounds.x + bounds.width)) {
 			flameSound.play();
 			return -damage;
-		}
-		else return 0;
+		} else
+			return 0;
 	}
 	
+	public void dispose(){
+		super.dispose();
+		fireEffect.dispose();
+		fireEffectPool = null;
+		for (ParticleEffect effect : effects) {
+			effect.dispose();
+		}
+		effects.clear();
+	}
+	
+
 	@Override
-	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
+	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr,	OrthographicCamera cam) {
 		super.draw(sb, ppuX, ppuY, shr, cam);
-		if(state==State.HURTING){
-			for(PooledEffect effect:effects){
-				effect.setPosition((bounds.x+bounds.width/2)*ppuX, (bounds.y+bounds.height/2)*ppuY);
-				if(!effect.isComplete()){
+		if (state == State.HURTING) {
+			for (PooledEffect effect : effects) {
+				effect.setPosition((bounds.x + bounds.width / 2) * ppuX,
+						(bounds.y + bounds.height / 2) * ppuY);
+				if (!effect.isComplete()) {
 					effect.draw(sb, Gdx.graphics.getDeltaTime());
 				}
 			}
 		}
 	}
-	
-	
+
 }

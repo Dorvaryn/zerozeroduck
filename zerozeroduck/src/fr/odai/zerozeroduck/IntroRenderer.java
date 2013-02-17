@@ -132,6 +132,12 @@ public class IntroRenderer {
 			positionLastY=-7.f * ppuY;
 		}
 	}
+	
+	public void dispose(){
+		atlas.dispose();
+		textures.clear();
+		spriteBatch.dispose();
+	}
 
 	
 	

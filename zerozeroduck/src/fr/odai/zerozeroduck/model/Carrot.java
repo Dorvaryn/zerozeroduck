@@ -26,7 +26,10 @@ public class Carrot extends Unit {
 	private boolean canDisapear = true;
 
 	State state = State.WALKING;
-	Animation disapear;
+	static Animation disapear = null;
+	static Animation 	walkRight = null;
+	static TextureRegion textureFrame;
+	static TextureRegion textureBase;
 	float aleaTime = 50;
 
 	public Carrot(Vector2 position, World world, TextureAtlas atlas) {
@@ -48,18 +51,28 @@ public class Carrot extends Unit {
 
 		Carrot.RUNNING_FRAME_DURATION = 60f / World.BPM / 6;
 
-		textureBase = atlas.findRegion("Karot1");
-		TextureRegion[] walkRightFrames = new TextureRegion[3];
-		for (int i = 0; i <= 2; i++) {
-			walkRightFrames[i] = atlas.findRegion("Karot" + (i + 1));
+		if(walkRight == null){
+			TextureRegion[] walkRightFrames = new TextureRegion[3];
+			for (int i = 0; i <= 2; i++) {
+				walkRightFrames[i] = atlas.findRegion("Karot" + (i + 1));
+			}
+			textureBase = walkRightFrames[0];
+			walkRight = new Animation(Carrot.RUNNING_FRAME_DURATION, walkRightFrames);
 		}
-		walkRight = new Animation(Carrot.RUNNING_FRAME_DURATION, walkRightFrames);
-
-		TextureRegion[] disapearFrames = new TextureRegion[4];
-		for (int i = 0; i <= 3; i++) {
-			disapearFrames[i] = atlas.findRegion("Karot-Disp" + (i + 1));
+		if(disapear == null){
+			TextureRegion[] disapearFrames = new TextureRegion[4];
+			for (int i = 0; i <= 3; i++) {
+				disapearFrames[i] = atlas.findRegion("Karot-Disp" + (i + 1));
+			}
+			disapear = new Animation(Carrot.DISAPEAR_FRAME_DURATION, disapearFrames);
 		}
-		disapear = new Animation(Carrot.DISAPEAR_FRAME_DURATION, disapearFrames);
+	}
+	
+	public void dispose(){
+		walkRight = null;
+		disapear = null;
+		textureBase = null;
+		textureFrame = null;
 	}
 
 	@Override

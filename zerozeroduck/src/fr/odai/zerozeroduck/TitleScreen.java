@@ -42,6 +42,7 @@ public class TitleScreen implements Screen, InputProcessor {
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
+		renderer.dispose();
 	}
 
 	@Override
@@ -77,6 +78,7 @@ public class TitleScreen implements Screen, InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(renderer.click(screenX, screenY)){
+			dispose();
 			game.setScreen(game.gameScreen);
 			return true;
 		}

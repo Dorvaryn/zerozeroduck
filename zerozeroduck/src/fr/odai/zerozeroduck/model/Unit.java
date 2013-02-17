@@ -38,9 +38,6 @@ public abstract class Unit {
 	int 		hp;
 	int 		damage;
 	int 		score;
-	TextureRegion textureFrame;
-	TextureRegion textureBase;
-	Animation 	walkRight;
 	
 	World world;
 
@@ -96,6 +93,8 @@ public abstract class Unit {
 		}
 		else return 0;
 	}
+	
+	abstract public void dispose();
 	
 	public void kill(){
 		toBeRemoved = true;

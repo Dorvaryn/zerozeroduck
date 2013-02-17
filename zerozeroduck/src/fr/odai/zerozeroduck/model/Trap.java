@@ -21,8 +21,7 @@ public class Trap {
 		DISABLED // Disabled
 	}
 	
-	protected TextureAtlas atlas;
-	protected TextureRegion texture;
+	TextureRegion texture;
 	
 	public static float SIZE = 0.5f; // half a unit
 	public static float RELOAD_TIME = 2;
@@ -39,14 +38,6 @@ public class Trap {
 	
 	public float getStateTime(){
 		return stateTime;
-	}
-	
-	public TextureRegion getTexture() {
-		return texture;
-	}
-
-	public void setTexture(TextureRegion texture) {
-		this.texture = texture;
 	}
 
 	public Vector2 getPosition() {
@@ -114,10 +105,13 @@ public class Trap {
 		return bounds;
 	}
 	
+	public void dispose(){
+		texture = null;
+	}
 	
 	
 	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
-		sb.draw(getTexture(), getPosition().x * ppuX,
+		sb.draw(texture, getPosition().x * ppuX,
 				getPosition().y * ppuY, bounds.width * ppuX, bounds.height * ppuY);
 		sb.end();
 		

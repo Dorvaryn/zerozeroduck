@@ -140,15 +140,15 @@ public class World {
 		
 		for(StageInfo.TrapsInfo tpi: sgi.traps) {
 			if(tpi.type.equals("bruleur")) {
-				Bruleur br = new Bruleur(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level);
+				Bruleur br = new Bruleur(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level, atlas);
 				br.setAssociatedKey(allKeys[lastKeyIndex]);
 				traps.add(br);
 			} else if(tpi.type.equals("salt")) {
-				SaltBarrel sb = new SaltBarrel(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level);
+				SaltBarrel sb = new SaltBarrel(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level, atlas);
 				sb.setAssociatedKey(allKeys[lastKeyIndex]);
 				traps.add(sb);
 			} else if(tpi.type.equals("pepper")) {
-				PepperBarrel pb = new PepperBarrel(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level);
+				PepperBarrel pb = new PepperBarrel(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level, atlas);
 				pb.setAssociatedKey(allKeys[lastKeyIndex]);
 				traps.add(pb);
 			}
@@ -240,5 +240,28 @@ public class World {
 				waveWaitEnd += Math.random()*2*waveWaitDelta - waveWaitDelta;
 			}
 		}
+	}
+	
+	public void dispose(){
+		atlas.dispose();
+		atlas = null;
+		for (Trap trap : traps){
+			trap.dispose();
+		}
+		traps.clear();
+		startpoints.clear();
+		for (Unit unit: units){
+			unit.dispose();
+		}
+		units.clear();
+		for (Patate patate: wavePatates){
+			patate.dispose();
+		}
+		for (Carrot carrot : waveCarrots) {
+			carrot.dispose();
+		}
+		waveCarrots.clear();
+
+		floor_pos.clear();
 	}
 }

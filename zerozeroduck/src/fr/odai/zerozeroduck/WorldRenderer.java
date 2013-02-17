@@ -236,4 +236,19 @@ public class WorldRenderer {
 	public float convertScaleY(int y) {
 		return y / ppuY;
 	}
+	
+	public void dispose(){
+		world.dispose();
+		world = null;
+		spriteBatch.dispose();
+		duckAnim = null;
+		debugRenderer.dispose();
+		musicLoop.dispose();
+		musicStart.dispose();
+		ogmsound.dispose();
+		for (PooledEffect effect : effects){
+			effect.dispose();
+		}
+		effects.clear();
+	}
 }

@@ -22,6 +22,9 @@ public class Patate extends Unit {
 	}
 
 	State state = State.WALKING;
+	static Animation 	walkRight = null;
+	static TextureRegion textureFrame;
+	static TextureRegion textureBase;
 
 	public Patate(Vector2 position, World world, TextureAtlas atlas) {
 		super(position, world, atlas);
@@ -40,13 +43,14 @@ public class Patate extends Unit {
 	@Override
 	protected void loadTextures(TextureAtlas atlas) {		
 		Patate.RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
-		
-		textureBase = atlas.findRegion("Patate1");
-		TextureRegion[] walkRightFrames = new TextureRegion[4];
-		for (int i = 0; i <= 3; i++) {
-			walkRightFrames[i] = atlas.findRegion("Patate" + (i + 1));
+		if(walkRight == null){
+			TextureRegion[] walkRightFrames = new TextureRegion[4];
+			for (int i = 0; i <= 3; i++) {
+				walkRightFrames[i] = atlas.findRegion("Patate" + (i + 1));
+			}
+			textureBase = walkRightFrames[0];
+			walkRight = new Animation(Patate.RUNNING_FRAME_DURATION, walkRightFrames);
 		}
-		walkRight = new Animation(Patate.RUNNING_FRAME_DURATION, walkRightFrames);
 	}
 
 	@Override
@@ -100,6 +104,12 @@ public class Patate extends Unit {
 			spriteBatch.draw(textureFrame, getPosition().x * ppuX, getPosition().y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
 		}
 
+	}
+	
+	public void dispose(){
+		walkRight = null;
+		textureBase = null;
+		textureFrame = null;
 	}
 
 	public State getState() {

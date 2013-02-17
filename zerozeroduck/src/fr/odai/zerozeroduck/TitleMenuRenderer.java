@@ -21,6 +21,7 @@ public class TitleMenuRenderer {
 	private static final float CAMERA_WIDTH = 10f;
 	private static final float CAMERA_HEIGHT = 7f;
 
+	TextureAtlas atlas;
 	private SpriteBatch spriteBatch;
 
 	/* Nos textures */
@@ -56,7 +57,7 @@ public class TitleMenuRenderer {
 	}
 
 	private void loadTextures() {
-		TextureAtlas atlas = new TextureAtlas(
+		atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		boutonStartTexture = atlas.findRegion("BouttonStart");
 		backgroundTexture = atlas.findRegion("Menu");
@@ -73,6 +74,11 @@ public class TitleMenuRenderer {
 
 	public boolean click(int x, int y) {
 		  return button.contains(x/ppuX, 7-(y/ppuY));
+	}
+	
+	public void dispose(){
+		atlas.dispose();
+		spriteBatch.dispose();
 	}
 
 }

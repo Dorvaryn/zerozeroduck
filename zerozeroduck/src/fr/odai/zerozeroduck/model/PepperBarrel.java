@@ -17,6 +17,10 @@ public class PepperBarrel extends Trap{
 	
 	public static final float BOOM=1.f;
 	
+	static protected TextureRegion textureNormal = null;
+	static protected TextureRegion textureBoom = null;
+	static protected TextureRegion texturePshh = null;
+	
 	float range=1.5f;
 	
 	protected Sound psschSound = Gdx.audio.newSound(Gdx.files.internal("sfx/meche01.ogg"));
@@ -26,7 +30,7 @@ public class PepperBarrel extends Trap{
 	
 	float timeSinceActivated=0;
 	
-	public PepperBarrel(Vector2 position, int level){
+	public PepperBarrel(Vector2 position, int level, TextureAtlas atlas){
 		super(position);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 0.5f;
@@ -34,8 +38,11 @@ public class PepperBarrel extends Trap{
 		damage = 50;
 		this.bounds.height = 1.f * (404f / 510f);
 		this.bounds.width = 1.f;
-		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("pepper-normal");
+		if(textureBoom == null){
+			textureNormal = atlas.findRegion("pepper-normal");
+			texturePshh = atlas.findRegion("pepper-pssch");
+			textureBoom = atlas.findRegion("pepper-boom");
+		}
 	}
 	
 	public float getRange() {
@@ -55,21 +62,28 @@ public class PepperBarrel extends Trap{
 		}
 	}
 	
+	public void dispose(){
+		super.dispose();
+		textureBoom = null;
+		textureNormal = null;
+		texturePshh = null;
+	}
+	
 	@Override
 	public void update(float delta) {
 		super.update(delta);
 		if(pshht){
 			timeSinceActivated+=delta;
-			texture = atlas.findRegion("pepper-pssch");
+			texture = texturePshh;
 		}
 		else if(state==State.READY || state==State.DISABLED || state==State.RELOADING){
-			texture = atlas.findRegion("pepper-normal");
+			texture = textureNormal;
 		}
 		if(timeSinceActivated>BOOM){
 			pshht=false;
 			psschSound.stop();
 			boomSound.play();
-			texture = atlas.findRegion("pepper-boom");
+			texture = textureBoom;
 			setState(State.HURTING);
 			timeSinceActivated = 0.f;
 		}
