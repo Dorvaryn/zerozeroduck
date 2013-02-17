@@ -80,7 +80,10 @@ public class Patate extends Unit {
 					invincibilityTime = 1.0f;
 					hp += hpModifier;
 					if (hp <= 0) {
-						setState(State.DYING);
+						if(state!=State.DYING){
+							setState(State.DYING);
+							world.setScore(world.getScore() + score);
+						}
 					}
 				}
 			}
@@ -104,9 +107,6 @@ public class Patate extends Unit {
 	}
 
 	public void setState(State state) {
-		if(this.state!=State.DYING && state==State.DYING){
-			world.setScore(world.getScore() + score);
-		}
 		this.state = state;
 		stateTime = 0;
 	}

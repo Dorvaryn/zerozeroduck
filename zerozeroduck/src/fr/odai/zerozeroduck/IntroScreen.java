@@ -44,6 +44,12 @@ public class IntroScreen implements Screen, InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if(renderer.getIsEtapeFinished()){
+			if(etape<=4){
+				renderer.setEtape(etape++);
+			}
+			else game.setScreen(game.titlescreen);
+		}
 		return false;
 	}
 
