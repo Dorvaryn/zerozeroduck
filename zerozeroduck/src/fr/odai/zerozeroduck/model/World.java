@@ -60,6 +60,8 @@ public class World {
 	float stateTime = 0;
 	float inWaveTime = 5;
 	
+	public String backgroundTextureName = "Stage0";
+	
 	int score = 0;
 
 	// Getters -----------
@@ -109,6 +111,8 @@ public class World {
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
 
 		floor_pos = new ArrayList<ArrayList<Float>>(sgi.floor_paths.size());
+		
+		backgroundTextureName = sgi.map_path;
 		
 		for(int level = 0; level < sgi.floor_paths.size(); level++) {
 			Pixmap floor_pixmap = new Pixmap(Gdx.files.internal(sgi.floor_paths.get(level)));

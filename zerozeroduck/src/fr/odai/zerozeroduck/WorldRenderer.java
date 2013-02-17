@@ -149,7 +149,7 @@ public class WorldRenderer {
 		}
 		duckAnim = new Animation(60f / World.BPM / 2, frames);
 		duckAnim.setPlayMode(Animation.LOOP_PINGPONG);
-		backgroundTexture = world.getAtlas().findRegion("Stage0");
+		backgroundTexture = world.getAtlas().findRegion(world.backgroundTextureName);
 	}
 
 	private void drawUnits() {
