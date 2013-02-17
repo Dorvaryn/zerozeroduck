@@ -26,15 +26,16 @@ public class SaltBarrel extends Trap{
 	
 	float timeSinceActivated=0;
 	
-	public SaltBarrel(Vector2 position){
+	public SaltBarrel(Vector2 position, int level){
 		super(position);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 0.5f;
+		this.level = level;
 		damage = 50;
 		this.bounds.height = 1.f * (404f / 510f);
 		this.bounds.width = 1.f;
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("salt-pssch");
+		texture = atlas.findRegion("salt-normal");
 	}
 	
 	public float getRange() {
@@ -59,9 +60,10 @@ public class SaltBarrel extends Trap{
 		super.update(delta);
 		if(pshht){
 			timeSinceActivated+=delta;
-		}
-		if(state!=State.HURTING){
 			texture = atlas.findRegion("salt-pssch");
+		}
+		else if(state==State.READY || state==State.DISABLED || state==State.RELOADING){
+			texture = atlas.findRegion("salt-normal");
 		}
 		if(timeSinceActivated>BOOM){
 			pshht=false;

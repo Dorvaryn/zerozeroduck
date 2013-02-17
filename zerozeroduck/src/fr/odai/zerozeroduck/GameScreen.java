@@ -1,22 +1,82 @@
 package fr.odai.zerozeroduck;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.controller.MainController;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
+import fr.odai.zerozeroduck.utils.StageInfo;
 
 public class GameScreen implements Screen, InputProcessor {
 	
 	private ZeroZeroDuck game;
+	
+	private static final Array<StageInfo> sgis = new Array<StageInfo>();
+	static {
+		// Stage 1
+		sgis.add(new StageInfo(0, "Stage0", 
+				new ArrayList<String>(Arrays.asList("images/Stage0-floor.png")), 
+				new ArrayList<Float>(Arrays.asList(0.f)), 
+				8.5f, 0,
+				15, 3, 1,
+				10, 3, 1));
+		sgis.get(0).addTrapInfo(0, "pepper", 3.f);
+		sgis.get(0).addTrapInfo(0, "salt", 5.f);
+		
+		// Stage 2
+		sgis.add(new StageInfo(1, "Stage0", 
+				new ArrayList<String>(Arrays.asList("images/Stage0-floor.png")), 
+				new ArrayList<Float>(Arrays.asList(0.f)), 
+				8.5f, 0,
+				20, 4, 2,
+				5, 1, 1));
+		sgis.get(1).addTrapInfo(0, "pepper", 3.f);
+		sgis.get(1).addTrapInfo(0, "salt", 6.f);
+		sgis.get(1).addTrapInfo(0, "bruleur", 4.5f);
+		
+		// Stage 3
+		sgis.add(new StageInfo(2, "Stage0", 
+				new ArrayList<String>(Arrays.asList("images/Stage0-floor.png")), 
+				new ArrayList<Float>(Arrays.asList(0.f)), 
+				8.5f, 0,
+				35, 5, 3,
+				5, 2, 2));
+
+		sgis.get(2).addTrapInfo(0, "salt", 2.5f);
+		sgis.get(2).addTrapInfo(0, "pepper", 3.5f);
+		sgis.get(2).addTrapInfo(0, "bruleur", 5.f);
+		sgis.get(2).addTrapInfo(0, "salt", 7.f);
+		
+		// Stage 4		
+		sgis.add(new StageInfo(3, "Stage1", 
+				new ArrayList<String>(Arrays.asList("images/Stage1-floor0.png", "images/Stage1-floor1.png")), 
+				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
+				8.5f, 0,
+				35, 5, 3,
+				5, 2, 1));
+		
+		sgis.get(3).addTrapInfo(1, "bruleur", 2.f);
+		sgis.get(3).addTrapInfo(1, "salt", 5.f);
+		sgis.get(3).addTrapInfo(0, "pepper", 3.f);
+		sgis.get(3).addTrapInfo(0, "salt", 4.5f);
+	}
+	
 	private World world;
 	private WorldRenderer renderer;
 	private MainController controller;
+	
+	float animationTime=1.f;
+	
+	float posY=0.f;
 
 	public GameScreen(ZeroZeroDuck game) {
 		super();
@@ -43,7 +103,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void show() {
-		world = new World();
+		world = new World(sgis.get(0));
 		renderer = new WorldRenderer(world, false);
 		controller = new MainController(world, this);
 		Gdx.input.setInputProcessor(this);
@@ -89,7 +149,7 @@ public class GameScreen implements Screen, InputProcessor {
 	}
 
 	@Override
-	public boolean keyUp(int keycode) {
+	public boolean keyUp(int keycode){
 		if (keycode == Keys.SPACE)
 			controller.patateReleased();
 		if (keycode == Keys.ENTER)

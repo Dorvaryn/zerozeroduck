@@ -26,10 +26,11 @@ public class Bruleur extends Trap{
 	
 	protected Sound flameSound = Gdx.audio.newSound(Gdx.files.internal("sfx/barillementproprelong01.ogg"));
 	
-	public Bruleur(Vector2 position){
+	public Bruleur(Vector2 position, int level){
 		super(position);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 1.5f;
+		this.level = level;
 		damage = 50;
 		this.bounds.height = 1.25f*219.f/500.f;
 		this.bounds.width = 1.25f*500.f/500.f;
