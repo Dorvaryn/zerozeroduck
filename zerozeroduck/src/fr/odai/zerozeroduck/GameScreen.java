@@ -111,11 +111,13 @@ public class GameScreen implements Screen, InputProcessor {
 	
 	public void gameOver(){
 		renderer.stopMusic();
+		renderer.dispose();
 		game.setScreen(game.gameOverScreen);
 	}
 	
 	public void gameWin(){
 		renderer.stopMusic();
+		renderer.dispose();
 		game.setScreen(game.gameWinScreen);
 	}
 
