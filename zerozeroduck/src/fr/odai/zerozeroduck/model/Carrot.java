@@ -21,8 +21,8 @@ public class Carrot extends Unit {
 	
 	State state = State.WALKING;
 	
-	public Carrot(Vector2 position, World world) {
-		super(position, world);
+	public Carrot(Vector2 position, World world, TextureAtlas atlas) {
+		super(position, world, atlas);
 		Carrot.ANIM_PERIOD = 60f / (float)World.BPM / 1.5f;
 		Carrot.SIZE = 0.5f;
 		Carrot.COEF_H = 1.5f;
@@ -36,7 +36,7 @@ public class Carrot extends Unit {
 	}
 	
 	@Override
-	protected void loadTextures() {
+	protected void loadTextures(TextureAtlas atlas) {
 		ParticleEffect smokeEffect = new ParticleEffect();
 		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
 				Gdx.files.internal("particle"));
@@ -44,8 +44,6 @@ public class Carrot extends Unit {
 		
 		Carrot.RUNNING_FRAME_DURATION = 60f / World.BPM / 6;
 		
-		TextureAtlas atlas = new TextureAtlas(
-				Gdx.files.internal("images/textures.pack"));
 		textureBase = atlas.findRegion("Karot1");
 		TextureRegion[] walkRightFrames = new TextureRegion[3];
 		for (int i = 0; i <= 2; i++) {

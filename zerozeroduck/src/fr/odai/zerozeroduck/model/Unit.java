@@ -3,6 +3,7 @@ package fr.odai.zerozeroduck.model;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -42,13 +43,13 @@ public abstract class Unit {
 	
 	World world;
 
-	public Unit(Vector2 position, World world) {
+	public Unit(Vector2 position, World world, TextureAtlas atlas) {
 		this.position = position;
 		this.world = world;
-		this.loadTextures();
+		this.loadTextures(atlas);
 	}
 	
-	abstract protected void loadTextures();
+	abstract protected void loadTextures(TextureAtlas atlas);
 	
 	public int getScore(){
 		return score;
@@ -93,7 +94,9 @@ public abstract class Unit {
 		else return 0;
 	}
 	
-	abstract public void kill();
+	public void kill(){
+		toBeRemoved = true;
+	}
 	
 	abstract public void draw(SpriteBatch spriteBatch, Array<PooledEffect> effects, ShapeRenderer shr, float ppuX, float ppuY);
 	

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -20,6 +21,8 @@ public class World {
 		WAVE_IN_PROGRESS, // Not available yet, waiting for RELOAD_TIME seconds
 		WAITING
 	}
+	
+	TextureAtlas atlas;
 		
 	/** Traps **/
 	Array<Trap> traps = new Array<Trap>();
@@ -74,6 +77,9 @@ public class World {
 	}
 	// --------------------
 
+	public TextureAtlas getAtlas() {
+		return atlas;
+	}
 	public Array<Float> getFloorPos() {
 		return floor_pos;
 	}
@@ -90,6 +96,7 @@ public class World {
 	}
 
 	private void createDemoWorld() {
+		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
 		Pixmap floor_pixmap = new Pixmap(Gdx.files.internal("images/Stage0-floor.png"));
 		int width = floor_pixmap.getWidth();
 		setFloorPos(new Array<Float>(width));
@@ -140,7 +147,7 @@ public class World {
 				nbPatates = Math.min(nbPatates, poolPatates);
 				poolPatates -= nbPatates;
 				for (int i = 0; i < nbPatates; i++) {
-					wavePatates.add(new Patate(startpoints.get(0).cpy(),this));
+					wavePatates.add(new Patate(startpoints.get(0).cpy(),this,atlas));
 				}
 			}
 		}

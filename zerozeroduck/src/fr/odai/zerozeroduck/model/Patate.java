@@ -21,8 +21,8 @@ public class Patate extends Unit {
 
 	State state = State.WALKING;
 
-	public Patate(Vector2 position, World world) {
-		super(position, world);
+	public Patate(Vector2 position, World world, TextureAtlas atlas) {
+		super(position, world, atlas);
 		Patate.ANIM_PERIOD = 60f / (float) World.BPM / 2f;
 		Patate.SIZE = 0.5f;
 		Patate.COEF_H = 1.5f;
@@ -36,7 +36,7 @@ public class Patate extends Unit {
 	}
 	
 	@Override
-	protected void loadTextures() {
+	protected void loadTextures(TextureAtlas atlas) {
 		ParticleEffect smokeEffect = new ParticleEffect();
 		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
 				Gdx.files.internal("particle"));
@@ -44,8 +44,6 @@ public class Patate extends Unit {
 		
 		Patate.RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 		
-		TextureAtlas atlas = new TextureAtlas(
-				Gdx.files.internal("images/textures.pack"));
 		textureBase = atlas.findRegion("Patate1");
 		TextureRegion[] walkRightFrames = new TextureRegion[4];
 		for (int i = 0; i <= 3; i++) {

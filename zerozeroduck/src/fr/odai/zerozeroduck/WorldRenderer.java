@@ -130,19 +130,16 @@ public class WorldRenderer {
 	}
 
 	private void loadTextures() {
-		TextureAtlas atlas = new TextureAtlas(
-				Gdx.files.internal("images/textures.pack"));
-		duckTexture = atlas.findRegion("Kanard");
-		trapTexture = atlas.findRegion("trap");
-		backgroundTexture = atlas.findRegion("Stage0");
+		duckTexture = world.getAtlas().findRegion("Kanard");
+		trapTexture = world.getAtlas().findRegion("trap");
+		backgroundTexture = world.getAtlas().findRegion("Stage0");
 	}
 
 	private void drawUnits() {
 		Array<Unit> units = world.getUnits();
 		for (int i = 0; i < units.size; i++) {
 			units.get(i).draw(spriteBatch, effects, debugRenderer,ppuX, ppuY);
-			if (units.get(i).isToBeRemoved()) {
-				
+			if (units.get(i).isToBeRemoved()) {	
 				units.removeIndex(i);
 				i--;
 			}
