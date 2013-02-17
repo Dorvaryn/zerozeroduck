@@ -148,7 +148,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		dispose();
 	}
 
 	@Override
@@ -160,8 +160,8 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public void dispose() {
 		renderer.stopMusic();
-		renderer.dispose();
 		Gdx.input.setInputProcessor(null);
+		renderer.dispose();
 	}
 
 	@Override
