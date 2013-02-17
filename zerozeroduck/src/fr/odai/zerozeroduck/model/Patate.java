@@ -26,13 +26,14 @@ public class Patate extends Unit {
 	static TextureRegion textureFrame;
 	static TextureRegion textureBase;
 
-	public Patate(Vector2 position, World world, TextureAtlas atlas) {
+	public Patate(Vector2 position, int level, World world, TextureAtlas atlas) {
 		super(position, world, atlas);
 		Patate.ANIM_PERIOD = 60f / (float) World.BPM / 2f;
 		Patate.SIZE = 0.5f;
 		Patate.COEF_H = 1.5f;
 		this.velocity = new Vector2(1f, 0);
 		this.bouciness = new Vector2(0, 0.2f);
+		this.level = level;
 		this.hp = 100;
 		this.damage = 100;
 		this.score = 100;
@@ -72,7 +73,7 @@ public class Patate extends Unit {
 
 		if (state == State.WALKING) {
 			position.add(velocity.tmp().mul(delta));
-			position.y = world.getFloorHeight(position.x);
+			position.y = world.getFloorHeight(position.x, level);
 			bounds.y=position.y;
 		}
 

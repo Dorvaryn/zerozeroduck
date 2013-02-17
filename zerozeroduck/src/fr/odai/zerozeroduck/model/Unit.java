@@ -38,6 +38,7 @@ public abstract class Unit {
 	int 		hp;
 	int 		damage;
 	int 		score;
+	int level;
 	
 	World world;
 

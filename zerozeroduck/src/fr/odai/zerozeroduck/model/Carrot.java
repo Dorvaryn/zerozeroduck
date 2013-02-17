@@ -32,13 +32,14 @@ public class Carrot extends Unit {
 	static TextureRegion textureBase;
 	float aleaTime = 50;
 
-	public Carrot(Vector2 position, World world, TextureAtlas atlas) {
+	public Carrot(Vector2 position, int level, World world, TextureAtlas atlas) {
 		super(position, world, atlas);
 		Carrot.ANIM_PERIOD = 60f / (float) World.BPM / 1.5f;
 		Carrot.SIZE = 0.5f;
 		Carrot.COEF_H = 1.5f;
 		this.velocity = new Vector2(1.2f, 0);
 		this.bouciness = new Vector2(0, 0.12f);
+		this.level = level;
 		this.hp = 80;
 		this.damage = 150;
 		this.score = 150;
@@ -116,7 +117,7 @@ public class Carrot extends Unit {
 
 		if (state == State.WALKING || state == State.DISAPEARD || state == State.DISAPEARING || state == State.APPEARING) {
 			position.add(velocity.tmp().mul(delta));
-			position.y = world.getFloorHeight(position.x);
+			position.y = world.getFloorHeight(position.x, level);
 			bounds.y=position.y;
 		}
 
