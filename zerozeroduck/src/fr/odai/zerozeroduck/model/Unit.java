@@ -88,7 +88,7 @@ public abstract class Unit {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(position.x>rect.x){
+		if(getPosition().x>rect.x){
 			return -damage;
 		}
 		else return 0;

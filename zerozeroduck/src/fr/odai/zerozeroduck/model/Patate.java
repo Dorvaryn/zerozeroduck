@@ -97,14 +97,14 @@ public class Patate extends Unit {
 			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
 		}
 		if (isVisible) {
-			spriteBatch.draw(textureFrame, position.x * ppuX, position.y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
+			spriteBatch.draw(textureFrame, getPosition().x * ppuX, getPosition().y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
 		}
 		if (state == State.DYING) {
 			// Create effect:
 			PooledEffect effect = smokeEffectPool.obtain();
 			effect.setDuration(500);
 			effect.setPosition(
-					position.x * ppuX + bounds.x / 2.f
+					getPosition().x * ppuX + bounds.x / 2.f
 							* ppuX, bounds.y * ppuY + 0.05f
 							* ppuY);
 			effects.add(effect);
