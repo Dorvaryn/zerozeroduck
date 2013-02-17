@@ -55,14 +55,8 @@ public class Bruleur extends Trap{
 			PooledEffect effect = fireEffectPool.obtain();
 			effect.setDuration(1500);
 			effects.add(effect);
-			effect = fireEffectPool.obtain();
-			effect.setDuration(1500);
-			effects.add(effect);
-			effect = fireEffectPool.obtain();
-			effect.setDuration(1500);
-			effects.add(effect);
 			
-		    float pScale = 2.f;
+		    float pScale = 1920.f/(float)Util.screenWidth;
 
 		    for(PooledEffect ef:effects){
 			    float scaling = ef.getEmitters().get(0).getScale().getHighMax();
