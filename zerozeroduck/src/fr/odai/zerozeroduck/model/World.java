@@ -125,7 +125,7 @@ public class World {
 				}
 				getFloorPos().get(level).add(7.f - j / (float) floor_pixmap.getHeight() * 7.f);
 			}
-			
+			floor_pixmap.dispose();
 			startpoints.add(new Vector2(sgi.starting_points.get(level), getFloorHeight(sgi.starting_points.get(level), level)));
 		}
 		
