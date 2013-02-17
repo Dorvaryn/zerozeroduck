@@ -60,7 +60,7 @@ public class World {
 	private void createDemoWorld() {
 		duck = new Duck(new Vector2(8.5f, 1), this);
 
-		Trap trap = new SaltBarrel(new Vector2(2,1), 50);
+		Trap trap = new SaltBarrel(new Vector2(2,1));
 		trap.setAssociatedKey(MainController.Keys.TRAP_S);
 		traps.add(trap);
 		

@@ -194,26 +194,7 @@ public class WorldRenderer {
 
 	private void drawTrap() {
 		for (Trap trap : world.getTraps()) {
-			spriteBatch.draw(trapTexture, trap.getPosition().x * ppuX,
-					trap.getPosition().y * ppuY, Trap.SIZE * ppuX, Trap.SIZE
-							* ppuY);
-			spriteBatch.end();
-			
-			if(trap.getState()==Trap.State.RELOADING){
-				debugRenderer.setProjectionMatrix(cam.combined);
-				debugRenderer.begin(ShapeType.FilledRectangle);
-				debugRenderer.setColor(Color.LIGHT_GRAY);
-				float rectWidth = (float)trap.getBounds().width*(float)trap.getStateTime()/(float)trap.RELOAD_TIME;
-				debugRenderer.filledRect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), rectWidth ,0.065f);
-				debugRenderer.end();
-				debugRenderer.begin(ShapeType.Rectangle);
-				debugRenderer.setColor(Color.LIGHT_GRAY);
-				debugRenderer.rect(trap.getPosition().x ,(trap.getPosition().y - 0.3f), trap.getBounds().getWidth() ,0.065f);
-				debugRenderer.end();
-			}
-			
-			spriteBatch.begin();
-		
+			trap.draw(spriteBatch, ppuX, ppuY, debugRenderer, cam);
 		}
 	}
 
