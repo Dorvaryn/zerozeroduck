@@ -3,6 +3,7 @@ package fr.odai.zerozeroduck.model;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -20,6 +21,7 @@ public class Trap {
 		DISABLED // Disabled
 	}
 	
+	protected TextureAtlas atlas;
 	protected TextureRegion texture;
 	
 	public static float SIZE = 0.5f; // half a unit

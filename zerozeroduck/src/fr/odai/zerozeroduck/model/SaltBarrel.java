@@ -19,8 +19,6 @@ public class SaltBarrel extends Trap{
 	
 	float range=1.5f;
 	
-	protected TextureAtlas atlas;
-	
 	protected Sound psschSound = Gdx.audio.newSound(Gdx.files.internal("sfx/meche01.ogg"));
 	protected Sound boomSound = Gdx.audio.newSound(Gdx.files.internal("sfx/explosion01.ogg"));
 	
