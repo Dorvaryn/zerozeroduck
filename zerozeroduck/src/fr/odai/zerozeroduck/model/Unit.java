@@ -100,5 +100,9 @@ public abstract class Unit {
 	
 	abstract public void draw(SpriteBatch spriteBatch, Array<PooledEffect> effects, ShapeRenderer shr, float ppuX, float ppuY);
 	
-	abstract public void update(float delta);
+	public void update(float delta){
+		stateTime+=delta;
+		animTime+=delta;
+		invincibilityTime-=delta;
+	}
 }

@@ -54,10 +54,6 @@ public class Patate extends Unit {
 
 	@Override
 	public void update(float delta) {
-		stateTime += delta;
-		invincibilityTime -= delta;
-
-		animTime += delta;
 		if (((animTime < 0.25f * (float) ANIM_PERIOD) || (animTime > 0.5f * (float) ANIM_PERIOD && animTime <= 0.75f * (float) ANIM_PERIOD))
 				&& invincibilityTime > 0) {
 			isVisible = false;
