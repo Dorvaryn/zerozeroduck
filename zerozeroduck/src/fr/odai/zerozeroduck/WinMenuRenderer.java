@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class WinMenuRenderer {
 	private OrthographicCamera cam;
-	private Rectangle button = new Rectangle(4.5f, 3, 1, 1);
+	private Rectangle buttonReload = new Rectangle(3f, 3f, 4, 1.5f);
+	private Rectangle buttonNext = new Rectangle(3.5f, 1f, 3, 1.5f);
 	
 	private static final float CAMERA_WIDTH = 10f;
 	private static final float CAMERA_HEIGHT = 7f;
@@ -23,6 +24,8 @@ public class WinMenuRenderer {
 
 	/* Nos textures */
 	private TextureRegion boutonReloadTexture;
+	private TextureRegion boutonNextTexture;
+	private TextureRegion backgroundTexture;
 
 	private float ppuX; // pixels per unit on the X axis
 	private float ppuY; // pixels per unit on the Y axis
@@ -47,31 +50,33 @@ public class WinMenuRenderer {
 
 	public void render() {
 		spriteBatch.begin();
+		drawBackground();
 		drawBouton();
-		drawText();
 		spriteBatch.end();
 	}
 
 	private void loadTextures() {
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
-		boutonReloadTexture = atlas.findRegion("reload");
+		boutonReloadTexture = atlas.findRegion("PlayAgain");
+		boutonNextTexture = atlas.findRegion("Next");
+		backgroundTexture = atlas.findRegion("Win");
 	}
 
 	private void drawBouton() {
-		spriteBatch.draw(boutonReloadTexture, button.x * ppuX, button.y * ppuY, button.width * ppuX, button.height * ppuY);
+		spriteBatch.draw(boutonReloadTexture, buttonReload.x * ppuX, buttonReload.y * ppuY, buttonReload.width * ppuX, buttonReload.height * ppuY);
+		spriteBatch.draw(boutonNextTexture, buttonNext.x * ppuX, buttonNext.y * ppuY, buttonNext.width * ppuX, buttonNext.height * ppuY);
 	}
 	
-	public boolean click(int x, int y){
-		return button.contains(x/ppuX, y/ppuY);
+	private void drawBackground() {
+		spriteBatch.draw(backgroundTexture, 0.f, 0.f, 10.f * ppuX, 7.f * ppuY);
 	}
-
-	private void drawText() {
-		LabelStyle text = new LabelStyle(new BitmapFont(), Color.WHITE);
-		Label label = new Label("You Win!", text);
-		label.setPosition(4.5f * ppuX, 4f * ppuY);
-		label.setAlignment(Align.center);
-		label.draw(spriteBatch, 1);
+	
+	public boolean clickReload(int x, int y){
+		return buttonReload.contains(x/ppuX, 7-(y/ppuY));
+	}
+	public boolean clickNext(int x, int y){
+		return buttonNext.contains(x/ppuX, 7-(y/ppuY));
 	}
 	
 	
