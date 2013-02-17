@@ -8,6 +8,7 @@ public class ZeroZeroDuck extends Game {
 	GameScreen gameScreen;
 	TitleScreen titlescreen;
 	GameWinScreen gameWinScreen;
+	IntroScreen introScreen;
 	
 	@Override
 	public void create() {
@@ -15,6 +16,7 @@ public class ZeroZeroDuck extends Game {
 		gameScreen = new GameScreen(this);
 		titlescreen = new TitleScreen(this);
 		gameWinScreen = new GameWinScreen(this);
-		setScreen(titlescreen);
+		introScreen = new IntroScreen(this);
+		setScreen(introScreen);
 	}
 }

@@ -35,7 +35,7 @@ public class PepperBarrel extends Trap{
 		this.bounds.height = 1.f * (404f / 510f);
 		this.bounds.width = 1.f;
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("pepper-pssch");
+		texture = atlas.findRegion("pepper-normal");
 	}
 	
 	public float getRange() {
@@ -60,9 +60,10 @@ public class PepperBarrel extends Trap{
 		super.update(delta);
 		if(pshht){
 			timeSinceActivated+=delta;
-		}
-		if(state!=State.HURTING){
 			texture = atlas.findRegion("pepper-pssch");
+		}
+		else if(state==State.READY || state==State.DISABLED || state==State.RELOADING){
+			texture = atlas.findRegion("pepper-normal");
 		}
 		if(timeSinceActivated>BOOM){
 			pshht=false;

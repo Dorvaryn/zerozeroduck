@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import fr.odai.zerozeroduck.model.Trap.State;
+
 public abstract class Unit {
 
 	
@@ -38,7 +40,7 @@ public abstract class Unit {
 	int 		score;
 	TextureRegion textureFrame;
 	TextureRegion textureBase;
-	Animation walkRight;
+	Animation 	walkRight;
 	
 	World world;
 
@@ -89,7 +91,8 @@ public abstract class Unit {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(getPosition().x>rect.x){
+		System.out.println(toBeRemoved);
+		if((!toBeRemoved) && (getPosition().x>rect.x)){
 			return -damage;
 		}
 		else return 0;

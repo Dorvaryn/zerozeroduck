@@ -73,6 +73,10 @@ public class GameScreen implements Screen, InputProcessor {
 	private World world;
 	private WorldRenderer renderer;
 	private MainController controller;
+	
+	float animationTime=1.f;
+	
+	float posY=0.f;
 
 	public GameScreen(ZeroZeroDuck game) {
 		super();
@@ -145,7 +149,7 @@ public class GameScreen implements Screen, InputProcessor {
 	}
 
 	@Override
-	public boolean keyUp(int keycode) {
+	public boolean keyUp(int keycode){
 		if (keycode == Keys.SPACE)
 			controller.patateReleased();
 		if (keycode == Keys.ENTER)
