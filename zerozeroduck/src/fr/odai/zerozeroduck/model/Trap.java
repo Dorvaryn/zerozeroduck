@@ -23,6 +23,7 @@ public class Trap {
 	
 	protected TextureAtlas atlas;
 	protected TextureRegion texture;
+	protected TextureRegion keyTexture;
 	
 	public static float SIZE = 0.5f; // half a unit
 	public static float RELOAD_TIME = 2;
@@ -73,6 +74,18 @@ public class Trap {
 	}
 
 	public void setAssociatedKey(Keys associatedKey) {
+		if(associatedKey==Keys.TRAP_F){
+			keyTexture=atlas.findRegion("LettreF");
+		}
+		else if(associatedKey==Keys.TRAP_K){
+			keyTexture=atlas.findRegion("LettreK");
+		}
+		else if(associatedKey==Keys.TRAP_H){
+			keyTexture=atlas.findRegion("LettreH");
+		}
+		else if(associatedKey==Keys.TRAP_S){
+			keyTexture=atlas.findRegion("LettreS");
+		}
 		this.associatedKey = associatedKey;
 	}
 	
@@ -119,6 +132,8 @@ public class Trap {
 	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
 		sb.draw(getTexture(), getPosition().x * ppuX,
 				getPosition().y * ppuY, bounds.width * ppuX, bounds.height * ppuY);
+		
+		sb.draw(getTexture(), getPosition().x * ppuX, (float)(getPosition().y-0.7) * ppuY, 0.5f * ppuX, 0.5f * ppuY);
 		sb.end();
 		
 		if(state==Trap.State.RELOADING){
@@ -134,5 +149,6 @@ public class Trap {
 			shr.end();
 		}
 		sb.begin();
+		
 	}
 }
