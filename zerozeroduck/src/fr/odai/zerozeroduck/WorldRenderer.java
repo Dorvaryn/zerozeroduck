@@ -25,6 +25,7 @@ import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Patate.State;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
+import fr.odai.zerozeroduck.sound.FouleSound;
 
 public class WorldRenderer {
 	private World world;
@@ -53,6 +54,9 @@ public class WorldRenderer {
 	/* Musique */
 	Music musicLoop;
 	Music musicStart;
+	
+	/** Sounds */
+	private FouleSound ogmsound;
 
 	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
 	private Animation walkRightPatate;
@@ -99,10 +103,11 @@ public class WorldRenderer {
 		
 		musicStart.play();
 		
+		this.ogmsound = new FouleSound(); 
 		loadTextures();
 	}
 
-	public void render() {
+	public void render(float delta) {
 		if(!musicStart.isPlaying() && !musicLoop.isPlaying() && !musicStopped){
 			musicLoop.play();
 		}
@@ -125,6 +130,9 @@ public class WorldRenderer {
 		}
 
 		spriteBatch.end();
+		
+		ogmsound.update(delta, world);
+		if(ogmsound.shouldBeStarted(world, delta)) ogmsound.start();
 
 		// draw bounding boxes in debug mode
 		if (debug)
@@ -135,6 +143,7 @@ public class WorldRenderer {
 		musicStopped=true;
 		musicStart.stop();
 		musicLoop.stop();
+		ogmsound.stop();
 	}
 
 	private void drawBackground() {

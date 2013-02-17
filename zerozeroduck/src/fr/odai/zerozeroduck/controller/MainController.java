@@ -23,9 +23,6 @@ public class MainController {
 	private World world;
 	private Array<Patate> patates;
 	private Array<Trap> traps;
-	
-	/** Sounds */
-	private FouleSound ogmsound;
 
 	static Map<Keys, Boolean> keys = new HashMap<MainController.Keys, Boolean>();
 	static {
@@ -43,8 +40,6 @@ public class MainController {
 		this.screen = screen;
 		this.patates = world.getPatates();
 		this.traps = world.getTraps();
-		
-		this.ogmsound = new FouleSound(); 
 	}
 
 	// ** Key presses and touches **************** //
@@ -96,9 +91,6 @@ public class MainController {
 		world.getDuck().update(delta);
 		
 		world.update(delta);
-		
-		ogmsound.update(delta, world);
-		if(ogmsound.shouldBeStarted(world, delta)) ogmsound.start();
 	}
 
 	private void processInput() {
