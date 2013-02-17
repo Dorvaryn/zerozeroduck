@@ -11,7 +11,7 @@ import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
-import fr.odai.zerozeroduck.sound.OGMSound;
+import fr.odai.zerozeroduck.sound.FouleSound;
 
 public class MainController {
 
@@ -25,7 +25,7 @@ public class MainController {
 	private Array<Trap> traps;
 	
 	/** Sounds */
-	private OGMSound ogmsound;
+	private FouleSound ogmsound;
 
 	static Map<Keys, Boolean> keys = new HashMap<MainController.Keys, Boolean>();
 	static {
@@ -44,7 +44,7 @@ public class MainController {
 		this.patates = world.getPatates();
 		this.traps = world.getTraps();
 		
-		this.ogmsound = new OGMSound(); 
+		this.ogmsound = new FouleSound(); 
 	}
 
 	// ** Key presses and touches **************** //
