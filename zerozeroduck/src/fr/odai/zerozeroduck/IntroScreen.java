@@ -80,8 +80,7 @@ public class IntroScreen implements Screen, InputProcessor{
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		renderer.setSize(width, height);
 	}
 
 	@Override
