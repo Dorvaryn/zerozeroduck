@@ -108,6 +108,7 @@ public class Carrot extends Unit {
 		if (state == State.WALKING || state == State.DISAPEARD || state == State.DISAPEARING || state == State.APPEARING) {
 			position.add(velocity.tmp().mul(delta));
 			position.y = world.getFloorHeight(position.x);
+			bounds.y=position.y;
 		}
 
 		if (state != State.DISAPEARD) {

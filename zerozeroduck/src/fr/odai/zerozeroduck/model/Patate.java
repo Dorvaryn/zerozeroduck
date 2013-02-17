@@ -72,6 +72,7 @@ public class Patate extends Unit {
 		if (state == State.WALKING) {
 			position.add(velocity.tmp().mul(delta));
 			position.y = world.getFloorHeight(position.x);
+			bounds.y=position.y;
 		}
 
 		Rectangle positionnedBounds = this.getPositionnedBounds();
