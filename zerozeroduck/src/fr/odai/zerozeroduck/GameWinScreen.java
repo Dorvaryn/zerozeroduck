@@ -79,6 +79,10 @@ public class GameWinScreen implements Screen, InputProcessor {
 		if(renderer.clickReload(screenX, screenY)){
 			game.setScreen(game.gameScreen);
 			return true;
+		}else if(renderer.clickNext(screenX, screenY)){
+			game.level += 1;
+			game.setScreen(game.gameScreen);
+			return true;
 		}
 		return false;
 	}

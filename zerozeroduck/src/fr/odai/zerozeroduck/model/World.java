@@ -183,6 +183,7 @@ public class World {
 		stateTime += delta;
 		inWaveTime += delta;
 
+		System.out.println("pat :"+poolPatates + " car :"+poolCarrots +" size :" +units.size);
 		for(Unit unit: units) {
 			if(unit.position.x > 10 || unit.position.x < -2) {
 				units.removeValue(unit, true);
