@@ -4,90 +4,31 @@ package fr.odai.zerozeroduck.model;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Patate {
+public class Patate extends Unit{
 
 	public enum State {
 		IDLE, WALKING, DYING
-	}
+	}	
 	
-	float invincibilityTime=0;
-	
-	static final float SPEED = 2f;	// unit per second
-	static final float JUMP_VELOCITY = 1f;
-	public static final float SIZE = 0.5f; // half a unit
-	
-	static final float ANIM_PERIOD = 60f / (float)World.BPM / 2f;
-			
-	float       stateTime = 0;
-	float 		animTime = 0;
-	Vector2 	position = new Vector2();
-	Vector2     velocity = new Vector2(1, 0);
-	Vector2     bouciness = new Vector2(0, 0.2f);
-	Rectangle 	bounds = new Rectangle();
 	State		state = State.WALKING;
-	boolean		facingLeft = true;
-	boolean 	isVisible = true;	
-	int 		hp = 100;
-	int 		damage = 100;
-	int 		score = 100;
-	
-	World world;
 
 	public Patate(Vector2 position, World world) {
-		this.position = position;
-		this.bounds.height = SIZE*1.5f;
-		this.bounds.width = SIZE;
-		this.world = world;
+		super(position, world);
+		Patate.ANIM_PERIOD = 60f / (float)World.BPM / 2f;
+		Patate.SPEED = 2f;
+		Patate.JUMP_VELOCITY = 1f;
+		Patate.SIZE = 0.5f;
+		Patate.COEF_H = 1.5f;
+		this.velocity = new Vector2(1, 0);
+		this.bouciness = new Vector2(0, 0.2f);
+		this.hp = 100;
+		this.damage = 100;
+		this.score = 100;
+		this.bounds.height = SIZE*COEF_H;
+		this.bounds.width = SIZE*COEF_W;
 	}
 	
-	public int getScore(){
-		return score;
-	}
-	
-	public boolean getIsVisible(){
-		return isVisible;
-	}
-
-	public Rectangle getBounds() {
-		return bounds;
-	}
-
-	public Vector2 getPosition() {
-		return position.cpy().add(bouciness.tmp().mul(Math.abs((float) Math.sin((animTime / ANIM_PERIOD * Math.PI)))));
-	}
-	
-	public State getState() {
-		return state;
-	}
-
-	public float getStateTime() {
-		return stateTime;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-		stateTime = 0;
-	}
-
-	public boolean isFacingLeft() {
-		return facingLeft;
-	}
-
-	public void setFacingLeft(boolean facingLeft) {
-		this.facingLeft = facingLeft;
-	}
-	
-	public Rectangle getPositionnedBounds(){
-		return new Rectangle(position.x, position.y, this.bounds.width, this.bounds.height);
-	}
-	
-	public int damageWhenFinish(Rectangle rect){
-		if(position.x>rect.x){
-			return -damage;
-		}
-		else return 0;
-	}
-	
+	@Override
 	public void update(float delta) {	
 		stateTime += delta;
 		invincibilityTime -= delta;
@@ -127,5 +68,15 @@ public class Patate {
 				}
 			}
 		}
+	}
+
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+		stateTime = 0;
 	}
 }
