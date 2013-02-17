@@ -33,6 +33,7 @@ public class Trap {
 	Rectangle bounds;
 	int damage;
 	Keys associatedKey;
+	int level;
 
 	protected float stateTime;
 	
