@@ -24,6 +24,10 @@ public class Duck {
 	boolean		facingLeft = true;
 	World 		world;
 
+	public float getStateTime() {
+		return stateTime;
+	}
+
 	public Duck(Vector2 position, World world) {
 		this.position = position;
 		this.bounds.height = SIZE;
