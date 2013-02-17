@@ -28,7 +28,7 @@ public class SaltBarrel extends Trap{
 	
 	public SaltBarrel(Vector2 position, int level){
 		super(position);
-		this.RELOAD_TIME = 2;
+		this.RELOAD_TIME = 1;
 		this.HURTING_TIME = 0.5f;
 		this.level = level;
 		damage = 50;
