@@ -95,7 +95,7 @@ public class IntroRenderer {
 	}
 
 	private void loadTextures() {
-		//TextureSetup.main(null);
+		TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		intro1Texture = atlas.findRegion("Intro1");
