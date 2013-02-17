@@ -94,8 +94,9 @@ public class Patate extends Unit {
 			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
 		}
 		if (isVisible) {
-			spriteBatch.draw(textureFrame, position.x * ppuX, position.y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
+			spriteBatch.draw(textureFrame, getPosition().x * ppuX, getPosition().y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
 		}
+
 	}
 
 	public State getState() {

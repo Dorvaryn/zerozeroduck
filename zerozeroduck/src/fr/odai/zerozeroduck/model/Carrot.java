@@ -148,8 +148,8 @@ public class Carrot extends Unit {
 			textureFrame = disapear.getKeyFrame(this.getStateTime(), true);
 		}
 		if (isVisible && state != State.DISAPEARD) {
-			spriteBatch.draw(textureFrame, position.x * ppuX,
-					position.y * ppuY, bounds.width * ppuX, bounds.height
+			spriteBatch.draw(textureFrame, getPosition().x * ppuX,
+					getPosition().y * ppuY, bounds.width * ppuX, bounds.height
 							* ppuY);
 		}
 		if (state == State.DYING) {
