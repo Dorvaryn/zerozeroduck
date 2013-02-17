@@ -75,11 +75,11 @@ public class MainController {
 		processInput();
 		
 		if(world.getTotalPool()==0 && world.getUnits().size==0){
-			screen.gameWin();
+			//screen.gameWin();
 		}
 		
 		if(world.getDuck().getState()==Duck.State.DEAD){
-			screen.gameOver();
+			//screen.gameOver();
 		}
 		
 		for(Unit unit : this.units) {

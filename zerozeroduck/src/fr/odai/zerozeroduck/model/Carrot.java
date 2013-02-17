@@ -16,18 +16,18 @@ import com.badlogic.gdx.utils.Array;
 public class Carrot extends Unit {
 
 	public enum State {
-		IDLE, WALKING, DYING, DISAPEARING, DISAPEARD
+		IDLE, WALKING, DYING, DISAPEARING, DISAPEARD, APPEARING
 	}
 
 	private static final float DISAPEAR_FRAME_DURATION = 60f / World.BPM / 8;
 	private static final float ALEA_DURATION = 0.5f;
 	private static final float DISAPEARED_DURATION = 2;
-	private static final float DISAPEAR_PERIOD = 2;
+	private static final float DISAPEAR_PERIOD = DISAPEAR_FRAME_DURATION*4;
 	private boolean canDisapear = true;
 
 	State state = State.WALKING;
 	Animation disapear;
-	float aleaTime = 0;
+	float aleaTime = 50;
 
 	public Carrot(Vector2 position, World world, TextureAtlas atlas) {
 		super(position, world, atlas);
@@ -57,11 +57,10 @@ public class Carrot extends Unit {
 		for (int i = 0; i <= 2; i++) {
 			walkRightFrames[i] = atlas.findRegion("Karot" + (i + 1));
 		}
-		walkRight = new Animation(Carrot.RUNNING_FRAME_DURATION,
-				walkRightFrames);
+		walkRight = new Animation(Carrot.RUNNING_FRAME_DURATION, walkRightFrames);
 
-		TextureRegion[] disapearFrames = new TextureRegion[3];
-		for (int i = 0; i <= 2; i++) {
+		TextureRegion[] disapearFrames = new TextureRegion[4];
+		for (int i = 0; i <= 3; i++) {
 			disapearFrames[i] = atlas.findRegion("Karot-Disp" + (i + 1));
 		}
 		disapear = new Animation(Carrot.DISAPEAR_FRAME_DURATION, disapearFrames);
@@ -85,22 +84,28 @@ public class Carrot extends Unit {
 			aleaTime = 0;
 			if (Math.random() * 6 > 5) {
 				setState(State.DISAPEARING);
+				disapear.setPlayMode(Animation.NORMAL);
 				canDisapear = false;
 			}
 		}
 
-		if (state == State.DISAPEARING && animTime > DISAPEAR_PERIOD) {
+		if (state == State.DISAPEARING && stateTime > DISAPEAR_PERIOD) {
 			setState(State.DISAPEARD);
 		}
 
 		if (state == State.DISAPEARD && stateTime > DISAPEARED_DURATION) {
+			setState(State.APPEARING);
+			disapear.setPlayMode(Animation.REVERSED);
+		}
+		
+		if (state == State.APPEARING && stateTime > DISAPEAR_PERIOD) {
 			setState(State.WALKING);
 		}
 
 		if (animTime > ANIM_PERIOD)
 			animTime -= ANIM_PERIOD;
 
-		if (state == State.WALKING) {
+		if (state == State.WALKING || state == State.DISAPEARD || state == State.DISAPEARING || state == State.APPEARING) {
 			position.add(velocity.tmp().mul(delta));
 			position.y = world.getFloorHeight(position.x);
 		}
@@ -140,7 +145,7 @@ public class Carrot extends Unit {
 		if (state.equals(State.WALKING)) {
 			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
 		}
-		if (state.equals(State.DISAPEARING)) {
+		if (state.equals(State.DISAPEARING) || state.equals(State.APPEARING)) {
 			textureFrame = disapear.getKeyFrame(this.getStateTime(), true);
 		}
 		if (isVisible && state != State.DISAPEARD) {
