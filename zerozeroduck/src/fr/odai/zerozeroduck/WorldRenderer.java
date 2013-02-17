@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Patate.State;
+import fr.odai.zerozeroduck.model.Carrot;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
@@ -42,8 +43,7 @@ public class WorldRenderer {
 
 	/* Nos textures */
 	private TextureRegion backgroundTexture;
-	private TextureRegion duckTexture;
-	private TextureRegion trapTexture;
+	Animation duckAnim;
 
 	/* Nos particules */
 	Array<PooledEffect> effects;
@@ -143,8 +143,12 @@ public class WorldRenderer {
 	}
 
 	private void loadTextures() {
-		duckTexture = world.getAtlas().findRegion("Kanard");
-		trapTexture = world.getAtlas().findRegion("trap");
+		TextureRegion[] frames = new TextureRegion[3];
+		for (int i = 0; i <= 2; i++) {
+			frames[i] = world.getAtlas().findRegion("Kanard" + (i + 1));
+		}
+		duckAnim = new Animation(60f / World.BPM / 2, frames);
+		duckAnim.setPlayMode(Animation.LOOP_PINGPONG);
 		backgroundTexture = world.getAtlas().findRegion("Stage0");
 	}
 
@@ -161,6 +165,7 @@ public class WorldRenderer {
 
 	private void drawDuck() {
 		Duck ducky = world.getDuck();
+		TextureRegion duckTexture = duckAnim.getKeyFrame(ducky.getStateTime(), true);
 		spriteBatch.draw(duckTexture, ducky.getPosition().x * ppuX,
 				ducky.getPosition().y * ppuY, ducky.getBounds().width * ppuX, 
 				ducky.getBounds().height * ppuY);
