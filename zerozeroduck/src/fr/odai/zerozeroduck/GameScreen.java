@@ -23,6 +23,7 @@ public class GameScreen implements Screen, InputProcessor {
 	}
 	
 	public void gameOver(){
+		renderer.stopMusic();
 		game.setScreen(game.gameOverScreen);
 	}
 

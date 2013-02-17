@@ -2,6 +2,7 @@ package fr.odai.zerozeroduck.model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
 import fr.odai.zerozeroduck.controller.MainController.Keys;
 import fr.odai.zerozeroduck.utils.Util;
 
