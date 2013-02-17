@@ -70,12 +70,12 @@ public class Duck {
 	
 	public void update(float delta){
 		stateTime+=delta;
-		Array<Patate> patates = world.getPatates();
-		for(Patate patate:patates){
-			int damage = patate.damageWhenFinish(this.getPositionnedBounds());
+		Array<Unit> units = world.getUnits();
+		for(Unit unit:units){
+			int damage = unit.damageWhenFinish(this.getPositionnedBounds());
 			if(damage<0){
 				life+=damage;
-				patate.setState(Patate.State.DYING);
+				unit.kill();
 			}
 		}
 		if(life<=0 && state==State.IDLE){

@@ -24,6 +24,7 @@ import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Patate.State;
 import fr.odai.zerozeroduck.model.Trap;
+import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
 
 public class WorldRenderer {
@@ -42,20 +43,12 @@ public class WorldRenderer {
 	private TextureRegion duckTexture;
 	private TextureRegion trapTexture;
 
-	private TextureRegion patateTexture;
-	private TextureRegion patateFrame;
-
 	/* Nos particules */
-	ParticleEffectPool smokeEffectPool;
-	ParticleEffect smokeEffect;
 	Array<PooledEffect> effects;
 	
 	/* Musique */
 	Music musicLoop;
 	Music musicStart;
-
-	private static final float PATATE_RUNNING_FRAME_DURATION = 60f / World.BPM / 8;
-	private Animation walkRightPatate;
 
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
@@ -82,11 +75,6 @@ public class WorldRenderer {
 		this.cam.update();
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
-
-		smokeEffect = new ParticleEffect();
-		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
-				Gdx.files.internal("particle"));
-		smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
 		effects = new Array<PooledEffect>();
 
 		//sounds
@@ -111,7 +99,7 @@ public class WorldRenderer {
 		drawBackground();
 		drawTrap();
 		drawDuck();
-		drawPatates();
+		drawUnits();
 		drawScore();
 
 		// Update and draw effects:
@@ -144,42 +132,18 @@ public class WorldRenderer {
 	private void loadTextures() {
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
-		patateTexture = atlas.findRegion("Patate1");
-		TextureRegion[] walkRightFrames = new TextureRegion[4];
-		for (int i = 0; i <= 3; i++) {
-			walkRightFrames[i] = atlas.findRegion("Patate" + (i + 1));
-		}
-		walkRightPatate = new Animation(PATATE_RUNNING_FRAME_DURATION,
-				walkRightFrames);
 		duckTexture = atlas.findRegion("Kanard");
 		trapTexture = atlas.findRegion("trap");
 		backgroundTexture = atlas.findRegion("Stage0");
 	}
 
-	private void drawPatates() {
-		Array<Patate> patates = world.getPatates();
-		for (int i = 0; i < patates.size; i++) {
-			Patate patate = patates.get(i);
-			patateFrame = patateTexture;
-			if (patate.getState().equals(State.WALKING)) {
-				patateFrame = walkRightPatate.getKeyFrame(
-						patate.getStateTime(), true);
-			}
-			if (patate.getIsVisible()) {
-				spriteBatch.draw(patateFrame, patate.getPosition().x * ppuX,
-						patate.getPosition().y * ppuY, patate.getBounds().width
-								* ppuX, patate.getBounds().height * ppuY);
-			}
-			if (patate.getState() == State.DYING) {
-				// Create effect:
-				PooledEffect effect = smokeEffectPool.obtain();
-				effect.setDuration(500);
-				effect.setPosition(
-						patate.getPosition().x * ppuX + patate.getBounds().x
-								/ 2.f * ppuX, patate.getPosition().y * ppuY
-								+ 0.05f * ppuY);
-				effects.add(effect);
-				patates.removeIndex(i);
+	private void drawUnits() {
+		Array<Unit> units = world.getUnits();
+		for (int i = 0; i < units.size; i++) {
+			units.get(i).draw(spriteBatch, effects, debugRenderer,ppuX, ppuY);
+			if (units.get(i).isToBeRemoved()) {
+				
+				units.removeIndex(i);
 				i--;
 			}
 		}
@@ -238,10 +202,10 @@ public class WorldRenderer {
 		}
 		debugRenderer.end();
 		debugRenderer.begin(ShapeType.Rectangle);
-		for (Patate patate : world.getPatates()) {
-			Rectangle rect = patate.getBounds();
-			float x1 = patate.getPosition().x + rect.x;
-			float y1 = patate.getPosition().y + rect.y;
+		for (Unit unit : world.getUnits()) {
+			Rectangle rect = unit.getBounds();
+			float x1 = unit.getPosition().x + rect.x;
+			float y1 = unit.getPosition().y + rect.y;
 			debugRenderer.setColor(new Color(1, 1, 0, 1));
 			debugRenderer.rect(x1, y1, rect.width, rect.height);
 		}

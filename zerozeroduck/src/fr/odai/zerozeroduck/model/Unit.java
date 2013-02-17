@@ -1,21 +1,27 @@
 package fr.odai.zerozeroduck.model;
 
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class Unit {
 
 	
 	float invincibilityTime=0;
 	
-	static float SPEED;	// unit per second
-	static float JUMP_VELOCITY;
 	public static float SIZE = 1; // half a unit
 	static float COEF_H = 1;
 	static float COEF_W = 1;
 	
 	static float ANIM_PERIOD;
+	protected static float RUNNING_FRAME_DURATION;
 			
 	float       stateTime = 0;
 	float 		animTime = 0;
@@ -24,17 +30,25 @@ public abstract class Unit {
 	Vector2     bouciness;
 	Rectangle 	bounds = new Rectangle();
 	boolean		facingLeft = true;
-	boolean 	isVisible = true;	
+	boolean 	isVisible = true;
+	boolean		toBeRemoved = false;
+	ParticleEffectPool smokeEffectPool;
 	int 		hp;
 	int 		damage;
 	int 		score;
+	TextureRegion textureFrame;
+	TextureRegion textureBase;
+	Animation walkRight;
 	
 	World world;
 
 	public Unit(Vector2 position, World world) {
 		this.position = position;
 		this.world = world;
+		this.loadTextures();
 	}
+	
+	abstract protected void loadTextures();
 	
 	public int getScore(){
 		return score;
@@ -46,6 +60,10 @@ public abstract class Unit {
 	
 	public boolean getIsVisible(){
 		return isVisible;
+	}
+
+	public boolean isToBeRemoved() {
+		return toBeRemoved;
 	}
 
 	public Rectangle getBounds() {
@@ -74,6 +92,10 @@ public abstract class Unit {
 		}
 		else return 0;
 	}
+	
+	abstract public void kill();
+	
+	abstract public void draw(SpriteBatch spriteBatch, Array<PooledEffect> effects, ShapeRenderer shr, float ppuX, float ppuY);
 	
 	abstract public void update(float delta);
 }

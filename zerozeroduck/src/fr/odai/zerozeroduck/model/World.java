@@ -26,7 +26,7 @@ public class World {
 	/** Startpoints for the units **/
 	Array<Vector2> startpoints = new Array<Vector2>();
 	/** Units in this world **/
-	Array<Patate> patates = new Array<Patate>();
+	Array<Unit> units = new Array<Unit>();
 	
 	Array<Patate> wavePatates = new Array<Patate>();
 	
@@ -42,8 +42,8 @@ public class World {
 	static final int patateByWaveDelta = 1; 
 	static final float waveWaitDelta = 2;
 	static final float waveWaitDuration = 3;
-	static final float inWaveWaitDuration = 1;
-	static final float inWaveWaitDelta = 0.5f;
+	static final float inWaveWaitDuration = 0.5f;
+	static final float inWaveWaitDelta = 0.2f;
 	
 	int poolPatates = 20;
 	float waveWaitEnd = 3;
@@ -60,18 +60,17 @@ public class World {
 	public Array<Trap> getTraps() {
 		return traps;
 	}
-	public Array<Patate> getPatates() {
-		return patates;
+	public Array<Unit> getUnits() {
+		return units;
 	}
 	public int getScore() {
 		return score;
-	}
-	public int getPoolPatates() {
-		return poolPatates;
-	}
-	
+	}	
 	public void setScore(int score){
 		this.score=score;
+	}
+	public int getTotalPool(){
+		return poolPatates;
 	}
 	// --------------------
 
@@ -127,9 +126,9 @@ public class World {
 		stateTime += delta;
 		inWaveTime += delta;
 
-		for(Patate patate: patates) {
-			if(patate.position.x > 10 || patate.position.x < -2) {
-				patates.removeValue(patate, true);
+		for(Unit unit: units) {
+			if(unit.position.x > 10 || unit.position.x < -2) {
+				units.removeValue(unit, true);
 			}
 		}
 		
@@ -148,7 +147,7 @@ public class World {
 		
 		if(state == State.WAVE_IN_PROGRESS && inWaveTime > inWaveWaitEnd){
 			if(wavePatates.size != 0){
-				patates.add(wavePatates.pop());
+				units.add(wavePatates.pop());
 				inWaveWaitEnd = inWaveWaitDuration;
 				inWaveWaitEnd += Math.random()*2*inWaveWaitDelta - inWaveWaitDelta;
 				inWaveTime = 0;

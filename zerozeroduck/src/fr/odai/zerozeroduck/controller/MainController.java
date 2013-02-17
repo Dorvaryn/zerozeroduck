@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.GameScreen;
+import fr.odai.zerozeroduck.model.Carrot;
 import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
+import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
 
 public class MainController {
@@ -20,7 +22,7 @@ public class MainController {
 
 	private GameScreen screen;
 	private World world;
-	private Array<Patate> patates;
+	private Array<Unit> units;
 	private Array<Trap> traps;
 
 	static Map<Keys, Boolean> keys = new HashMap<MainController.Keys, Boolean>();
@@ -37,7 +39,7 @@ public class MainController {
 	public MainController(World world, GameScreen screen) {
 		this.world = world;
 		this.screen = screen;
-		this.patates = world.getPatates();
+		this.units = world.getUnits();
 		this.traps = world.getTraps();
 	}
 
@@ -71,7 +73,7 @@ public class MainController {
 	public void update(float delta) {
 		processInput();
 		
-		if(world.getPoolPatates()==0 && world.getPatates().size==0){
+		if(world.getTotalPool()==0 && world.getUnits().size==0){
 			screen.gameWin();
 		}
 		
@@ -79,8 +81,8 @@ public class MainController {
 			screen.gameOver();
 		}
 		
-		for(Patate patate : this.patates) {
-			patate.update(delta);
+		for(Unit unit : this.units) {
+			unit.update(delta);
 		}
 		
 		for(Trap trap : this.traps) {
@@ -100,15 +102,15 @@ public class MainController {
 		}
 		
 		if (keys.get(Keys.PATATE)) {
-			Patate patate = new Patate(new Vector2(0.5f,1), this.world);
-			patates.add(patate);
+			Carrot carrot = new Carrot(new Vector2(0.5f,1), this.world);
+			units.add(carrot);
 			
 			// Disable until new keystroke
 			keys.put(Keys.PATATE, false);
 		}
 		
 		if (keys.get(Keys.KILLALL)) {
-			patates.clear();
+			units.clear();
 		}
 	}
 }

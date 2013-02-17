@@ -1,0 +1,135 @@
+package fr.odai.zerozeroduck.model;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+public class Carrot extends Unit {
+	
+	public enum State {
+		IDLE, WALKING, DYING
+	}	
+	
+	State state = State.WALKING;
+	
+	public Carrot(Vector2 position, World world) {
+		super(position, world);
+		Carrot.ANIM_PERIOD = 60f / (float)World.BPM / 1.5f;
+		Carrot.SIZE = 0.5f;
+		Carrot.COEF_H = 1.5f;
+		this.velocity = new Vector2(1.2f, 0);
+		this.bouciness = new Vector2(0, 0.12f);
+		this.hp = 80;
+		this.damage = 150;
+		this.score = 150;
+		this.bounds.height = SIZE*COEF_H;
+		this.bounds.width = SIZE*COEF_W;
+	}
+	
+	@Override
+	protected void loadTextures() {
+		ParticleEffect smokeEffect = new ParticleEffect();
+		smokeEffect.load(Gdx.files.internal("particle/smoke.p"),
+				Gdx.files.internal("particle"));
+		this.smokeEffectPool = new ParticleEffectPool(smokeEffect, 1, 2);
+		
+		Carrot.RUNNING_FRAME_DURATION = 60f / World.BPM / 6;
+		
+		TextureAtlas atlas = new TextureAtlas(
+				Gdx.files.internal("images/textures.pack"));
+		textureBase = atlas.findRegion("Karot1");
+		TextureRegion[] walkRightFrames = new TextureRegion[3];
+		for (int i = 0; i <= 2; i++) {
+			walkRightFrames[i] = atlas.findRegion("Karot" + (i + 1));
+		}
+		walkRight = new Animation(Carrot.RUNNING_FRAME_DURATION, walkRightFrames);
+	}
+
+	@Override
+	public void update(float delta) {
+		stateTime += delta;
+		invincibilityTime -= delta;
+		
+		animTime += delta;
+		if(((animTime < 0.25f*(float)ANIM_PERIOD) || 
+				(animTime > 0.5f*(float)ANIM_PERIOD 
+				&& animTime <= 0.75f*(float)ANIM_PERIOD) )
+				&& invincibilityTime>0 ){
+			isVisible=false;
+		}
+		else if(state != State.DYING) isVisible=true;
+		
+		if(state==State.DYING) {
+			hp=0;
+			isVisible=false;
+		}
+		
+		if(animTime > ANIM_PERIOD) animTime -= ANIM_PERIOD;
+		
+		if(state == State.WALKING){
+			position.add(velocity.tmp().mul(delta));
+			position.y = world.getFloorHeight(position.x);
+		}
+		
+		Rectangle positionnedBounds = this.getPositionnedBounds();		
+		for(Trap trap : world.getTraps()){
+			if(trap.getState()==Trap.State.HURTING && invincibilityTime <= 0){
+				int hpModifier = trap.damageWhenTrapped(positionnedBounds);
+				if(hpModifier<0){
+					invincibilityTime=1.0f;
+					hp+=hpModifier;
+					if(hp<=0){
+						setState(State.DYING);
+						world.setScore(world.getScore()+score);
+					}
+				}
+			}
+		}
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+		stateTime = 0;
+	}
+
+	@Override
+	public void draw(SpriteBatch spriteBatch, Array<PooledEffect> effects,
+			ShapeRenderer shr, float ppuX, float ppuY) {
+		textureFrame = textureBase;
+		if (state.equals(State.WALKING)) {
+			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
+		}
+		if (isVisible) {
+			spriteBatch.draw(textureFrame, position.x * ppuX, position.y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
+		}
+		if (state == State.DYING) {
+			// Create effect:
+			PooledEffect effect = smokeEffectPool.obtain();
+			effect.setDuration(500);
+			effect.setPosition(
+					position.x * ppuX + bounds.x / 2.f
+							* ppuX, bounds.y * ppuY + 0.05f
+							* ppuY);
+			effects.add(effect);
+		}
+	}
+	
+	@Override
+	public void kill() {
+		setState(State.DYING);
+	}
+
+}
