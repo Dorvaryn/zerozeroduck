@@ -25,7 +25,10 @@ public class IntroScreen implements Screen, InputProcessor{
 			if(etape<=4){
 				renderer.setEtape(etape++);
 			}
-			else game.setScreen(game.titlescreen);
+			else {
+				renderer.freeMemory();
+				game.setScreen(game.titlescreen);
+			}
 		}
 		return false;
 	}
@@ -86,8 +89,7 @@ public class IntroScreen implements Screen, InputProcessor{
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		renderer.setSize(width, height);
 	}
 
 	@Override

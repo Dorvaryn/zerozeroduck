@@ -103,7 +103,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void show() {
-		world = new World(sgis.get(0));
+		world = new World(sgis.get(game.level));
 		renderer = new WorldRenderer(world, false);
 		controller = new MainController(world, this);
 		Gdx.input.setInputProcessor(this);

@@ -43,6 +43,8 @@ public class IntroRenderer {
 	
 	int etape=1;
 	
+	TextureAtlas atlas;
+	
 	boolean isEtapeFinished=true;
 	
 	public boolean getIsEtapeFinished(){
@@ -77,8 +79,8 @@ public class IntroRenderer {
 		for(i=0;i<textures.size-1;i++){
 			TextureRegion texture=textures.get(i);
 			if(i<2)
-				spriteBatch.draw(texture, 0.f, positionPost2,(int) (1000 * 0.8),(int) (700 * 0.8));
-			else spriteBatch.draw(texture, 0.f, 0.f,(int) (1000 * 0.8),(int) (700 * 0.8));
+				spriteBatch.draw(texture, 0.f, positionPost2,10.f * ppuX, 7.f * ppuY);
+			else spriteBatch.draw(texture, 0.f, 0.f,10.f * ppuX, 7.f * ppuY);
 		}
 		TextureRegion texture=textures.get(i);
 		if(positionLastY<0){
@@ -88,21 +90,26 @@ public class IntroRenderer {
 			positionLastY=0;
 			isEtapeFinished=true;
 		} 
-		if(etape>=3 && positionPost2<=(int)(700*0.8)){
+		if(etape>=3 && positionPost2<= 7.f * ppuY){
 			positionPost2+=delta*500.f;
 		}
-		spriteBatch.draw(texture, 0.f, positionLastY,(int) (1000 * 0.8),(int) (700 * 0.8));
+		spriteBatch.draw(texture, 0.f, positionLastY,10.f * ppuX, 7.f * ppuY);
 	}
 
 	private void loadTextures() {
 		//TextureSetup.main(null);
-		TextureAtlas atlas = new TextureAtlas(
+		atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		intro1Texture = atlas.findRegion("Intro1");
 		intro2Texture = atlas.findRegion("Intro2");
 		intro3Texture = atlas.findRegion("Intro3");
 		intro4Texture = atlas.findRegion("Intro4");
 		textures.add(intro1Texture);
+	}
+	
+	public void freeMemory(){
+		textures.clear();
+		atlas.dispose();
 	}
 	
 	public boolean click(int x, int y){
@@ -122,7 +129,7 @@ public class IntroRenderer {
 				textures.add(intro4Texture);
 			}
 			isEtapeFinished=false;
-			positionLastY=-(int) (700 * 0.8);
+			positionLastY=-7.f * ppuY;
 		}
 	}
 

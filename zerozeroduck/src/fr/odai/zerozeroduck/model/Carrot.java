@@ -118,8 +118,8 @@ public class Carrot extends Unit {
 						hp += hpModifier;
 						if (hp <= 0) {
 							if(state!=State.DYING){
-								setState(State.DYING);
 								world.setScore(world.getScore() + score);
+								kill();
 							}
 						}
 					}
