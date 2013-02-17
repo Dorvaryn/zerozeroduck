@@ -76,7 +76,7 @@ public class GameWinScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(renderer.click(screenX, screenY)){
+		if(renderer.clickReload(screenX, screenY)){
 			game.setScreen(game.gameScreen);
 			return true;
 		}
