@@ -24,7 +24,7 @@ public class Bruleur extends Trap{
 	ParticleEffect fireEffect;
 	Array<PooledEffect> effects;
 	
-	protected Sound flameSound = Gdx.audio.newSound(Gdx.files.internal("sfx/meche01.ogg"));
+	protected Sound flameSound = Gdx.audio.newSound(Gdx.files.internal("sfx/barillementproprelong01.ogg"));
 	
 	public Bruleur(Vector2 position){
 		super(position);
@@ -34,7 +34,7 @@ public class Bruleur extends Trap{
 		this.bounds.height = 0.5f * (404f / 510f);
 		this.bounds.width = 0.5f;
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("trap");
+		texture = atlas.findRegion("Bruleur_OFF");
 		
 		fireEffect = new ParticleEffect();
 		fireEffect.load(Gdx.files.internal("particle/fire.p"),
@@ -49,14 +49,15 @@ public class Bruleur extends Trap{
 	public void activate() {
 		if(state == State.READY){
 			setState(State.HURTING);
-			flameSound.play();
+			
+			texture=atlas.findRegion("Bruleur_ON");
 			
 			// Create effect:
 			PooledEffect effect = fireEffectPool.obtain();
 			effect.setDuration(1500);
 			effects.add(effect);
 			
-		    float pScale = 1920.f/(float)Util.screenWidth;
+		    float pScale = 4.0f-1920.f/(float)Util.screenWidth;
 		    
 		    System.out.println(pScale);
 
@@ -79,7 +80,7 @@ public class Bruleur extends Trap{
 	@Override
 	public void update(float delta) {
 		if(state!=State.HURTING){
-			flameSound.stop();
+			texture=atlas.findRegion("Bruleur_OFF");
 		}
 		super.update(delta);
 	}
@@ -87,6 +88,7 @@ public class Bruleur extends Trap{
 	@Override
 	public int damageWhenTrapped(Rectangle rect){
 		if(((rect.x + rect.width) > bounds.x) && ((rect.x) < bounds.x+bounds.width)){
+			flameSound.play();
 			return -damage;
 		}
 		else return 0;
