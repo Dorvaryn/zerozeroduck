@@ -91,7 +91,8 @@ public abstract class Unit {
 	}
 	
 	public int damageWhenFinish(Rectangle rect){
-		if(!toBeRemoved && getPosition().x>rect.x){
+		System.out.println(toBeRemoved);
+		if((!toBeRemoved) && (getPosition().x>rect.x)){
 			return -damage;
 		}
 		else return 0;

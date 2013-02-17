@@ -21,10 +21,12 @@ public class IntroScreen implements Screen, InputProcessor{
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(etape<=3){
-			renderer.setEtape(etape++);
+		if(renderer.getIsEtapeFinished()){
+			if(etape<=4){
+				renderer.setEtape(etape++);
+			}
+			else game.setScreen(game.titlescreen);
 		}
-		else game.setScreen(game.titlescreen);
 		return false;
 	}
 

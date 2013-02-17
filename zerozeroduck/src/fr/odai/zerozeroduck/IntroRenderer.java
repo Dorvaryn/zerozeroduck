@@ -42,6 +42,12 @@ public class IntroRenderer {
 	private float positionPost2=0.f;
 	
 	int etape=1;
+	
+	boolean isEtapeFinished=true;
+	
+	public boolean getIsEtapeFinished(){
+		return isEtapeFinished;
+	}
 
 	public void setSize(int w, int h) {
 		this.width = w;
@@ -80,6 +86,7 @@ public class IntroRenderer {
 		}
 		if(positionLastY>=0){
 			positionLastY=0;
+			isEtapeFinished=true;
 		} 
 		if(etape>=3 && positionPost2<=(int)(700*0.8)){
 			positionPost2+=delta*500.f;
@@ -114,6 +121,7 @@ public class IntroRenderer {
 			else if(etape==4){
 				textures.add(intro4Texture);
 			}
+			isEtapeFinished=false;
 			positionLastY=-(int) (700 * 0.8);
 		}
 	}
