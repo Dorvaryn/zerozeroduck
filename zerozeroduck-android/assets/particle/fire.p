@@ -2,16 +2,16 @@ Untitled
 - Delay -
 active: false
 - Duration -
-lowMin: 6000000.0
-lowMax: 6000000.0
+lowMin: 1500.0
+lowMax: 1500.0
 - Count -
-min: 500
-max: 5000
+min: 2
+max: 25
 - Emission -
 lowMin: 0.0
 lowMax: 0.0
-highMin: 1000.0
-highMax: 1000.0
+highMin: 50.0
+highMax: 50.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -20,8 +20,8 @@ timeline0: 0.0
 - Life -
 lowMin: 0.0
 lowMax: 0.0
-highMin: 10000.0
-highMax: 10000.0
+highMin: 500.0
+highMax: 1000.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -133,4 +133,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-particle.png
+petiteEtincelle.png

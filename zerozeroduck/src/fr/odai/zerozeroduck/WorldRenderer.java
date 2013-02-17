@@ -27,6 +27,7 @@ import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
 import fr.odai.zerozeroduck.sound.FouleSound;
+import fr.odai.zerozeroduck.utils.Util;
 
 public class WorldRenderer {
 	private World world;
@@ -62,12 +63,15 @@ public class WorldRenderer {
 
 	private int width;
 	private int height;
-	
+
+
 	private boolean musicStopped=false;
 
 	public void setSize(int w, int h) {
 		this.width = w;
 		this.height = h;
+		Util.screenWidth=w;
+		Util.screenHeight=h;
 		ppuX = (float) width / CAMERA_WIDTH;
 		ppuY = (float) height / CAMERA_HEIGHT;
 	}

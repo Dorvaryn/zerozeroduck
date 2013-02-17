@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "zerozeroduck";
 		cfg.useGL20 = false;
-		cfg.width = 1920;
-		cfg.height = 1080;
+		cfg.width = (int) (1000 * 0.8);
+		cfg.height = (int) (700 * 0.8);
 		cfg.resizable = false;
 		
 		new LwjglApplication(new ZeroZeroDuck(), cfg);
