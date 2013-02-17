@@ -31,7 +31,7 @@ public class Bruleur extends Trap {
 			.internal("sfx/barillementproprelong01.ogg"));
 
 	public Bruleur(Vector2 position, int level, TextureAtlas atlas) {
-		super(position);
+		super(position, atlas);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 1.5f;
 		this.level = level;

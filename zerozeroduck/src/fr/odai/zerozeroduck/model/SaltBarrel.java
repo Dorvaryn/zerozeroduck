@@ -31,7 +31,7 @@ public class SaltBarrel extends Trap{
 	float timeSinceActivated=0;
 	
 	public SaltBarrel(Vector2 position, int level, TextureAtlas atlas){
-		super(position);
+		super(position, atlas);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 0.5f;
 		this.level = level;

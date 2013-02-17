@@ -22,6 +22,11 @@ public class Trap {
 	}
 	
 	TextureRegion texture;
+	TextureRegion keyTexture;
+	static TextureRegion textureF = null;
+	static TextureRegion textureK = null;
+	static TextureRegion textureH = null;
+	static TextureRegion textureS = null;
 	
 	public static float SIZE = 0.5f; // half a unit
 	public static float RELOAD_TIME = 2;
@@ -63,29 +68,29 @@ public class Trap {
 	public Keys getAssociatedKey() {
 		return associatedKey;
 	}
-/*
+	
 	public void setAssociatedKey(Keys associatedKey) {
 		if(associatedKey==Keys.TRAP_F){
-			keyTexture=atlas.findRegion("LettreF");
+			keyTexture=textureF;
 		}
 		else if(associatedKey==Keys.TRAP_K){
-			keyTexture=atlas.findRegion("LettreK");
+			keyTexture=textureK;
 		}
 		else if(associatedKey==Keys.TRAP_H){
-			keyTexture=atlas.findRegion("LettreH");
+			keyTexture=textureH;
 		}
 		else if(associatedKey==Keys.TRAP_S){
-			keyTexture=atlas.findRegion("LettreS");
+			keyTexture=textureS;
 		}
 		this.associatedKey = associatedKey;
 	}
-	*/
+	
 	public boolean click(float x, float y){
 		Rectangle rect = new Rectangle(getBounds().x-(getBounds().width/2), getBounds().y-(getBounds().height/2), getBounds().width*2, getBounds().height*2);
 		return rect.contains(x,y);
 	}
 
-	public Trap(Vector2 position) {
+	public Trap(Vector2 position, TextureAtlas atlas) {
 		super();
 		fade=0.2f;
 		state = State.READY;
@@ -94,6 +99,12 @@ public class Trap {
 		bounds.x=position.x;
 		bounds.y=position.y;
 		this.associatedKey = Keys.UNDEFINED;
+		if(textureF == null){
+			textureF = atlas.findRegion("LettreF");
+			textureK = atlas.findRegion("LettreK");
+			textureH = atlas.findRegion("LettreH");
+			textureS = atlas.findRegion("LettreS");
+		}
 	}
 
 	public void activate() {
