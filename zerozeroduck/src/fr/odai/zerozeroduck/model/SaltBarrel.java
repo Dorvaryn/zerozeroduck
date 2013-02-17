@@ -30,8 +30,8 @@ public class SaltBarrel extends Trap{
 		super(position);
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 0.5f;
-		damage=50;
-		this.bounds.height = 1.f;
+		damage = 50;
+		this.bounds.height = 1.f * (404f / 510f);
 		this.bounds.width = 1.f;
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
 		texture = atlas.findRegion("salt-pssch");
