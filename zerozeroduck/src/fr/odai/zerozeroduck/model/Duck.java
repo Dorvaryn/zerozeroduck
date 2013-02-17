@@ -19,7 +19,7 @@ public class Duck {
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
-	int 		life = 8000;
+	int 		life = 800;
 	float       stateTime = 0;
 	boolean		facingLeft = true;
 	World 		world;
