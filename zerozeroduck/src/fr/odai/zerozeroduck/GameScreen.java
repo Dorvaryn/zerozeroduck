@@ -171,6 +171,12 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.killallPressed();
 		if (keycode == Keys.S)
 			controller.trapPressed(MainController.Keys.TRAP_S);
+		if (keycode == Keys.F)
+			controller.trapPressed(MainController.Keys.TRAP_F);
+		if (keycode == Keys.H)
+			controller.trapPressed(MainController.Keys.TRAP_H);
+		if (keycode == Keys.K)
+			controller.trapPressed(MainController.Keys.TRAP_K);
 		return false;
 	}
 
@@ -182,6 +188,12 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.killallReleased();
 		if (keycode == Keys.S)
 			controller.trapReleased(MainController.Keys.TRAP_S);
+		if (keycode == Keys.F)
+			controller.trapReleased(MainController.Keys.TRAP_F);
+		if (keycode == Keys.H)
+			controller.trapReleased(MainController.Keys.TRAP_H);
+		if (keycode == Keys.K)
+			controller.trapReleased(MainController.Keys.TRAP_K);
 		return false;
 	}
 	
