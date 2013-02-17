@@ -55,7 +55,7 @@ public class TitleMenuRenderer {
 	}
 
 	private void loadTextures() {
-		//TextureSetup.main(null);
+		TextureSetup.main(null);
 		TextureAtlas atlas = new TextureAtlas(
 				Gdx.files.internal("images/textures.pack"));
 		boutonStartTexture = atlas.findRegion("start");

@@ -31,8 +31,9 @@ public class World {
 	/** Units in this world **/
 	Array<Unit> units = new Array<Unit>();
 	
-	Array<Patate> wavePatates = new Array<Patate>();
-	
+	Array<Patate> wavePatates = new Array<Patate>();	
+	Array<Carrot> waveCarrots = new Array<Carrot>();
+
 	private Array<Float> floor_pos = new Array<Float>();
 
 	/** Our player controlled hero **/
@@ -42,13 +43,18 @@ public class World {
 	State state = State.WAITING;
 	
 	static final int moyPatatesByWave = 3;
-	static final int patateByWaveDelta = 1; 
+	static final int patateByWaveDelta = 1;
+	
+	static final int moyCarrotsByWave = 0;
+	static final int carrotsByWaveDelta = 2;
+	
 	static final float waveWaitDelta = 2;
 	static final float waveWaitDuration = 3;
 	static final float inWaveWaitDuration = 0.5f;
 	static final float inWaveWaitDelta = 0.2f;
 	
 	int poolPatates = 20;
+	int poolCarrots = 10;
 	float waveWaitEnd = 3;
 	float inWaveWaitEnd = 0.5f;
 	float stateTime = 0;
@@ -143,12 +149,23 @@ public class World {
 		if(state == State.WAITING && stateTime > waveWaitEnd){
 			if(poolPatates > 0){
 				setState(State.WAVE_IN_PROGRESS);
+				
+				// Patates
 				int nbPatates = moyPatatesByWave;
-				nbPatates += Math.random()*2*patateByWaveDelta - patateByWaveDelta;
+				nbPatates += Math.random() * 2 * patateByWaveDelta - patateByWaveDelta;
 				nbPatates = Math.min(nbPatates, poolPatates);
 				poolPatates -= nbPatates;
 				for (int i = 0; i < nbPatates; i++) {
-					wavePatates.add(new Patate(startpoints.get(0).cpy(),this,atlas));
+					wavePatates.add(new Patate(startpoints.get(0).cpy(), this, atlas));
+				}
+				
+				// Carrots
+				int nbCarrots = moyCarrotsByWave;
+				nbPatates += Math.random() * 2 * carrotsByWaveDelta - carrotsByWaveDelta;
+				nbPatates = Math.min(nbCarrots, poolCarrots);
+				poolCarrots -= nbCarrots;
+				for (int i = 0; i < nbCarrots; i++) {
+					waveCarrots.add(new Carrot(startpoints.get(0).cpy(), this, atlas));
 				}
 			}
 		}
