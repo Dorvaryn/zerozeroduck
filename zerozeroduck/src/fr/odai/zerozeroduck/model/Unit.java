@@ -45,6 +45,8 @@ public abstract class Unit {
 
 	public Unit(Vector2 position, World world, TextureAtlas atlas) {
 		this.position = position;
+		this.bounds.x = position.x;
+		this.bounds.y = position.y;
 		this.world = world;
 		this.loadTextures(atlas);
 	}

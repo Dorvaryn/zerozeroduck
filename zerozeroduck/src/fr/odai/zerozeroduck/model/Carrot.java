@@ -103,6 +103,7 @@ public class Carrot extends Unit {
 		if (state == State.WALKING) {
 			position.add(velocity.tmp().mul(delta));
 			position.y = world.getFloorHeight(position.x);
+			bounds.y=position.y;
 		}
 
 		if (state != State.DISAPEARD) {

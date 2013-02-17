@@ -31,10 +31,10 @@ public class Bruleur extends Trap{
 		this.RELOAD_TIME = 2;
 		this.HURTING_TIME = 1.5f;
 		damage = 50;
-		this.bounds.height = 0.5f * (404f / 510f);
-		this.bounds.width = 0.5f;
+		this.bounds.height = 1.25f*219.f/500.f;
+		this.bounds.width = 1.25f*500.f/500.f;
 		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
-		texture = atlas.findRegion("Bruleur_OFF");
+		texture = atlas.findRegion("bruleur-off");
 		
 		fireEffect = new ParticleEffect();
 		fireEffect.load(Gdx.files.internal("particle/fire.p"),
@@ -50,7 +50,7 @@ public class Bruleur extends Trap{
 		if(state == State.READY){
 			setState(State.HURTING);
 			
-			texture=atlas.findRegion("Bruleur_ON");
+			texture=atlas.findRegion("bruleur-on");
 			
 			// Create effect:
 			PooledEffect effect = fireEffectPool.obtain();
@@ -59,8 +59,6 @@ public class Bruleur extends Trap{
 			
 		    float pScale = 4.0f-1920.f/(float)Util.screenWidth;
 		    
-		    System.out.println(pScale);
-
 		    for(PooledEffect ef:effects){
 			    float scaling = ef.getEmitters().get(0).getScale().getHighMax();
 			    ef.getEmitters().get(0).getScale().setHigh(scaling * pScale);
@@ -80,7 +78,7 @@ public class Bruleur extends Trap{
 	@Override
 	public void update(float delta) {
 		if(state!=State.HURTING){
-			texture=atlas.findRegion("Bruleur_OFF");
+			texture=atlas.findRegion("bruleur-off");
 		}
 		super.update(delta);
 	}
