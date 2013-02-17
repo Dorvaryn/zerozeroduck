@@ -141,15 +141,15 @@ public class World {
 		for(StageInfo.TrapsInfo tpi: sgi.traps) {
 			if(tpi.type.equals("bruleur")) {
 				Bruleur br = new Bruleur(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level, atlas);
-				//br.setAssociatedKey(allKeys[lastKeyIndex]);
+				br.setAssociatedKey(allKeys[lastKeyIndex]);
 				traps.add(br);
 			} else if(tpi.type.equals("salt")) {
 				SaltBarrel sb = new SaltBarrel(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level, atlas);
-				//sb.setAssociatedKey(allKeys[lastKeyIndex]);
+				sb.setAssociatedKey(allKeys[lastKeyIndex]);
 				traps.add(sb);
 			} else if(tpi.type.equals("pepper")) {
 				PepperBarrel pb = new PepperBarrel(new Vector2(tpi.x, getFloorHeight(tpi.x, tpi.level)), tpi.level, atlas);
-				//pb.setAssociatedKey(allKeys[lastKeyIndex]);
+				pb.setAssociatedKey(allKeys[lastKeyIndex]);
 				traps.add(pb);
 			}
 			lastKeyIndex++;
@@ -200,7 +200,7 @@ public class World {
 				nbPatates = Math.min(nbPatates, poolPatates);
 				poolPatates -= nbPatates;
 				for (int i = 0; i < nbPatates; i++) {
-					wavePatates.add(new Patate(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * startpoints.size), this, atlas));
+					wavePatates.add(new Patate(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * (float) floor_pos.size()), this, atlas));
 				}
 			}
 			
@@ -211,7 +211,7 @@ public class World {
 				nbCarrots = Math.min(nbCarrots, poolCarrots);
 				poolCarrots -= nbCarrots;
 				for (int i = 0; i < nbCarrots; i++) {
-					waveCarrots.add(new Carrot(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * startpoints.size), this, atlas));
+					waveCarrots.add(new Carrot(startpoints.get(0).cpy(), (int) Math.floor(Math.random() * (float) floor_pos.size()), this, atlas));
 				}
 			}
 		}

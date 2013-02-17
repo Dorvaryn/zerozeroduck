@@ -105,6 +105,7 @@ public class Trap {
 			textureH = atlas.findRegion("LettreH");
 			textureS = atlas.findRegion("LettreS");
 		}
+		keyTexture = textureF;
 	}
 
 	public void activate() {
@@ -149,7 +150,9 @@ public class Trap {
 		sb.draw(texture, getPosition().x * ppuX,
 				getPosition().y * ppuY, bounds.width * ppuX, bounds.height * ppuY);
 		sb.setColor(1, 1, 1, fade);
-		//sb.draw(keyTexture, (getPosition().x+0.3f) * ppuX, (float)(getPosition().y-0.9) * ppuY, 0.5f * ppuX, 0.5f * ppuY );
+		if(keyTexture != null){
+			sb.draw(keyTexture, (getPosition().x+0.3f) * ppuX, (float)(getPosition().y-0.9) * ppuY, 0.5f * ppuX, 0.5f * ppuY );
+		}
 		sb.setColor(1, 1, 1, 1);
 		sb.end();
 		

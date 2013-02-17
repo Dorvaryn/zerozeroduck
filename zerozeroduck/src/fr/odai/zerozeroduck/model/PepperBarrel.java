@@ -32,7 +32,8 @@ public class PepperBarrel extends Trap{
 	
 	public PepperBarrel(Vector2 position, int level, TextureAtlas atlas){
 		super(position, atlas);
-		this.RELOAD_TIME = 2;
+
+		this.RELOAD_TIME = 1;
 		this.HURTING_TIME = 0.5f;
 		this.level = level;
 		damage = 50;
