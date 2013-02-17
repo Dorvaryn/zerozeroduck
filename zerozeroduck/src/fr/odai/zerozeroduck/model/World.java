@@ -79,7 +79,7 @@ public class World {
 		this.score=score;
 	}
 	public int getTotalPool(){
-		return poolPatates;
+		return poolPatates + poolCarrots;
 	}
 	// --------------------
 
