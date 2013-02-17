@@ -103,7 +103,7 @@ public class MainController {
 		}
 		
 		if (keys.get(Keys.PATATE)) {
-			Carrot carrot = new Carrot(new Vector2(0.5f,1), this.world, this.world.getAtlas());
+			Carrot carrot = new Carrot(new Vector2(0.5f,1), 0, this.world, this.world.getAtlas());
 			units.add(carrot);
 			
 			// Disable until new keystroke

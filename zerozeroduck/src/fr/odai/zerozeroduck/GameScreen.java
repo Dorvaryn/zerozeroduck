@@ -33,8 +33,8 @@ public class GameScreen implements Screen, InputProcessor {
 		sgis.get(0).addTrapInfo(0, "salt", 5.f);
 		
 		// Stage 2
-		sgis.add(new StageInfo(1, "Stage0", 
-				new ArrayList<String>(Arrays.asList("images/Stage0-floor.png")), 
+		sgis.add(new StageInfo(1, "Stage1", 
+				new ArrayList<String>(Arrays.asList("images/Stage1-floor.png")), 
 				new ArrayList<Float>(Arrays.asList(0.f)), 
 				8.5f, 0,
 				20, 4, 2,
@@ -44,8 +44,8 @@ public class GameScreen implements Screen, InputProcessor {
 		sgis.get(1).addTrapInfo(0, "bruleur", 4.5f);
 		
 		// Stage 3
-		sgis.add(new StageInfo(2, "Stage0", 
-				new ArrayList<String>(Arrays.asList("images/Stage0-floor.png")), 
+		sgis.add(new StageInfo(2, "Stage2", 
+				new ArrayList<String>(Arrays.asList("images/Stage2-floor.png")), 
 				new ArrayList<Float>(Arrays.asList(0.f)), 
 				8.5f, 0,
 				35, 5, 3,
@@ -57,8 +57,8 @@ public class GameScreen implements Screen, InputProcessor {
 		sgis.get(2).addTrapInfo(0, "salt", 7.f);
 		
 		// Stage 4		
-		sgis.add(new StageInfo(3, "Stage1", 
-				new ArrayList<String>(Arrays.asList("images/Stage1-floor0.png", "images/Stage1-floor1.png")), 
+		sgis.add(new StageInfo(3, "Stage3", 
+				new ArrayList<String>(Arrays.asList("images/Stage3-floor0.png", "images/Stage3-floor1.png")), 
 				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
 				8.5f, 0,
 				35, 5, 3,
@@ -68,6 +68,32 @@ public class GameScreen implements Screen, InputProcessor {
 		sgis.get(3).addTrapInfo(1, "salt", 5.f);
 		sgis.get(3).addTrapInfo(0, "pepper", 3.f);
 		sgis.get(3).addTrapInfo(0, "salt", 4.5f);
+		
+		// Stage 5		
+		sgis.add(new StageInfo(4, "Stage4", 
+				new ArrayList<String>(Arrays.asList("images/Stage4-floor0.png", "images/Stage4-floor1.png")), 
+				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
+				8.5f, 0,
+				40, 5, 3,
+				15, 2, 1));
+		
+		sgis.get(4).addTrapInfo(1, "bruleur", 2.f);
+		sgis.get(4).addTrapInfo(1, "salt", 5.f);
+		sgis.get(4).addTrapInfo(0, "pepper", 3.f);
+		sgis.get(4).addTrapInfo(0, "salt", 4.5f);
+		
+		// Stage 6		
+		sgis.add(new StageInfo(5, "Stage5", 
+				new ArrayList<String>(Arrays.asList("images/Stage5-floor0.png", "images/Stage5-floor1.png")), 
+				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
+				8.5f, 0,
+				40, 5, 3,
+				15, 2, 1));
+		
+		sgis.get(5).addTrapInfo(1, "bruleur", 2.f);
+		sgis.get(5).addTrapInfo(1, "salt", 5.f);
+		sgis.get(5).addTrapInfo(0, "pepper", 3.f);
+		sgis.get(5).addTrapInfo(0, "salt", 4.5f);
 	}
 	
 	private World world;
@@ -145,6 +171,12 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.killallPressed();
 		if (keycode == Keys.S)
 			controller.trapPressed(MainController.Keys.TRAP_S);
+		if (keycode == Keys.F)
+			controller.trapPressed(MainController.Keys.TRAP_F);
+		if (keycode == Keys.H)
+			controller.trapPressed(MainController.Keys.TRAP_H);
+		if (keycode == Keys.K)
+			controller.trapPressed(MainController.Keys.TRAP_K);
 		return false;
 	}
 
@@ -156,6 +188,12 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.killallReleased();
 		if (keycode == Keys.S)
 			controller.trapReleased(MainController.Keys.TRAP_S);
+		if (keycode == Keys.F)
+			controller.trapReleased(MainController.Keys.TRAP_F);
+		if (keycode == Keys.H)
+			controller.trapReleased(MainController.Keys.TRAP_H);
+		if (keycode == Keys.K)
+			controller.trapReleased(MainController.Keys.TRAP_K);
 		return false;
 	}
 	
