@@ -11,6 +11,7 @@ import fr.odai.zerozeroduck.model.Duck;
 import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.World;
+import fr.odai.zerozeroduck.sound.OGMSound;
 
 public class MainController {
 
@@ -22,6 +23,9 @@ public class MainController {
 	private World world;
 	private Array<Patate> patates;
 	private Array<Trap> traps;
+	
+	/** Sounds */
+	private OGMSound ogmsound;
 
 	static Map<Keys, Boolean> keys = new HashMap<MainController.Keys, Boolean>();
 	static {
@@ -39,6 +43,8 @@ public class MainController {
 		this.screen = screen;
 		this.patates = world.getPatates();
 		this.traps = world.getTraps();
+		
+		this.ogmsound = new OGMSound(); 
 	}
 
 	// ** Key presses and touches **************** //
@@ -71,6 +77,10 @@ public class MainController {
 	public void update(float delta) {
 		processInput();
 		
+		if(world.getPoolPatates()==0 && world.getPatates().size==0){
+			screen.gameWin();
+		}
+		
 		if(world.getDuck().getState()==Duck.State.DEAD){
 			screen.gameOver();
 		}
@@ -86,6 +96,9 @@ public class MainController {
 		world.getDuck().update(delta);
 		
 		world.update(delta);
+		
+		ogmsound.update(delta, world);
+		if(ogmsound.shouldBeStarted(world, delta)) ogmsound.start();
 	}
 
 	private void processInput() {
@@ -96,7 +109,7 @@ public class MainController {
 		}
 		
 		if (keys.get(Keys.PATATE)) {
-			Patate patate = new Patate(new Vector2(0.5f,1), this.world);
+			Patate patate = new Patate(new Vector2(0.5f, 1), this.world);
 			patates.add(patate);
 			
 			// Disable until new keystroke

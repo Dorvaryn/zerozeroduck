@@ -5,12 +5,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 
-public class TitleScreen implements Screen, InputProcessor {
+public class GameWinScreen implements Screen, InputProcessor {
 
 	private ZeroZeroDuck game;
-	private TitleMenuRenderer renderer;
+	private WinMenuRenderer renderer;
 
-	public TitleScreen(ZeroZeroDuck game) {
+	public GameWinScreen(ZeroZeroDuck game) {
 		super();
 		this.game = game;
 	}
@@ -24,7 +24,7 @@ public class TitleScreen implements Screen, InputProcessor {
 
 	@Override
 	public void show() {
-		renderer = new TitleMenuRenderer();
+		renderer = new WinMenuRenderer();
 		Gdx.input.setInputProcessor(this);
 	}
 

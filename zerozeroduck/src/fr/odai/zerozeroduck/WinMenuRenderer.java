@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class EndMenuRenderer {
+public class WinMenuRenderer {
 	private OrthographicCamera cam;
 	private Rectangle button = new Rectangle(4.5f, 3, 1, 1);
 	
@@ -37,7 +37,7 @@ public class EndMenuRenderer {
 		ppuY = (float) height / CAMERA_HEIGHT;
 	}
 
-	public EndMenuRenderer() {
+	public WinMenuRenderer() {
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
 		this.cam.update();
@@ -68,7 +68,7 @@ public class EndMenuRenderer {
 
 	private void drawText() {
 		LabelStyle text = new LabelStyle(new BitmapFont(), Color.WHITE);
-		Label label = new Label("Game Over", text);
+		Label label = new Label("You Win!", text);
 		label.setPosition(4.5f * ppuX, 4f * ppuY);
 		label.setAlignment(Align.center);
 		label.draw(spriteBatch, 1);
