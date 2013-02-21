@@ -3,17 +3,13 @@ package fr.odai.zerozeroduck.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.GameScreen;
-import fr.odai.zerozeroduck.model.Carrot;
 import fr.odai.zerozeroduck.model.Duck;
-import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
-import fr.odai.zerozeroduck.sound.FouleSound;
 
 public class MainController {
 
@@ -22,7 +18,7 @@ public class MainController {
 	}
 
 	private GameScreen screen;
-	private World world;
+	volatile private World world;
 	private Array<Unit> units;
 	private Array<Trap> traps;
 
@@ -61,11 +57,11 @@ public class MainController {
 	public void killallReleased() {
 		keys.put(Keys.KILLALL, false);
 	}
-	
+
 	public void trapPressed(Keys key) {
 		keys.put(key, true);
 	}
-	
+
 	public void trapReleased(Keys key) {
 		keys.put(key, false);
 	}
@@ -73,45 +69,60 @@ public class MainController {
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
-		
-		if(world.getTotalPool()==0 && world.getUnits().size==0){
-			screen.gameWin();
+		if (world != null) {
+
+			if (world.getTotalPool() == 0 && world.getUnits().size == 0) {
+				screen.gameWin();
+			}
+
+			if (world.getDuck().getState() == Duck.State.DEAD) {
+				screen.gameOver();
+			}
+
+			for (Unit unit : units) {
+				unit.update(delta);
+			}
+
+			for (Trap trap : traps) {
+				trap.update(delta);
+			}
+
+			world.getDuck().update(delta);
+
+			world.update(delta);
 		}
-		
-		if(world.getDuck().getState()==Duck.State.DEAD){
-			screen.gameOver();
-		}
-		
-		for(Unit unit : this.units) {
-			unit.update(delta);
-		}
-		
-		for(Trap trap : this.traps) {
-			trap.update(delta);
-		}
-		
-		world.getDuck().update(delta);
-		
-		world.update(delta);
 	}
 
 	private void processInput() {
-		for(Trap trap: this.world.getTraps()) {
-			if(keys.get(trap.getAssociatedKey())) {
+		for (Trap trap : this.world.getTraps()) {
+			if (keys.get(trap.getAssociatedKey())) {
 				trap.activate();
 			}
 		}
-		
+
 		if (keys.get(Keys.PATATE)) {
-			Carrot carrot = new Carrot(new Vector2(0.5f,1), 0, this.world, this.world.getAtlas());
-			units.add(carrot);
-			
-			// Disable until new keystroke
-			keys.put(Keys.PATATE, false);
+			/*
+			 * Carrot carrot = new Carrot(new Vector2(0.5f,1), 0, this.world,
+			 * this.world.getAtlas()); units.add(carrot);
+			 * 
+			 * // Disable until new keystroke keys.put(Keys.PATATE, false);
+			 */
 		}
-		
+
 		if (keys.get(Keys.KILLALL)) {
 			units.clear();
+		}
+	}
+
+	synchronized public void dispose() {
+		if(world != null){
+			world = null;
+			screen = null;
+			units.clear();
+			units = null;
+			traps.clear();
+			traps = null;
+			System.gc();
 		}
 	}
 }

@@ -1,10 +1,7 @@
 package fr.odai.zerozeroduck.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,8 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
-import fr.odai.zerozeroduck.model.Carrot.State;
 
 public class Patate extends Unit {
 
@@ -98,19 +93,14 @@ public class Patate extends Unit {
 	@Override
 	public void draw(SpriteBatch spriteBatch, Array<PooledEffect> effects, ShapeRenderer shr, float ppuX, float ppuY) {
 		textureFrame = textureBase;
-		if (state.equals(State.WALKING)) {
-			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
+		if(!toBeRemoved){
+			if (state.equals(State.WALKING)) {
+				textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
+			}
+			if (isVisible) {
+				spriteBatch.draw(textureFrame, getPosition().x * ppuX, getPosition().y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
+			}
 		}
-		if (isVisible) {
-			spriteBatch.draw(textureFrame, getPosition().x * ppuX, getPosition().y * ppuY, bounds.width * ppuX,	bounds.height * ppuY);
-		}
-
-	}
-	
-	public void dispose(){
-		walkRight = null;
-		textureBase = null;
-		textureFrame = null;
 	}
 
 	public State getState() {

@@ -8,7 +8,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.controller.MainController;
@@ -17,129 +16,122 @@ import fr.odai.zerozeroduck.model.World;
 import fr.odai.zerozeroduck.utils.StageInfo;
 
 public class GameScreen implements Screen, InputProcessor {
-	
+
 	private ZeroZeroDuck game;
-	
+
+	private World world;
+	private WorldRenderer renderer;
+	volatile private MainController controller;
+
+	float animationTime = 1.f;
+
+	float posY = 0.f;
+
 	private static final Array<StageInfo> sgis = new Array<StageInfo>();
 	static {
 		// Stage 1
-		sgis.add(new StageInfo(0, "Stage0", 
-				new ArrayList<String>(Arrays.asList("images/Stage0-floor.png")), 
-				new ArrayList<Float>(Arrays.asList(0.f)), 
-				8.5f, 0,
-				15, 3, 1,
-				10, 3, 1));
+		sgis.add(new StageInfo(0, "Stage0", new ArrayList<String>(Arrays
+				.asList("images/Stage0-floor.png")), new ArrayList<Float>(
+				Arrays.asList(0.f)), 8.5f, 0, 15, 3, 1, 10, 3, 1));
 		sgis.get(0).addTrapInfo(0, "pepper", 3.f);
 		sgis.get(0).addTrapInfo(0, "salt", 5.f);
-		
+
 		// Stage 2
-		sgis.add(new StageInfo(1, "Stage1", 
-				new ArrayList<String>(Arrays.asList("images/Stage1-floor.png")), 
-				new ArrayList<Float>(Arrays.asList(0.f)), 
-				8.5f, 0,
-				20, 4, 2,
-				5, 1, 1));
+		sgis.add(new StageInfo(1, "Stage1", new ArrayList<String>(Arrays
+				.asList("images/Stage1-floor.png")), new ArrayList<Float>(
+				Arrays.asList(0.f)), 8.5f, 0, 20, 4, 2, 5, 1, 1));
 		sgis.get(1).addTrapInfo(0, "pepper", 3.f);
 		sgis.get(1).addTrapInfo(0, "salt", 6.f);
 		sgis.get(1).addTrapInfo(0, "bruleur", 4.5f);
-		
+
 		// Stage 3
-		sgis.add(new StageInfo(2, "Stage2", 
-				new ArrayList<String>(Arrays.asList("images/Stage2-floor.png")), 
-				new ArrayList<Float>(Arrays.asList(0.f)), 
-				8.5f, 0,
-				35, 5, 3,
-				5, 2, 2));
+		sgis.add(new StageInfo(2, "Stage2", new ArrayList<String>(Arrays
+				.asList("images/Stage2-floor.png")), new ArrayList<Float>(
+				Arrays.asList(0.f)), 8.5f, 0, 35, 5, 3, 5, 2, 2));
 
 		sgis.get(2).addTrapInfo(0, "salt", 2.5f);
 		sgis.get(2).addTrapInfo(0, "pepper", 3.5f);
 		sgis.get(2).addTrapInfo(0, "bruleur", 5.f);
 		sgis.get(2).addTrapInfo(0, "salt", 7.f);
-		
-		// Stage 4		
-		sgis.add(new StageInfo(3, "Stage3", 
-				new ArrayList<String>(Arrays.asList("images/Stage3-floor0.png", "images/Stage3-floor1.png")), 
-				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
-				8.5f, 0,
-				35, 5, 3,
-				5, 2, 1));
-		
+
+		// Stage 4
+		sgis.add(new StageInfo(3, "Stage3",
+				new ArrayList<String>(Arrays.asList("images/Stage3-floor0.png",
+						"images/Stage3-floor1.png")), new ArrayList<Float>(
+						Arrays.asList(0.f, 0.f)), 8.5f, 0, 35, 5, 3, 5, 2, 1));
+
 		sgis.get(3).addTrapInfo(1, "bruleur", 2.f);
 		sgis.get(3).addTrapInfo(1, "salt", 5.f);
 		sgis.get(3).addTrapInfo(0, "pepper", 3.f);
 		sgis.get(3).addTrapInfo(0, "salt", 4.5f);
-		
-		// Stage 5		
-		sgis.add(new StageInfo(4, "Stage4", 
-				new ArrayList<String>(Arrays.asList("images/Stage4-floor0.png", "images/Stage4-floor1.png")), 
-				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
-				8.5f, 0,
-				40, 5, 3,
-				15, 2, 1));
-		
+
+		// Stage 5
+		sgis.add(new StageInfo(4, "Stage4",
+				new ArrayList<String>(Arrays.asList("images/Stage4-floor0.png",
+						"images/Stage4-floor1.png")), new ArrayList<Float>(
+						Arrays.asList(0.f, 0.f)), 8.5f, 0, 40, 5, 3, 15, 2, 1));
+
 		sgis.get(4).addTrapInfo(1, "bruleur", 2.f);
 		sgis.get(4).addTrapInfo(1, "salt", 5.f);
 		sgis.get(4).addTrapInfo(0, "pepper", 3.f);
 		sgis.get(4).addTrapInfo(0, "salt", 4.5f);
-		
-		// Stage 6		
-		sgis.add(new StageInfo(5, "Stage5", 
-				new ArrayList<String>(Arrays.asList("images/Stage5-floor0.png", "images/Stage5-floor1.png")), 
-				new ArrayList<Float>(Arrays.asList(0.f, 0.f)), 
-				8.5f, 0,
-				40, 5, 3,
-				15, 2, 1));
-		
+
+		// Stage 6
+		sgis.add(new StageInfo(5, "Stage5",
+				new ArrayList<String>(Arrays.asList("images/Stage5-floor0.png",
+						"images/Stage5-floor1.png")), new ArrayList<Float>(
+						Arrays.asList(0.f, 0.f)), 8.5f, 0, 40, 5, 3, 15, 2, 1));
+
 		sgis.get(5).addTrapInfo(1, "bruleur", 2.f);
 		sgis.get(5).addTrapInfo(1, "salt", 5.f);
 		sgis.get(5).addTrapInfo(0, "pepper", 3.f);
 		sgis.get(5).addTrapInfo(0, "salt", 4.5f);
 	}
-	
-	private World world;
-	private WorldRenderer renderer;
-	private MainController controller;
-	
-	float animationTime=1.f;
-	
-	float posY=0.f;
 
 	public GameScreen(ZeroZeroDuck game) {
 		super();
 		this.game = game;
 	}
-	
-	public void gameOver(){
+
+	public void gameOver() {
 		renderer.stopMusic();
 		game.setScreen(game.gameOverScreen);
+		System.gc();
 	}
-	
-	public void gameWin(){
+
+	public void gameWin() {
 		renderer.stopMusic();
 		game.setScreen(game.gameWinScreen);
+		System.gc();
 	}
 
 	@Override
-	public void render(float delta) {
+	synchronized public void render(float delta) {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		controller.update(delta);
-		renderer.render(delta);
+		synchronized (controller) {
+			if (controller != null && renderer != null) {
+				controller.update(delta);
+				renderer.render(delta);
+			}
+		}
 	}
 
 	@Override
 	public void show() {
+		if (game.level > 5) {
+			game.level = 0;
+		}
 		world = new World(sgis.get(game.level));
 		renderer = new WorldRenderer(world, false);
 		controller = new MainController(world, this);
 		Gdx.input.setInputProcessor(this);
 	}
-	
+
 	@Override
 	public void resize(int width, int height) {
 		renderer.setSize(width, height);
 	}
-	
 
 	@Override
 	public void hide() {
@@ -153,15 +145,20 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public void dispose() {
-		renderer.stopMusic();
-		Gdx.input.setInputProcessor(null);
-		renderer.dispose();
+	synchronized public void dispose() {
+		if(controller != null){
+			synchronized (controller) {
+				renderer.stopMusic();
+				controller.dispose();
+				controller = null;
+				renderer.dispose();
+				renderer = null;
+				System.gc();
+			}
+		}
 	}
 
 	@Override
@@ -182,7 +179,7 @@ public class GameScreen implements Screen, InputProcessor {
 	}
 
 	@Override
-	public boolean keyUp(int keycode){
+	public boolean keyUp(int keycode) {
 		if (keycode == Keys.SPACE)
 			controller.patateReleased();
 		if (keycode == Keys.ENTER)
@@ -197,11 +194,12 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.trapReleased(MainController.Keys.TRAP_K);
 		return false;
 	}
-	
+
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
-		for(Trap trap : world.getTraps()){
-			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
+		for (Trap trap : world.getTraps()) {
+			if (trap.click(renderer.convertScaleX(x),
+					7 - renderer.convertScaleY(y))) {
 				controller.trapPressed(trap.getAssociatedKey());
 				return true;
 			}
@@ -212,8 +210,9 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		for(Trap trap : world.getTraps()){
-			if(trap.click(renderer.convertScaleX(x),7-renderer.convertScaleY(y))){
+		for (Trap trap : world.getTraps()) {
+			if (trap.click(renderer.convertScaleX(x),
+					7 - renderer.convertScaleY(y))) {
 				controller.trapReleased(trap.getAssociatedKey());
 				return true;
 			}

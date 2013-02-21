@@ -26,7 +26,7 @@ public class IntroScreen implements Screen, InputProcessor{
 				renderer.setEtape(etape++);
 			}
 			else {
-				renderer.freeMemory();
+				renderer.dispose();
 				game.setScreen(game.titlescreen);
 			}
 		}
@@ -122,6 +122,7 @@ public class IntroScreen implements Screen, InputProcessor{
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
 		renderer.dispose();
+		renderer = null;
 	}
 
 }

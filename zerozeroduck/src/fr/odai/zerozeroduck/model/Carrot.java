@@ -1,9 +1,6 @@
 package fr.odai.zerozeroduck.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -67,13 +64,6 @@ public class Carrot extends Unit {
 			}
 			disapear = new Animation(Carrot.DISAPEAR_FRAME_DURATION, disapearFrames);
 		}
-	}
-	
-	public void dispose(){
-		walkRight = null;
-		disapear = null;
-		textureBase = null;
-		textureFrame = null;
 	}
 
 	@Override
@@ -155,19 +145,18 @@ public class Carrot extends Unit {
 	public void draw(SpriteBatch spriteBatch, Array<PooledEffect> effects,
 			ShapeRenderer shr, float ppuX, float ppuY) {
 		textureFrame = textureBase;
-		if (state.equals(State.WALKING)) {
-			textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
-		}
-		if (state.equals(State.DISAPEARING) || state.equals(State.APPEARING)) {
-			textureFrame = disapear.getKeyFrame(this.getStateTime(), true);
-		}
-		if (isVisible && state != State.DISAPEARD) {
-			spriteBatch.draw(textureFrame, getPosition().x * ppuX,
-					getPosition().y * ppuY, bounds.width * ppuX, bounds.height
-							* ppuY);
-		}
-		if (state == State.DYING) {
-			// Dying
+		if(!toBeRemoved){
+			if (state.equals(State.WALKING)) {
+				textureFrame = walkRight.getKeyFrame(this.getStateTime(), true);
+			}
+			if (state.equals(State.DISAPEARING) || state.equals(State.APPEARING)) {
+				textureFrame = disapear.getKeyFrame(this.getStateTime(), true);
+			}
+			if (isVisible && state != State.DISAPEARD) {
+				spriteBatch.draw(textureFrame, getPosition().x * ppuX,
+						getPosition().y * ppuY, bounds.width * ppuX, bounds.height
+								* ppuY);
+			}
 		}
 	}
 

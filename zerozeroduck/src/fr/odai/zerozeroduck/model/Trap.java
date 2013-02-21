@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import fr.odai.zerozeroduck.controller.MainController.Keys;
-import fr.odai.zerozeroduck.utils.Util;
 
 public class Trap {
 	public enum State {
@@ -139,12 +138,7 @@ public class Trap {
 
 	public Rectangle getBounds() {
 		return bounds;
-	}
-	
-	public void dispose(){
-		texture = null;
-	}
-	
+	}	
 	
 	public void draw(SpriteBatch sb, float ppuX, float ppuY, ShapeRenderer shr, OrthographicCamera cam){
 		sb.draw(texture, getPosition().x * ppuX,

@@ -6,11 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -21,9 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import fr.odai.zerozeroduck.model.Duck;
-import fr.odai.zerozeroduck.model.Patate;
-import fr.odai.zerozeroduck.model.Patate.State;
-import fr.odai.zerozeroduck.model.Carrot;
 import fr.odai.zerozeroduck.model.Trap;
 import fr.odai.zerozeroduck.model.Unit;
 import fr.odai.zerozeroduck.model.World;
@@ -31,7 +25,7 @@ import fr.odai.zerozeroduck.sound.FouleSound;
 import fr.odai.zerozeroduck.utils.Util;
 
 public class WorldRenderer {
-	private World world;
+	volatile private World world;
 	private OrthographicCamera cam;
 
 	private static final float CAMERA_WIDTH = 10f;
@@ -43,7 +37,7 @@ public class WorldRenderer {
 
 	/* Nos textures */
 	private TextureRegion backgroundTexture;
-	Animation duckAnim;
+	static Animation duckAnim;
 
 	/* Nos particules */
 	Array<PooledEffect> effects;
@@ -93,7 +87,7 @@ public class WorldRenderer {
 		musicLoop = Gdx.audio.newMusic(Gdx.files.internal("musics/duckBoucle01.ogg"));
 		musicLoop.setLooping(true);
 		
-		musicStart.play();
+		//musicStart.play();
 		
 		this.ogmsound = new FouleSound(); 
 		loadTextures();
@@ -101,7 +95,7 @@ public class WorldRenderer {
 
 	public void render(float delta) {
 		if(!musicStart.isPlaying() && !musicLoop.isPlaying() && !musicStopped){
-			musicLoop.play();
+			//musicLoop.play();
 		}
 		
 		spriteBatch.begin();
@@ -147,18 +141,21 @@ public class WorldRenderer {
 		for (int i = 0; i <= 2; i++) {
 			frames[i] = world.getAtlas().findRegion("Kanard" + (i + 1));
 		}
-		duckAnim = new Animation(60f / World.BPM / 2, frames);
-		duckAnim.setPlayMode(Animation.LOOP_PINGPONG);
+		if(duckAnim == null){
+			duckAnim = new Animation(60f / World.BPM / 2, frames);
+			duckAnim.setPlayMode(Animation.LOOP_PINGPONG);
+		}
 		backgroundTexture = world.getAtlas().findRegion(world.backgroundTextureName);
 	}
 
 	private void drawUnits() {
 		Array<Unit> units = world.getUnits();
 		for (int i = 0; i < units.size; i++) {
-			units.get(i).draw(spriteBatch, effects, debugRenderer,ppuX, ppuY);
 			if (units.get(i).isToBeRemoved()) {	
 				units.removeIndex(i);
 				i--;
+			}else{
+				units.get(i).draw(spriteBatch, effects, debugRenderer,ppuX, ppuY);
 			}
 		}
 	}
@@ -238,17 +235,21 @@ public class WorldRenderer {
 	}
 	
 	public void dispose(){
-		world.dispose();
-		world = null;
-		spriteBatch.dispose();
-		duckAnim = null;
-		debugRenderer.dispose();
-		musicLoop.dispose();
-		musicStart.dispose();
-		ogmsound.dispose();
-		for (PooledEffect effect : effects){
-			effect.dispose();
+		if(world != null){
+			world.dispose();
+			world = null;
+			cam = null;
+			spriteBatch.dispose();
+			backgroundTexture = null;
+			debugRenderer.dispose();
+			musicLoop.dispose();
+			musicStart.dispose();
+			ogmsound.dispose();
+			for (PooledEffect effect : effects){
+				effect.dispose();
+			}
+			effects.clear();
+			System.gc();
 		}
-		effects.clear();
 	}
 }

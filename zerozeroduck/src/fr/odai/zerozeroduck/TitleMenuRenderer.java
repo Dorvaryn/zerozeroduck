@@ -79,6 +79,10 @@ public class TitleMenuRenderer {
 	public void dispose(){
 		atlas.dispose();
 		spriteBatch.dispose();
+		cam = null;
+		backgroundTexture = null;
+		boutonStartTexture = null;
+		button = null;
 	}
 
 }

@@ -43,6 +43,8 @@ public class TitleScreen implements Screen, InputProcessor {
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
 		renderer.dispose();
+		renderer = null;
+		System.gc();
 	}
 
 	@Override
@@ -80,6 +82,7 @@ public class TitleScreen implements Screen, InputProcessor {
 		if(renderer.click(screenX, screenY)){
 			dispose();
 			game.setScreen(game.gameScreen);
+			System.gc();
 			return true;
 		}
 		return false;

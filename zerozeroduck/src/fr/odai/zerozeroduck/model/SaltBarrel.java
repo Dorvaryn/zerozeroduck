@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import fr.odai.zerozeroduck.model.Trap.State;
 import fr.odai.zerozeroduck.utils.Util;
 
 public class SaltBarrel extends Trap{
@@ -32,8 +31,8 @@ public class SaltBarrel extends Trap{
 	
 	public SaltBarrel(Vector2 position, int level, TextureAtlas atlas){
 		super(position, atlas);
-		this.RELOAD_TIME = 1;
-		this.HURTING_TIME = 0.5f;
+		SaltBarrel.RELOAD_TIME = 1;
+		SaltBarrel.HURTING_TIME = 0.5f;
 		this.level = level;
 		damage = 50;
 		this.bounds.height = 1.f * (404f / 510f);
@@ -81,13 +80,6 @@ public class SaltBarrel extends Trap{
 			setState(State.HURTING);
 			timeSinceActivated=0.f;
 		}
-	}
-	
-	public void dispose(){
-		super.dispose();
-		textureBoom = null;
-		textureNormal = null;
-		texturePshh = null;
 	}
 	
 	@Override

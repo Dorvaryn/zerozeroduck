@@ -93,4 +93,7 @@ public class Duck {
 			setState(State.DEAD);
 		}
 	}
+	public void dispose(){
+		world = null;
+	}
 }

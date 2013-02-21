@@ -21,6 +21,7 @@ public class GameOverScreen implements Screen, InputProcessor {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		renderer.update(delta);
 		renderer.render();
+		game.gameScreen.dispose();
 	}
 
 	@Override
@@ -43,6 +44,9 @@ public class GameOverScreen implements Screen, InputProcessor {
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
+		renderer.dispose();
+		renderer = null;
+		System.gc();
 	}
 
 	@Override
@@ -78,6 +82,7 @@ public class GameOverScreen implements Screen, InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(renderer.click(screenX, screenY)){
+			dispose();
 			game.setScreen(game.gameScreen);
 			return true;
 		}

@@ -79,5 +79,14 @@ public class WinMenuRenderer {
 		return buttonNext.contains(x/ppuX, 7-(y/ppuY));
 	}
 	
+	public void dispose(){
+		spriteBatch.dispose();
+		cam = null;
+		backgroundTexture = null;
+		boutonNextTexture = null;
+		boutonReloadTexture = null;
+		buttonNext = null;
+		buttonReload = null;
+	}
 	
 }

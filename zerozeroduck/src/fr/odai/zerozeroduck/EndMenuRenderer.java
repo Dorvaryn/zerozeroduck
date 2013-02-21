@@ -165,5 +165,13 @@ public class EndMenuRenderer {
 	private void drawBackground() {
 		spriteBatch.draw(backgroundTexture, 0.f, 0.f, 10.f * ppuX, 7.f * ppuY);
 	}
+	
+	public void dispose(){
+		spriteBatch.dispose();
+		cam = null;
+		backgroundTexture = null;
+		boutonReloadTexture = null;
+		button = null;
+	}
 
 }

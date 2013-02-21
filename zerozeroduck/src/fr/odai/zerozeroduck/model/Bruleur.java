@@ -5,16 +5,15 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import fr.odai.zerozeroduck.model.Trap.State;
 import fr.odai.zerozeroduck.utils.Util;
 
 public class Bruleur extends Trap {
@@ -32,8 +31,8 @@ public class Bruleur extends Trap {
 
 	public Bruleur(Vector2 position, int level, TextureAtlas atlas) {
 		super(position, atlas);
-		this.RELOAD_TIME = 2;
-		this.HURTING_TIME = 1.5f;
+		Bruleur.RELOAD_TIME = 2;
+		Bruleur.HURTING_TIME = 1.5f;
 		this.level = level;
 		damage = 50;
 		this.bounds.height = 1.25f * 219.f / 500.f;
@@ -102,16 +101,6 @@ public class Bruleur extends Trap {
 			return -damage;
 		} else
 			return 0;
-	}
-	
-	public void dispose(){
-		super.dispose();
-		fireEffect.dispose();
-		fireEffectPool = null;
-		for (ParticleEffect effect : effects) {
-			effect.dispose();
-		}
-		effects.clear();
 	}
 	
 

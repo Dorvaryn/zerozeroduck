@@ -22,7 +22,7 @@ public class World {
 		WAITING
 	}
 	
-	TextureAtlas atlas;
+	static TextureAtlas atlas;
 		
 	/** Traps **/
 	Array<Trap> traps = new Array<Trap>();
@@ -108,7 +108,9 @@ public class World {
 	}
 
 	private void createWorld(StageInfo sgi) {
-		atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
+		if (atlas == null){
+			atlas = new TextureAtlas(Gdx.files.internal("images/textures.pack"));
+		}
 
 		floor_pos = new ArrayList<ArrayList<Float>>(sgi.floor_paths.size());
 		
@@ -189,7 +191,7 @@ public class World {
 
 		//System.out.println("pat :"+poolPatates + " car :"+poolCarrots +" size :" +units.size);
 		for(Unit unit: units) {
-			if(unit.position.x > 10 || unit.position.x < -2) {
+			if(unit.position.x > 10 || unit.position.x < -2 || unit.isToBeRemoved()) {
 				units.removeValue(unit, true);
 			}
 		}
@@ -247,25 +249,12 @@ public class World {
 	}
 	
 	public void dispose(){
-		atlas.dispose();
-		atlas = null;
-		for (Trap trap : traps){
-			trap.dispose();
-		}
 		traps.clear();
 		startpoints.clear();
-		for (Unit unit: units){
-			unit.dispose();
-		}
 		units.clear();
-		for (Patate patate: wavePatates){
-			patate.dispose();
-		}
-		for (Carrot carrot : waveCarrots) {
-			carrot.dispose();
-		}
 		waveCarrots.clear();
-
+		duck.dispose();
+		duck = null;
 		floor_pos.clear();
 	}
 }

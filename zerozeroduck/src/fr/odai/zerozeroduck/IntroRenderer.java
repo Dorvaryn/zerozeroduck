@@ -1,23 +1,14 @@
 package fr.odai.zerozeroduck;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
-
-import fr.odai.zerozeroduck.utils.TextureSetup;
 
 public class IntroRenderer {
 	private OrthographicCamera cam;
-	private Rectangle button = new Rectangle(4.5f, 3, 1, 1);
 	
 	private static final float CAMERA_WIDTH = 10f;
 	private static final float CAMERA_HEIGHT = 7f;
@@ -107,15 +98,6 @@ public class IntroRenderer {
 		textures.add(intro1Texture);
 	}
 	
-	public void freeMemory(){
-		textures.clear();
-		atlas.dispose();
-	}
-	
-	public boolean click(int x, int y){
-		return button.contains(x/ppuX, y/ppuY);
-	}
-	
 	public void setEtape(int etape){
 		this.etape=etape;
 		if(positionLastY>=0){
@@ -137,6 +119,12 @@ public class IntroRenderer {
 		atlas.dispose();
 		textures.clear();
 		spriteBatch.dispose();
+		cam = null;
+		textures.clear();
+		intro1Texture = null;
+		intro2Texture = null;
+		intro3Texture = null;
+		intro4Texture = null;
 	}
 
 	

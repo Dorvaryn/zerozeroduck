@@ -36,12 +36,14 @@ public class GameWinScreen implements Screen, InputProcessor {
 	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
-
 	}
 
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
+		renderer.dispose();
+		renderer = null;
+		System.gc();
 	}
 
 	@Override
@@ -77,10 +79,12 @@ public class GameWinScreen implements Screen, InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(renderer.clickReload(screenX, screenY)){
+			dispose();
 			game.setScreen(game.gameScreen);
 			return true;
 		}else if(renderer.clickNext(screenX, screenY)){
 			game.level += 1;
+			dispose();
 			game.setScreen(game.gameScreen);
 			return true;
 		}
