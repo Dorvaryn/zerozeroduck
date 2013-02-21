@@ -5,9 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 
-import fr.odai.zerozeroduck.controller.MainController;
-import fr.odai.zerozeroduck.model.World;
-
 public class IntroScreen implements Screen, InputProcessor{
 	
 	private ZeroZeroDuck game;

@@ -22,7 +22,7 @@ public class World {
 		WAITING
 	}
 	
-	static TextureAtlas atlas;
+	static public TextureAtlas atlas;
 		
 	/** Traps **/
 	Array<Trap> traps = new Array<Trap>();
@@ -170,6 +170,7 @@ public class World {
 		this.poolCarrots = sgi.poolCarrots;
 		this.moyCarrotsByWave = sgi.moyCarrotsByWave;
 		this.carrotsByWaveDelta = sgi.carrotsByWaveDelta;
+		System.gc();
 	}
 	
 	public float getFloorHeight(float x) {

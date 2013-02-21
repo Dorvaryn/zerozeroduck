@@ -82,7 +82,11 @@ public class Duck {
 		for(Unit unit:units){
 			int damage = unit.damageWhenFinish(this.getPositionnedBounds());
 			if(damage<0){
-				life+=damage;
+				if(damage>life){
+					life = 0;
+				}else{
+					life+=damage;
+				}
 				unit.kill();
 			}
 		}

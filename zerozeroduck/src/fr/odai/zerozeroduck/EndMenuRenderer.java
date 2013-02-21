@@ -1,25 +1,15 @@
 package fr.odai.zerozeroduck;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.utils.Array;
 
-import fr.odai.zerozeroduck.model.Patate;
 import fr.odai.zerozeroduck.model.World;
-import fr.odai.zerozeroduck.model.Patate.State;
 
 public class EndMenuRenderer {
 	private OrthographicCamera cam;
@@ -83,7 +73,7 @@ public class EndMenuRenderer {
 			for (int i = 0; i <= 2; i++) {
 				walkRightFrames[i] = atlas.findRegion("Karot" + (i + 1));
 			}
-			walkRight = new Animation(BigPatate.RUNNING_FRAME_DURATION,
+			walkRight = new Animation(BigCarrot.RUNNING_FRAME_DURATION,
 					walkRightFrames);
 		}
 
@@ -109,8 +99,8 @@ public class EndMenuRenderer {
 	private SpriteBatch spriteBatch;
 
 	/* Nos textures */
-	private TextureRegion boutonReloadTexture;
-	private TextureRegion backgroundTexture;
+	static private TextureRegion boutonReloadTexture;
+	static private TextureRegion backgroundTexture;
 
 	private float ppuX; // pixels per unit on the X axis
 	private float ppuY; // pixels per unit on the Y axis
@@ -142,10 +132,10 @@ public class EndMenuRenderer {
 	}
 
 	private void loadTextures() {
-		TextureAtlas atlas = new TextureAtlas(
-				Gdx.files.internal("images/textures.pack"));
-		boutonReloadTexture = atlas.findRegion("Retry");
-		backgroundTexture = atlas.findRegion("Lose");
+		if(backgroundTexture == null){
+			boutonReloadTexture = World.atlas.findRegion("Retry");
+			backgroundTexture = World.atlas.findRegion("Lose");
+		}
 	}
 
 	private void drawBouton() {
@@ -169,8 +159,6 @@ public class EndMenuRenderer {
 	public void dispose(){
 		spriteBatch.dispose();
 		cam = null;
-		backgroundTexture = null;
-		boutonReloadTexture = null;
 		button = null;
 	}
 

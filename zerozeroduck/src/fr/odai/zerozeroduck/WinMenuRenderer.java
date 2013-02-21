@@ -1,16 +1,11 @@
 package fr.odai.zerozeroduck;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+
+import fr.odai.zerozeroduck.model.World;
 
 public class WinMenuRenderer {
 	private OrthographicCamera cam;
@@ -23,9 +18,9 @@ public class WinMenuRenderer {
 	private SpriteBatch spriteBatch;
 
 	/* Nos textures */
-	private TextureRegion boutonReloadTexture;
-	private TextureRegion boutonNextTexture;
-	private TextureRegion backgroundTexture;
+	static private TextureRegion boutonReloadTexture;
+	static private TextureRegion boutonNextTexture;
+	static private TextureRegion backgroundTexture;
 
 	private float ppuX; // pixels per unit on the X axis
 	private float ppuY; // pixels per unit on the Y axis
@@ -56,11 +51,11 @@ public class WinMenuRenderer {
 	}
 
 	private void loadTextures() {
-		TextureAtlas atlas = new TextureAtlas(
-				Gdx.files.internal("images/textures.pack"));
-		boutonReloadTexture = atlas.findRegion("PlayAgain");
-		boutonNextTexture = atlas.findRegion("Next");
-		backgroundTexture = atlas.findRegion("Win");
+		if(backgroundTexture == null){
+			boutonReloadTexture = World.atlas.findRegion("PlayAgain");
+			boutonNextTexture = World.atlas.findRegion("Next");
+			backgroundTexture = World.atlas.findRegion("Win");
+		}
 	}
 
 	private void drawBouton() {
